@@ -23,6 +23,7 @@ public class Customer {
     private String name;
     private String surname;
     private LocalDate dateOfBirth;
+    @Column(unique = true)
     private String phoneNumber;
     @OneToOne
     private AuthUser authUser;

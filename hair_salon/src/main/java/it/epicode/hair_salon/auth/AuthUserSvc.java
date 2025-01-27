@@ -87,7 +87,7 @@ public class AuthUserSvc {
 
         authUserRepo.save(authUser);
 
-        emailSvc.sendEmailHtml(emailMapper.fromAppUserToEmailRequest("Nuovo account creato", authUser));
+//        emailSvc.sendEmailHtml(emailMapper.fromAppUserToEmailRequest("Nuovo account creato", authUser));
 
         return "Registrazione avvenuta con successo";
     }
@@ -172,12 +172,8 @@ public class AuthUserSvc {
     }
 
     public AuthUserResponse updateUser(AuthUserResponse authUserResponse, User userDetails) {
-        System.out.println(userDetails.getUsername());
         AuthUser authUser = getByUsername(userDetails.getUsername());
-        System.out.println(authUser.getId());
-        System.out.println(authUserResponse.getId());
         if (!authUserResponse.getId().equals(authUser.getId())) {
-            System.out.println("qui dentro");
             throw new SecurityException("User non autorizzato");
         }
         if (!authUserResponse.getUsername().equals(authUser.getUsername())) {

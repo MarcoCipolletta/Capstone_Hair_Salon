@@ -29,7 +29,7 @@ public class AuthRunner implements ApplicationRunner {
         admin.setPassword("adminpwd");
 
         authUserSvc.registerAdmin(admin);
-        
+
 
     }
 }

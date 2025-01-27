@@ -2,7 +2,7 @@ package it.epicode.hair_salon.entities.customer;
 
 import it.epicode.hair_salon.auth.AuthUser;
 import it.epicode.hair_salon.entities.customer.dto.CustomerCreateRequest;
-import it.epicode.hair_salon.entities.customer.dto.CustomerResponse;
+import it.epicode.hair_salon.entities.customer.dto.CustomerResponseForAuthResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -43,9 +43,9 @@ public class CustomerSvc {
     }
 
     @Transactional
-    public Customer update(@Valid CustomerResponse customerResponse, AuthUser authUser) {
+    public Customer update(@Valid CustomerResponseForAuthResponse customerResponseForAuthResponse, AuthUser authUser) {
         Customer customer = findByAuthUserUsername(authUser.getUsername());
-        BeanUtils.copyProperties(customerResponse, customer);
+        BeanUtils.copyProperties(customerResponseForAuthResponse, customer);
         return customerRepo.save(customer);
     }
 

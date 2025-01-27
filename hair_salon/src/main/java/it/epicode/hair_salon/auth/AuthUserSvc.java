@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import it.epicode.hair_salon.auth.dto.*;
 import it.epicode.hair_salon.auth.jwt.JwtTokenUtil;
 import it.epicode.hair_salon.entities.customer.CustomerSvc;
+import it.epicode.hair_salon.entities.customer.dto.CustomerMapper;
 import it.epicode.hair_salon.exceptions.AlreadyExistsException;
 import it.epicode.hair_salon.exceptions.EmailAlreadyUsedException;
 import it.epicode.hair_salon.exceptions.EmailSendErrorException;
@@ -39,6 +40,8 @@ public class AuthUserSvc {
     private final CustomerSvc customerSvc;
     private final EmailSvc emailSvc;
     private final EmailMapper emailMapper;
+    private final AuthMapper authMapper;
+    private final CustomerMapper customerMapper;
 
     public boolean existByUsername(String username) {
         return authUserRepo.existsByUsername(username.toLowerCase());
@@ -52,7 +55,7 @@ public class AuthUserSvc {
         }
     }
 
-   public  boolean existByEmail(String email) {
+    public boolean existByEmail(String email) {
         return authUserRepo.existsByEmail(email.toLowerCase());
     }
 
@@ -76,7 +79,7 @@ public class AuthUserSvc {
             authUser.setAvatar(Utils.getAvatar(registerRequest));
         }
         if (registerRequest.getCustomer() != null) {
-            authUser.setCustomer(customerSvc.create( registerRequest.getCustomer(), authUser));
+            authUser.setCustomer(customerSvc.create(registerRequest.getCustomer(), authUser));
             authUser.setRole(Role.USER);
         } else {
             authUser.setRole(Role.ADMIN);
@@ -139,7 +142,7 @@ public class AuthUserSvc {
         return "Email inviata con successo";
     }
 
-    public String verifyTokenPasswordReset(String token, HttpServletResponse response)  {
+    public String verifyTokenPasswordReset(String token, HttpServletResponse response) {
         try {
             if (jwtTokenUtil.isTokenExpired(token)) {
                 response.sendRedirect("http://localhost:4200/error?message=Token non valido o scaduto");
@@ -150,8 +153,8 @@ public class AuthUserSvc {
             }
         } catch (IOException e) {
             throw new EmailSendErrorException("Redirect fallito: " + e.getMessage());
-        } catch (ExpiredJwtException e){
-          return "Token non valido o scaduto";
+        } catch (ExpiredJwtException e) {
+            return "Token non valido o scaduto";
         }
     }
 
@@ -169,11 +172,15 @@ public class AuthUserSvc {
     }
 
     public AuthUserResponse updateUser(AuthUserResponse authUserResponse, User userDetails) {
+        System.out.println(userDetails.getUsername());
         AuthUser authUser = getByUsername(userDetails.getUsername());
-        if (authUserResponse.getId() != authUser.getId()) {
+        System.out.println(authUser.getId());
+        System.out.println(authUserResponse.getId());
+        if (!authUserResponse.getId().equals(authUser.getId())) {
+            System.out.println("qui dentro");
             throw new SecurityException("User non autorizzato");
         }
-        if(!authUserResponse.getUsername().equals(authUser.getUsername())) {
+        if (!authUserResponse.getUsername().equals(authUser.getUsername())) {
             if (existByUsername(authUserResponse.getUsername())) {
                 throw new AlreadyExistsException("Username già usato");
             }
@@ -185,18 +192,33 @@ public class AuthUserSvc {
         }
 
         BeanUtils.copyProperties(authUserResponse, authUser);
+        if (authUser.getRole() == Role.ADMIN) {
+            authUserRepo.save(authUser);
+
+            return authUserResponse;
+        }
+
         authUser.setCustomer(customerSvc.update(authUserResponse.getCustomer(), authUser));
         authUserRepo.save(authUser);
         return authUserResponse;
 
     }
 
+    public AuthUserResponse getByUserLogged(User userDetails) {
+        AuthUser authUser = getByUsername(userDetails.getUsername());
+        AuthUserResponse authUserResponse = authMapper.toAuthUserResponse(authUser);
+        if (authUser.getRole() == Role.ADMIN) return authUserResponse;
+        authUserResponse.setCustomer(customerMapper.toCustomerResponseForAuthResponse(authUser.getCustomer()));
+        return authUserResponse;
+    }
+
+
     public String changePassword(@Valid ChangePasswordRequest changePasswordRequest, User userDetails) {
         AuthUser authUser = getByUsername(userDetails.getUsername());
         if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), authUser.getPassword())) {
             throw new SecurityException("Vecchia password non corretta");
         }
-        if(passwordEncoder.matches(changePasswordRequest.getNewPassword(), authUser.getPassword())) {
+        if (passwordEncoder.matches(changePasswordRequest.getNewPassword(), authUser.getPassword())) {
             throw new SecurityException("La nuova password deve essere diversa da quella vecchia");
         }
         authUser.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));

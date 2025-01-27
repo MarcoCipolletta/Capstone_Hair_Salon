@@ -1,6 +1,7 @@
 package it.epicode.hair_salon.auth.dto;
 
-import it.epicode.hair_salon.entities.customer.dto.CustomerResponse;
+
+import it.epicode.hair_salon.entities.customer.dto.CustomerResponseForAuthResponse;
 import lombok.Data;
 
 import java.util.UUID;
@@ -14,6 +15,6 @@ public class AuthUserResponse {
 
     private String avatar;
 
-    private CustomerResponse customer;
+    private CustomerResponseForAuthResponse customer;
 
 }

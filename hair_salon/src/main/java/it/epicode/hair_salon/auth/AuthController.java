@@ -56,25 +56,19 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/withAppUser")
+    @PutMapping("/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<AuthUserResponse> getByCustomerWithAppUser(@AuthenticationPrincipal User userDetails) {
-        System.out.println(userDetails.getUsername());
-        AuthUser authUser = authUserSvc.getByUsername(userDetails.getUsername());
-        AuthUserResponse response = new AuthUserResponse();
-        response.setId(authUser.getId());
-        response.setEmail(authUser.getEmail());
-        response.setAvatar(authUser.getAvatar());
-        response.setUsername(authUser.getUsername());
+    public ResponseEntity<AuthUserResponse> updateByCustomerWithAppUser(@RequestBody AuthUserResponse authUserResponse, @AuthenticationPrincipal User userDetails) {
+
+        AuthUserResponse response = authUserSvc.updateUser(authUserResponse, userDetails);
+        System.out.println(response);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/withAppUser")
+    @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<AuthUserResponse> updateByCustomerWithAppUser(@RequestBody AuthUserResponse appUserUpdateRequest, @AuthenticationPrincipal User userDetails) {
-
-        AuthUserResponse response = authUserSvc.updateUser(appUserUpdateRequest, userDetails);
-        System.out.println(response);
+    public ResponseEntity<AuthUserResponse> getAuthUser(@AuthenticationPrincipal User userDetails) {
+        AuthUserResponse response = authUserSvc.getByUserLogged(userDetails);
         return ResponseEntity.ok(response);
     }
 

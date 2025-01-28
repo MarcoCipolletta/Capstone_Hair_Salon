@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,12 +29,12 @@ public class Customer {
     @OneToOne
     private AuthUser authUser;
     @OneToMany
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
     @OneToMany
-    private List<Review> reviews;
+    private List<Review> reviews  = new ArrayList<>();
     @OneToOne
     private Cart cart;
     @OneToMany
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
 }

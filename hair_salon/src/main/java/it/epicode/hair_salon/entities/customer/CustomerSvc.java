@@ -44,7 +44,10 @@ public class CustomerSvc {
         return mapper.toCustomerResponse(customer);
     }
 
-    public CustomerResponse findById(UUID id) {
+    public Customer findById(UUID id) {
+        return customerRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User non trovato"));
+    }
+    public CustomerResponse findByIdResponse(UUID id) {
         Customer customer = customerRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User non trovato"));
         return mapper.toCustomerResponse(customer);
     }
@@ -62,6 +65,11 @@ public class CustomerSvc {
         Customer customer = findByAuthUserUsername(authUser.getUsername());
         BeanUtils.copyProperties(customerResponseForAuthResponse, customer);
         return customerRepo.save(customer);
+    }
+
+    @Transactional
+    public Customer update(Customer c){
+        return customerRepo.save(c);
     }
 
 

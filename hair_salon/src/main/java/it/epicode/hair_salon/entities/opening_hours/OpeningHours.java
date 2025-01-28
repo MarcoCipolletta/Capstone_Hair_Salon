@@ -19,16 +19,16 @@ public class OpeningHours {
     private DayOfWeek day;
 
     @Column(name = "opening_time")
-    private long openingTime;
+    private Long openingTime;
 
     @Column(name = "launch_break_start_time")
-    private long launchBreakStartTime;
+    private Long launchBreakStartTime;
 
     @Column(name = "launch_break_end_time")
-    private long launchBreakEndTime;
+    private Long launchBreakEndTime;
 
     @Column(name = "closing_time")
-    private long closingTime;
+    private Long closingTime;
 
     @Column(name = "closed")
     private boolean closed;

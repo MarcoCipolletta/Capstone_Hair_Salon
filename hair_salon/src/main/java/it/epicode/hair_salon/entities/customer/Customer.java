@@ -28,7 +28,7 @@ public class Customer {
     private String phoneNumber;
     @OneToOne
     private AuthUser authUser;
-    @OneToMany
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
     @OneToMany
     private List<Review> reviews  = new ArrayList<>();

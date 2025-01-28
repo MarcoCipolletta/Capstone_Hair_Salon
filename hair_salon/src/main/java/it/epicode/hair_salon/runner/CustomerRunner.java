@@ -1,4 +1,4 @@
-package it.epicode.hair_salon.entities.customer;
+package it.epicode.hair_salon.runner;
 
 
 import com.github.javafaker.Faker;
@@ -16,7 +16,7 @@ import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
-@Order(1)
+@Order(10)
 public class CustomerRunner implements ApplicationRunner {
     private final Faker faker = new Faker(Locale.ITALIAN);
     private final AuthUserSvc authUserSvc;
@@ -26,7 +26,7 @@ public class CustomerRunner implements ApplicationRunner {
 
         for (int i = 0; i < 100; i++) {
             RegisterRequest basicData = new RegisterRequest();
-            basicData.setUsername(faker.name().username());
+            basicData.setUsername(faker.name().username() + i);
             basicData.setEmail(faker.internet().emailAddress());
             basicData.setPassword("string");
             CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest();

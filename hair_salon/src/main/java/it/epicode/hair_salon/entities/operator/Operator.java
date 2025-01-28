@@ -1,4 +1,4 @@
-package it.epicode.hair_salon.entities.salon_service;
+package it.epicode.hair_salon.entities.operator;
 
 import it.epicode.hair_salon.entities.reservation.Reservation;
 import jakarta.persistence.*;
@@ -10,20 +10,17 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "salon_services")
-public class SalonService {
+@Table(name = "operators")
+public class Operator {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String name;
-    private String description;
-    private double price;
-    private Long duration;
-    
-//    @ManyToMany
-//    private List<Reservation> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "operator", cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
 
 
 }

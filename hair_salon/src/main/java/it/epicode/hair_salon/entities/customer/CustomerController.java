@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +34,7 @@ public class CustomerController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable UUID id) {
-        return ResponseEntity.ok(customerSvc.findById(id));
+        return ResponseEntity.ok(customerSvc.findByIdResponse(id));
     }
 
 }

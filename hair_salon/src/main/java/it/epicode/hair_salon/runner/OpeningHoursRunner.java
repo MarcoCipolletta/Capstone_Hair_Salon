@@ -1,5 +1,6 @@
-package it.epicode.hair_salon.entities.opening_hours;
+package it.epicode.hair_salon.runner;
 
+import it.epicode.hair_salon.entities.opening_hours.OpeningHoursSvc;
 import it.epicode.hair_salon.entities.opening_hours.dto.OpeningHoursDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -11,7 +12,7 @@ import java.time.DayOfWeek;
 
 @Component
 @RequiredArgsConstructor
-@Order(2)
+@Order(3)
 public class OpeningHoursRunner implements ApplicationRunner {
     private final OpeningHoursSvc openingHoursSvc;
 

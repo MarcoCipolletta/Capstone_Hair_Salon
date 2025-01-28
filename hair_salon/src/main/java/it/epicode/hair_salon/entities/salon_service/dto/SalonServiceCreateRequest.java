@@ -9,7 +9,6 @@ public class SalonServiceCreateRequest {
 
     @NotBlank(message = "Il nome è richiesto")
     private String name;
-    @NotBlank(message = "La descrizione è richiesta")
     private String description;
     @NotNull(message = "Il prezzo è richiesto")
     private double price;

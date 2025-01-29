@@ -47,6 +47,9 @@ public class CustomerSvc {
     public Customer findById(UUID id) {
         return customerRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User non trovato"));
     }
+
+
+
     public CustomerResponse findByIdResponse(UUID id) {
         Customer customer = customerRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User non trovato"));
         return mapper.toCustomerResponse(customer);

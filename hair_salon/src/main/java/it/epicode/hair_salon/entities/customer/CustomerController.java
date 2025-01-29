@@ -7,6 +7,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,24 +20,30 @@ public class CustomerController {
     private final CustomerSvc customerSvc;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CustomerResponse>> getCustomer() {
         return ResponseEntity.ok(customerSvc.findAll());
     }
 
     @GetMapping("/page")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<CustomerResponse>> getCustomerPage(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(customerSvc.getAllPageable(pageable));
     }
 
     @GetMapping("/phone/{phone}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CustomerResponse> getCustomerByPhone(@PathVariable String phone) {
         return ResponseEntity.ok(customerSvc.findByPhone(phone));
     }
 
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable UUID id) {
         return ResponseEntity.ok(customerSvc.findByIdResponse(id));
     }
+
+
 
 
     // Da eliminare

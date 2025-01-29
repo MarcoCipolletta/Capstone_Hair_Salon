@@ -3,6 +3,7 @@ package it.epicode.hair_salon.entities.salon_service;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceCreateRequest;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class SalonServiceController {
 
     @PostMapping
     // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public String create(@RequestBody SalonServiceCreateRequest salonServiceCreateRequest){
         return salonServiceSvc.create(salonServiceCreateRequest);
     }
 
     @PutMapping("/{id}")
     // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public SalonServiceResponse update(@PathVariable UUID id,@RequestBody SalonServiceResponse salonServiceResponse){
         if (!id.equals(salonServiceResponse.getId())) {
             throw new IllegalArgumentException("ID nell'URL e ID nel body non corrispondono.");
@@ -43,6 +46,7 @@ public class SalonServiceController {
 
     @DeleteMapping("/{id}")
     // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable UUID id){
         return salonServiceSvc.delete(id);
     }

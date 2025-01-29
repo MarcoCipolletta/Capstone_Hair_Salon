@@ -5,17 +5,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public interface ManagerScheduleRepository extends JpaRepository<ManagerSchedule, UUID> {
 
-    // Controlla se c'è già un giorno di ferie in un determinato giorno
+    // Controllo se c'è già un giorno di ferie in un determinato giorno
     @Query("SELECT CASE WHEN COUNT(ms) > 0 THEN TRUE ELSE FALSE END " +
             "FROM ManagerSchedule ms " +
             "WHERE ms.date = :date AND ms.typeSchedule = 'HOLIDAY'")
     boolean existsHolidayByDate(@Param("date") LocalDate date);
 
-    // Controlla se ci sono orari sovrapposti in un determinato giorno
+    // Controllo se in quel giorno ci sono dei blocchi
+    @Query("SELECT CASE WHEN COUNT(ms) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM ManagerSchedule ms " +
+            "WHERE ms.date = :date AND ms.typeSchedule = 'BLOCKED'")
+    boolean existsBlockedByDate(@Param("date") LocalDate date);
+
+    // Controllo se ci sono orari sovrapposti in un determinato giorno
     @Query("SELECT CASE WHEN COUNT(ms) > 0 THEN TRUE ELSE FALSE END " +
             "FROM ManagerSchedule ms " +
             "WHERE ms.date = :date AND ms.typeSchedule = 'BLOCKED' " +
@@ -25,5 +32,5 @@ public interface ManagerScheduleRepository extends JpaRepository<ManagerSchedule
                                        @Param("endTime") Long endTime);
 
     // Trova la schedule per una data specifica
-    ManagerSchedule findByDate(LocalDate date);
+    List<ManagerSchedule> findByDate(LocalDate date);
 }

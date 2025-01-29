@@ -1,13 +1,16 @@
 package it.epicode.hair_salon.entities.reservation;
 
 import it.epicode.hair_salon.entities.reservation.dto.ReservationCreateRequest;
+import it.epicode.hair_salon.entities.reservation.dto.ReservationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reservation")
@@ -16,7 +19,14 @@ public class ReservationController {
     private final ReservationSvc reservationSvc;
 
     @PostMapping
-    public ResponseEntity<String> createReservation(@RequestBody ReservationCreateRequest reservationCreateRequest){
-        return new ResponseEntity<>(reservationSvc.createReservation(reservationCreateRequest), HttpStatus.CREATED);
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> createReservationByUser(@RequestBody ReservationCreateRequest reservationCreateRequest, @AuthenticationPrincipal User userDetails) {
+        return new ResponseEntity<>(reservationSvc.createReservationByUser(reservationCreateRequest, userDetails), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<ReservationResponse>> findAll() {
+        return ResponseEntity.ok(reservationSvc.findAll());
     }
 }

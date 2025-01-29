@@ -22,14 +22,14 @@ private final Faker faker = new Faker(Locale.ITALIAN);
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        for (int i = 0; i< 15; i++){
-            SalonServiceCreateRequest salonService = new SalonServiceCreateRequest();
-            salonService.setName(faker.name().firstName() + i);
-            salonService.setDescription(faker.lorem().characters(100));
-            salonService.setDuration(faker.number().numberBetween(15*60,90*60));
-            salonService.setPrice(faker.number().randomDouble(2,5,70));
-            salonServiceSvc.create(salonService);
-        }
+//        for (int i = 0; i< 15; i++){
+//            SalonServiceCreateRequest salonService = new SalonServiceCreateRequest();
+//            salonService.setName(faker.name().firstName() + i);
+//            salonService.setDescription(faker.lorem().characters(100));
+//            salonService.setDuration(faker.number().numberBetween(15*60,90*60));
+//            salonService.setPrice(faker.number().randomDouble(2,5,70));
+//            salonServiceSvc.create(salonService);
+//        }
 
 
     }

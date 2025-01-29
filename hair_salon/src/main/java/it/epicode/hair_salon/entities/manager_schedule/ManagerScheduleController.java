@@ -10,16 +10,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/manager_schedule")
 @RequiredArgsConstructor
-//@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class ManagerScheduleController {
     private final ManagerScheduleSvc managerScheduleSvc;
 
     @PostMapping
     public String insertSchedule(@RequestBody ManagerScheduleCreateRequest managerScheduleCreateRequest){
-
         return managerScheduleSvc.create(managerScheduleCreateRequest);
-
     }
+
+    // Aggiungere eventuale modifica e cancellazione
 
     @GetMapping
     public List<ManagerSchedule> getAll(){

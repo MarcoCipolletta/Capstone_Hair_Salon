@@ -19,10 +19,10 @@ public class OperatorRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        for (int i = 0; i < 2; i++) {
-            OperatorCreateRequest op = new OperatorCreateRequest();
-            op.setName("operator" + (i+1));
-            operatorSvc.createOperator(op);
-        }
+//        for (int i = 0; i < 2; i++) {
+//            OperatorCreateRequest op = new OperatorCreateRequest();
+//            op.setName("operator" + (i+1));
+//            operatorSvc.createOperator(op);
+//        }
     }
 }

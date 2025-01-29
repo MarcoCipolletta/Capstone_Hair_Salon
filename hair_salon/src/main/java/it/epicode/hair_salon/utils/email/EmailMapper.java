@@ -12,27 +12,28 @@ import java.util.Map;
 @Component
 public class EmailMapper {
 
-    private String website = "http://localhost:4200/";
+    private final String website = "http://localhost:4200/";
 
-    public EmailRequest fromAppUserToEmailRequest(String text, AuthUser user) {
+    public EmailRequest fromAuthUserToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();
         request.setTo(user.getEmail());
-        request.setSubject("Energyservices - " + text);
-        request.setBody(fromAppUserToEmailBody(text, user));
+        request.setSubject("Parrucchieri Nicoletta & Sandro - Nuovo account creato ");
+        request.setBody(fromAuthUserToEmailBody( user));
         return request;
     }
 
 
-    public String fromAppUserToEmailBody(String text, AuthUser user) {
+    // Carica template per registrazione avvenuta
+    public String fromAuthUserToEmailBody( AuthUser user) {
         String template = loadTemplate("src/main/resources/templates/user.html");
         Map<String, String> values = new HashMap<>();
-        values.put("text", text);
         values.put("username", user.getUsername());
         values.put("email", user.getEmail());
         values.put("website", website);
         return processTemplate(template, values);
     }
 
+    // Carica template Reset Password
     public String forResetPasswordRequestBody(String link){
         String template = loadTemplate("src/main/resources/templates/resetPassword.html");
         Map<String, String> values = new HashMap<>();
@@ -41,6 +42,7 @@ public class EmailMapper {
         return processTemplate(template, values);
     }
 
+    // Invio email per reset password
     public EmailRequest fromResetPasswordBodyToEmailRequest(String link, AuthUser user) {
         EmailRequest request = new EmailRequest();
         request.setTo(user.getEmail());
@@ -49,6 +51,7 @@ public class EmailMapper {
         return request;
     }
 
+    // Carica template Reset Password success
     public String forResetPasswordSuccess(){
         String template = loadTemplate("src/main/resources/templates/resetPasswordSuccess.html");
         Map<String, String> values = new HashMap<>();
@@ -56,10 +59,11 @@ public class EmailMapper {
         return processTemplate(template, values);
     }
 
+    // Invia mail Reset Password success
     public EmailRequest fromResetPasswordSuccessBodyToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();
         request.setTo(user.getEmail());
-        request.setSubject("Energyservices - Reset password");
+        request.setSubject("Parrucchieri Nicoletta e Sandro - Reset password");
         request.setBody(forResetPasswordSuccess());
         return request;
     }

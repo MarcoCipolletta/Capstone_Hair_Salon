@@ -2,6 +2,7 @@ package it.epicode.hair_salon.entities.opening_hours;
 
 import it.epicode.hair_salon.entities.opening_hours.dto.OpeningHoursDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -15,7 +16,7 @@ public class OpeningHoursController {
     private final OpeningHoursSvc openingHoursSvc;
 
     @PostMapping
-    // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public OpeningHours createOpeningHours(@RequestBody OpeningHoursDTO openingHoursDTO) {
         return openingHoursSvc.create(openingHoursDTO);
     }
@@ -31,7 +32,7 @@ public class OpeningHoursController {
     }
 
     @PutMapping("/{id}")
-    // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public OpeningHours updateOpeningHours(@PathVariable UUID id, @RequestBody OpeningHours openingHours) {
         if (!id.equals(openingHours.getId())) {
             throw new IllegalArgumentException("ID dell'URL e del body non corrispondono");

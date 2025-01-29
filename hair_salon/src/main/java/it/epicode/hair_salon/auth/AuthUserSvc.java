@@ -87,12 +87,12 @@ public class AuthUserSvc {
 
         authUserRepo.save(authUser);
 
-//        emailSvc.sendEmailHtml(emailMapper.fromAppUserToEmailRequest("Nuovo account creato", authUser));
+  //      emailSvc.sendEmailHtml(emailMapper.fromAuthUserToEmailRequest(authUser));
 
         return "Registrazione avvenuta con successo";
     }
 
-    public String registerAdmin(@Valid RegisterRequest registerRequest) {
+    public void registerAdmin(@Valid RegisterRequest registerRequest) {
         if (authUserRepo.existsByEmail(registerRequest.getEmail())) {
             throw new EmailAlreadyUsedException("Email already used");
         }
@@ -111,7 +111,6 @@ public class AuthUserSvc {
         }
         authUserRepo.save(authUser);
 
-        return "Admin registrato con successo";
     }
 
     public AuthResponse Login(@Valid LoginRequest loginRequest) {

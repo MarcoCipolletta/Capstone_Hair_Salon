@@ -7,28 +7,33 @@
     <style>
         body {
           font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-          background-color: #f4f4f9;
+          background-color: #E5E5E5;
           margin: 0;
           padding: 20px;
         }
         .container {
           max-width: 600px;
           margin: 0 auto;
-          background: #ffffff;
+          background: #F0EFEC;
           padding: 20px;
-          border: 1px solid #ddd;
+          border: 1px solid #5e32417a;
           border-radius: 10px;
         }
         .header {
-          background: #4caf50;
-          color: white;
+          background: #88425A;
+          color: #F0EFEC;
           padding: 10px 20px;
           text-align: center;
           border-radius: 10px 10px 0 0;
         }
         .content {
           padding: 20px;
+          color: #0D1821;
           text-align: left;
+
+        }
+        .content a {
+        color: #88425A;
         }
         .footer {
           text-align: center;
@@ -41,19 +46,18 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>Epic Energy Services</h1>
-        <h3>{{text}}</h3>
+        <h1>Parrucchieria Nicoletta & Sandro</h1>
     </div>
     <div class="content">
-        <p>{{text}} has been created! Here the details:</p>
+        <p>Un nuovo account è stato creato! Ecco i dettagli:</p>
         <ul>
             <li><strong>Username:</strong> #{{username}}</li>
             <li><strong>Email:</strong> {{email}}</li>
         </ul>
-        <p>For more information, visit our <a href="{{website}}" target="_blank">website</a>.</p>
+        <p>Per maggiori informazioni, visita il nostro <a href="{{website}}" target="_blank">sito</a>.</p>
     </div>
     <div class="footer">
-        <p>&copy; 2025 Epic Energy Services. All rights reserved. </p>
+        <p>&copy; 2025 ParrucchieriNicoletta&Sandro. All rights reserved. </p>
     </div>
 </div>
 </body>

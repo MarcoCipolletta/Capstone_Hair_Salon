@@ -1,28 +1,32 @@
 package it.epicode.hair_salon.booking_service;
 
 import it.epicode.hair_salon.booking_service.dto.AvailableTime;
+import it.epicode.hair_salon.booking_service.dto.BookingCheckAvaibleTimeRequest;
 import it.epicode.hair_salon.booking_service.dto.DayWithAvaibleTime;
+import it.epicode.hair_salon.entities.manager_schedule.ManagerSchedule;
+import it.epicode.hair_salon.entities.manager_schedule.ManagerScheduleSvc;
 import it.epicode.hair_salon.entities.opening_hours.OpeningHours;
 import it.epicode.hair_salon.entities.opening_hours.OpeningHoursSvc;
 import it.epicode.hair_salon.entities.operator.OperatorSvc;
-import it.epicode.hair_salon.entities.reservation.ReservationSvc;
 import it.epicode.hair_salon.entities.salon_service.SalonService;
-import it.epicode.hair_salon.entities.salon_service.SalonServiceSvc;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class BookingSvc {
     private final OperatorSvc operatorSvc;
-    private final ReservationSvc reservationSvc;
     private final OpeningHoursSvc openingHoursSvc;
-    private final SalonServiceSvc salonServiceSvc;
+    private final ManagerScheduleSvc managerScheduleSvc;
 
 
     //Qui tiro fuori tutti gli orari della giornata lavorativa e controllo che rietrino negli orari di apertura
@@ -54,7 +58,21 @@ public class BookingSvc {
 
         List<Long> timeRanges = getTimesRangeOfDay(date);
         List<AvailableTime> availableTimeRanges = new ArrayList<>();
+
+        long currentTimeInSeconds = 0;
+        if (date.isEqual(LocalDate.now())) {
+            LocalTime now = LocalTime.now();
+            currentTimeInSeconds = now.toSecondOfDay();
+        }
+
+
         for (Long startTime : timeRanges) {
+
+            // Se è oggi salto gli orari fino all'ora corrente
+            if (date.isEqual(LocalDate.now()) && startTime <= currentTimeInSeconds) {
+                continue;
+            }
+
             long endTime = startTime + totalServicesDuration;
             if (operatorSvc.isOperatorAvailable(date, startTime, endTime)) {
                 AvailableTime availableTime = new AvailableTime();
@@ -67,13 +85,32 @@ public class BookingSvc {
     }
 
     //qui ritorno un oggetto con la giornata e la lista degli orari disponibili
-    public DayWithAvaibleTime getDayWithAvaibleTime(LocalDate date, List<SalonService> salonServices) {
-        // Aggiugere controllo che il giorno non sia passato, non ci siano orari occupati dall' admin, o non ci siano ferie
-
-        List<AvailableTime> availableTimeRanges = getAvailableTimeRangesFromDateAndServicesOfDay(date, salonServices);
+    public DayWithAvaibleTime getDayWithAvaibleTime(@Valid BookingCheckAvaibleTimeRequest bookingCheckAvaibleTimeRequest) {
+        List<AvailableTime> availableTimeRanges = getAvailableTimeRangesFromDateAndServicesOfDay(bookingCheckAvaibleTimeRequest.getDate(), bookingCheckAvaibleTimeRequest.getServices());
         DayWithAvaibleTime dayWithAvaibleTime = new DayWithAvaibleTime();
-        dayWithAvaibleTime.setDate(date);
-        dayWithAvaibleTime.setDayName(switch (date.getDayOfWeek()){
+        // Aggiugere controllo che il giorno non sia passato, non ci siano orari occupati dall' admin, o non ci siano ferie
+        boolean isOnHoliday = managerScheduleSvc.existsHolidayByDate(bookingCheckAvaibleTimeRequest.getDate());
+        boolean isThereBlockedSchedule = managerScheduleSvc.existsBlockedByDate(bookingCheckAvaibleTimeRequest.getDate());
+        if (isOnHoliday) {
+            dayWithAvaibleTime.setAvaiableTimes(new ArrayList<>());
+            List<ManagerSchedule> managerSchedules = managerScheduleSvc.findAllByDate(bookingCheckAvaibleTimeRequest.getDate());
+            dayWithAvaibleTime.setManagerSchedules(managerSchedules);
+        } else if (isThereBlockedSchedule) {
+            List<AvailableTime> filteredAvailableTimeRanges = availableTimeRanges.stream()
+                    .filter(availableTime -> !managerScheduleSvc.existsOverlappingSchedules(bookingCheckAvaibleTimeRequest.getDate(), availableTime.getStartTime(), availableTime.getEndTime()))
+                    .toList();
+            dayWithAvaibleTime.setAvaiableTimes(filteredAvailableTimeRanges);
+            List<ManagerSchedule> managerSchedules = managerScheduleSvc.findAllByDate(bookingCheckAvaibleTimeRequest.getDate());
+            dayWithAvaibleTime.setManagerSchedules(managerSchedules);
+        } else {
+            dayWithAvaibleTime.setAvaiableTimes(availableTimeRanges);
+            dayWithAvaibleTime.setManagerSchedules(null);
+
+        }
+
+
+        dayWithAvaibleTime.setDate(bookingCheckAvaibleTimeRequest.getDate());
+        dayWithAvaibleTime.setDayName(switch (bookingCheckAvaibleTimeRequest.getDate().getDayOfWeek()){
             case MONDAY -> "lun";
             case TUESDAY -> "mar";
             case WEDNESDAY -> "mer";
@@ -82,14 +119,21 @@ public class BookingSvc {
             case SATURDAY -> "sab";
             case SUNDAY -> "dom";
         });
-        dayWithAvaibleTime.setDayNumber(date.getDayOfMonth() + "");
-        dayWithAvaibleTime.setAvaiableTimes(availableTimeRanges);
-        if (availableTimeRanges.isEmpty()) {
-            dayWithAvaibleTime.setAvailable(false);
-        } else {
-            dayWithAvaibleTime.setAvailable(true);
-        }
+        dayWithAvaibleTime.setDayNumber(bookingCheckAvaibleTimeRequest.getDate().getDayOfMonth() + "");
+        dayWithAvaibleTime.setAvailable(!dayWithAvaibleTime.getAvaiableTimes().isEmpty());
         return dayWithAvaibleTime;
+        }
+
+        public List<DayWithAvaibleTime> getWeekWithAvaibleTime(@Valid BookingCheckAvaibleTimeRequest bookingCheckAvaibleTimeRequest) {
+            List<DayWithAvaibleTime> dayWithAvaibleTimes = new ArrayList<>();
+            LocalDate startDate = bookingCheckAvaibleTimeRequest.getDate();
+            for (int i = 0; i < 7; i++) {
+                LocalDate date = startDate.plusDays(i);
+                bookingCheckAvaibleTimeRequest.setDate(date);
+                DayWithAvaibleTime dayWithAvaibleTime = getDayWithAvaibleTime(bookingCheckAvaibleTimeRequest);
+                dayWithAvaibleTimes.add(dayWithAvaibleTime);
+            }
+            return dayWithAvaibleTimes;
         }
 
 

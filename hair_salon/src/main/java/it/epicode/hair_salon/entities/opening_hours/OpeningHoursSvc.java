@@ -38,27 +38,8 @@ public class OpeningHoursSvc {
         return openingHoursRepo.save(openingHours);
     }
 
-//    public boolean isWithinOpeningHours(LocalDate date, long startTime, long endTime) {
-//        DayOfWeek dayOfWeek = date.getDayOfWeek();
-//        OpeningHours openingHours = findByDay(dayOfWeek);
-//        Long openingTime = openingHours.getOpeningTime();
-//        Long closingTime = openingHours.getClosingTime();
-//        Long launchBreakStartTime = openingHours.getLaunchBreakStartTime();
-//        Long launchBreakEndTime = openingHours.getLaunchBreakEndTime();
-//
-//        // Se non c'è pausa pranzo, controlla solo apertura e chiusura
-//        if (launchBreakStartTime == 0 && launchBreakEndTime == 0) {
-//            return startTime >= openingTime && endTime <= closingTime;
-//        }
-//
-//        // Verifica che l'intervallo sia completamente nel turno del mattino o del pomeriggio
-//        boolean isWithinMorning = startTime >= openingTime && endTime <= launchBreakStartTime;
-//        boolean isWithinAfternoon = startTime >= launchBreakEndTime && endTime <= closingTime;
-//
-//        // L'intervallo è valido solo se è interamente in uno dei due turni
-//        return isWithinMorning || isWithinAfternoon;
-//    }
 
+    // qui controllo se la richiesta sfora nel lunch break
     public boolean crossesLunchBreak(LocalDate date, long startTime, long endTime) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         OpeningHours openingHours = findByDay(dayOfWeek);

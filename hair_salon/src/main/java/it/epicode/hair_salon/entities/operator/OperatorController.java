@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.entities.operator;
 
+import it.epicode.hair_salon.entities.operator.dto.AvailabilityResult;
 import it.epicode.hair_salon.entities.operator.dto.TestAvaiableOperator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class OperatorController {
     private final OperatorSvc operatorSvc;
 
-    @PostMapping("/available-operator")
-    public ResponseEntity<Operator> getAvailableOperator(@RequestBody TestAvaiableOperator testAvaiableOperator) {
-        return new ResponseEntity<>(operatorSvc.findAvailableOperator(
+    // SI può eliminare tutto il controller di test
+    @PostMapping("/test-available-operator")
+    public ResponseEntity<AvailabilityResult> getAvailableOperator(@RequestBody TestAvaiableOperator testAvaiableOperator) {
+        return new ResponseEntity<>(operatorSvc.checkOperatorAvailability(
                 testAvaiableOperator.getDate(),
                 testAvaiableOperator.getStartTime(),
                 testAvaiableOperator.getEndTime()),

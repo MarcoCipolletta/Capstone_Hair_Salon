@@ -4,7 +4,6 @@ import it.epicode.hair_salon.entities.opening_hours.OpeningHours;
 import it.epicode.hair_salon.entities.opening_hours.OpeningHoursSvc;
 import it.epicode.hair_salon.entities.operator.dto.AvailabilityResult;
 import it.epicode.hair_salon.entities.operator.dto.OperatorCreateRequest;
-import it.epicode.hair_salon.entities.reservation.Reservation;
 import it.epicode.hair_salon.entities.reservation.Status;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -31,7 +30,8 @@ public class OperatorSvc {
         return operatorRepo.findAll();
     }
 
-    private boolean hasConflictingReservation(Operator operator, LocalDate date, long startTime, long endTime) {
+    //Qui mi creo una funzione per controllare se un operatore ha già una prenotazione nella data e nell'orario richiesto
+    private boolean hasAlreadyReservation(Operator operator, LocalDate date, long startTime, long endTime) {
         return operator.getReservations().stream()
                 .anyMatch(reservation -> (reservation.getStatus().equals(Status.PENDING) ||
                         reservation.getStatus().equals(Status.CONFIRMED)) &&
@@ -44,57 +44,46 @@ public class OperatorSvc {
         List<Operator> operators = operatorRepo.findAll();
         if (operators.isEmpty()) return false;
 
-        return operators.stream().anyMatch(operator -> !hasConflictingReservation(operator, date, startTime, endTime));
+        return operators.stream().anyMatch(operator -> !hasAlreadyReservation(operator, date, startTime, endTime));
     }
-
-    public Operator findAvailableOperator(LocalDate date, long startTime, long endTime) {
-        List<Operator> operators = operatorRepo.findAll();
-        if (operators.isEmpty()) throw new EntityNotFoundException("Nessun operatore disponibile riga 53");
-
-        return operators.stream()
-                .filter(operator -> !hasConflictingReservation(operator, date, startTime, endTime))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Nessun operatore disponibile 65"));
-    }
-
 
     public AvailabilityResult checkOperatorAvailability(LocalDate date, long startTime, long endTime) {
+        // Qui rifaccio i controlli per evitare che qualcuno provi ad inviare una prenotazione con orari modificati da quelli inviati
         List<Operator> operators = operatorRepo.findAll();
         if (operators.isEmpty()) {
-            throw new EntityNotFoundException("Nessun operatore disponibile 64");
+            throw new EntityNotFoundException("Nessun operatore disponibile");
         }
 
+        // Gestire le ferie e orari occupati dall'admin
         OpeningHours openingHours = openingHoursSvc.findByDay(date.getDayOfWeek());
         boolean crossesLunchBreak = openingHoursSvc.crossesLunchBreak(date, startTime, endTime);
         boolean exceedsClosingTime = endTime > openingHours.getClosingTime();
-
-        for (Operator operator : operators) {
-            boolean isOccupied = operator.getReservations().stream()
-                    .anyMatch(reservation -> {
-                        if (reservation.getStatus().equals(Status.PENDING) ||
-                                reservation.getStatus().equals(Status.CONFIRMED)) {
-                            return reservation.getDate().equals(date) &&
-                                    reservation.getStartTime() < endTime &&
-                                    reservation.getEndTime() > startTime;
-                        }
-                        return false;
-                    });
-
-            if (!isOccupied) {
-                AvailabilityResult availabilityResult = new AvailabilityResult();
-                availabilityResult.setOperator(operator);
-                availabilityResult.setCrossesLunchBreak(crossesLunchBreak);
-                availabilityResult.setExceedsClosingTime(exceedsClosingTime);
-                return availabilityResult;
-            }
+        if (
+                startTime < openingHours.getOpeningTime() ||
+                        startTime > openingHours.getClosingTime() ||
+                        (startTime > openingHours.getLaunchBreakStartTime() && startTime < openingHours.getLaunchBreakEndTime())
+        ){
+            throw new EntityNotFoundException("Nessun operatore disponibile");
         }
 
-        throw new EntityNotFoundException("Nessun operatore disponibile 91");
+            for (Operator operator : operators) {
+                boolean isOccupied = hasAlreadyReservation(operator, date, startTime, endTime);
+
+                if (!isOccupied) {
+                    AvailabilityResult availabilityResult = new AvailabilityResult();
+                    availabilityResult.setOperator(operator);
+                    availabilityResult.setCrossesLunchBreak(crossesLunchBreak);
+                    availabilityResult.setExceedsClosingTime(exceedsClosingTime);
+                    return availabilityResult;
+                }
+            }
+
+        throw new EntityNotFoundException("Nessun operatore disponibile");
     }
 
 
     @Transactional
-    public Operator update(Operator o){
-      return  operatorRepo.save(o);
+    public Operator update(Operator o) {
+        return operatorRepo.save(o);
     }
 }

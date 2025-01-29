@@ -24,6 +24,8 @@ public class BookingSvc {
     private final OpeningHoursSvc openingHoursSvc;
     private final SalonServiceSvc salonServiceSvc;
 
+
+    //Qui tiro fuori tutti gli orari della giornata lavorativa e controllo che rietrino negli orari di apertura
     private List<Long> getTimesRangeOfDay(LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         OpeningHours openingHours = openingHoursSvc.findByDay(dayOfWeek);
@@ -46,6 +48,7 @@ public class BookingSvc {
         return timeRanges;
     }
 
+    //Qui ritorno gli orari disponibili filtrando fra tutti quelli della giornata e in base alla disponibilità dell0 operator
     private List<AvailableTime> getAvailableTimeRangesFromDateAndServicesOfDay(LocalDate date, List<SalonService> salonServices) {
         Long totalServicesDuration = salonServices.stream().mapToLong(SalonService::getDuration).sum();
 
@@ -63,7 +66,10 @@ public class BookingSvc {
         return availableTimeRanges;
     }
 
+    //qui ritorno un oggetto con la giornata e la lista degli orari disponibili
     public DayWithAvaibleTime getDayWithAvaibleTime(LocalDate date, List<SalonService> salonServices) {
+        // Aggiugere controllo che il giorno non sia passato, non ci siano orari occupati dall' admin, o non ci siano ferie
+
         List<AvailableTime> availableTimeRanges = getAvailableTimeRangesFromDateAndServicesOfDay(date, salonServices);
         DayWithAvaibleTime dayWithAvaibleTime = new DayWithAvaibleTime();
         dayWithAvaibleTime.setDate(date);

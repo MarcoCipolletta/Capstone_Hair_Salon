@@ -1,6 +1,7 @@
 package it.epicode.hair_salon.entities.customer;
 
 import it.epicode.hair_salon.entities.customer.dto.CustomerResponse;
+import it.epicode.hair_salon.entities.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,15 @@ public class CustomerController {
     @GetMapping("/id/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable UUID id) {
         return ResponseEntity.ok(customerSvc.findByIdResponse(id));
+    }
+
+
+    // Da eliminare
+    @GetMapping("testSout/{id}")
+    public ResponseEntity<List<UUID>> testSout(@PathVariable UUID id) {
+        List<UUID> reservations = customerSvc.findById(id).getReservations().stream().map(Reservation::getId).toList();
+        System.out.println(reservations);
+        return ResponseEntity.ok(reservations);
     }
 
 }

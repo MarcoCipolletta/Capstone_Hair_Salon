@@ -34,7 +34,7 @@ public class AuthController {
         return new ResponseEntity<>(authUserSvc.Login(loginRequest), HttpStatus.OK);
     }
 
-    @PostMapping("/requestChangePassword")
+    @PostMapping("/requestForgotPassword")
     public ResponseEntity<Map<String, String>> changePassword(@RequestBody EmailForPasswordResetRequest passwordResetRequest) {
         String message = authUserSvc.sendEmailForChangePassword(passwordResetRequest);
         Map<String, String> response = new HashMap<>();

@@ -27,8 +27,9 @@ public class ReservationSvc {
     }
 
     @Transactional
-    public Reservation createReservation(@Valid ReservationCreateRequest reservationCreateRequest) {
+    public String createReservation(@Valid ReservationCreateRequest reservationCreateRequest) {
         Customer customer = customerSvc.findById(reservationCreateRequest.getCustomerId());
+        // Aggiungere controllo che il cliente non abbia prenotazioni per quell'orario
         AvailabilityResult availabilityResult = operatorSvc.checkOperatorAvailability(
                 reservationCreateRequest.getDate(),
                 reservationCreateRequest.getStartTime(),
@@ -43,7 +44,6 @@ public class ReservationSvc {
         reservation.setDate(reservationCreateRequest.getDate());
         reservation.setOperator(operator);
 
-        // Imposta lo stato basato sui flag
         if (crossesLunchBreak || exceedsClosingTime) {
             reservation.setStatus(Status.PENDING);
         } else {
@@ -55,8 +55,13 @@ public class ReservationSvc {
         reservation.setStartTime(reservationCreateRequest.getStartTime());
         reservation.setSalonServices(reservationCreateRequest.getSalonServices());
 
+        //Aggiungere invio email al cliente
 
-        return reservationRepo.save(reservation);
+         reservationRepo.save(reservation);
+
+         if (reservation.getStatus().equals(Status.PENDING)) {
+             return "Prenotazione inviata e in attesa di conferma";
+         } return "Prenotazione confermata";
     }
 
 

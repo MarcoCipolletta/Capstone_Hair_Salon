@@ -1,0 +1,58 @@
+<div class="container">
+  <header
+    class="d-flex flex-wrap align-items-center justify-content-around fs-7"
+  >
+    <ul class="nav col-3 justify-content-center mb-0">
+      <li>
+        <a
+          routerLink="/"
+          routerLinkActive="linkSelected"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link px-2"
+          >HOME</a
+        >
+      </li>
+      <li>
+        <a href="#" class="nav-link px-2">SERVIZI</a>
+      </li>
+      <li>
+        <a href="#" class="nav-link px-2">CONTATTI</a>
+      </li>
+    </ul>
+    <div class="col-3 mb-0">
+      <a href="/" class="d-flex justify-content-center">
+        <img src="LogoParrucchieria.png" alt="Logo del salone" class="w-c-60" />
+      </a>
+    </div>
+
+    <div class="col-3 d-flex justify-content-end">
+      <ul class="nav me-2">
+        <a
+          routerLink="/booking"
+          routerLinkActive="linkSelected"
+          class="nav-link"
+        >
+          PRENOTA
+        </a>
+      </ul>
+
+      <div>
+        <button
+          routerLink="/auth/login"
+          routerLinkActive=""
+          type="button"
+          class="btn btn-outline-accent me-2 fs-7"
+        >
+          Accedi
+        </button>
+        <button
+          routerLink="/auth/register"
+          type="button"
+          class="btn btn-accent fs-7"
+        >
+          Registrati
+        </button>
+      </div>
+    </div>
+  </header>
+</div>

@@ -1,1 +1,169 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+$font-family-sans-serif: "Josefin Sans", sans-serif;
+
+$text: #0d1821;
+$background: #f0efec;
+$primary: #ae8b97;
+$secondary: #5e3241;
+$accent: #88425a;
+$warning: #ffc107;
+$danger: #891c1c;
+$success: $accent;
+
+$custom-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "accent": $accent,
+  "light": $background,
+  "dark": $text,
+  "warning": $warning,
+  "danger": $danger,
+  "success": $success,
+  "info": $secondary,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+$nav-link-color: $text;
+$nav-link-hover-color: $text;
+
+:root {
+  --primary: $primary,
+  --secondary: $secondary,
+  --accent: $accent,
+  --light: $background,
+  --dark: $text,
+  --warning: $warning,
+  --danger: $danger,
+  --success: $success,
+  --info: $secondary,
+}
+
+$widths: (
+  30: 30px,
+  50: 50px,
+  100: 100px,
+  150: 150px,
+  200: 200px,
+  250: 250px,
+);
+
+@each $label, $value in $widths {
+  .w-fixed-#{$label} {
+    width: #{$value};
+  }
+}
+
+@for $i from 1 through 100 {
+  .w-c-#{$i} {
+    width: #{$i * 1%};
+  }
+}
+
+$heights: (
+  30: 30px,
+  50: 50px,
+  100: 100px,
+  150: 150px,
+  200: 200px,
+);
+
+@each $label, $value in $heights {
+  .h-fixed-#{$label} {
+    height: #{$value};
+  }
+}
+
+@for $i from 1 through 100 {
+  .h-c-#{$i} {
+    width: #{$i * 1%};
+  }
+}
+
+@import "bootstrap/scss/bootstrap";
+
+.fs-7 {
+  font-size: 0.8rem;
+}
+
+.fs-8 {
+  font-size: 0.7rem;
+}
+
+.fs-9 {
+  font-size: 0.6rem;
+}
+
+.fs-10 {
+  font-size: 0.5rem;
+}
+
+body,
+*,
+input,
+textarea,
+button {
+  font-family: $font-family-sans-serif;
+}
+
+body {
+  background-color: $background;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.nav-link {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 0%;
+    background-color: black;
+    top: 66%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover {
+    &::after {
+      width: 85%;
+    }
+  }
+  &.linkSelected::after {
+    width: 85%;
+  }
+}
+
+a {
+  color: $accent;
+  transition: all 0.3s ease-in-out;
+  &:hover{
+    text-shadow: 1px 1px 14px  #88425a85;
+
+  }
+}
+
+:root{
+  input {
+    color: $accent;
+    font-size: 16px;
+    padding: 8px;
+    transition: all 0.3s ease-in-out;
+    &::placeholder {
+      color: $primary;
+    }
+    &:focus {
+      border: 1px solid $accent;
+      box-shadow: 0 0 14px 0.25rem #88425a5e;
+      color: #5e3241;
+    }
+  }
+}

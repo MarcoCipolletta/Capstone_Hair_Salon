@@ -16,12 +16,13 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     @Autowired
     private AuthUserSvc authUserSvc;
 
     @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest registerRequest) {
         String message = authUserSvc.registerUser(registerRequest);
         Map<String, String> response = new HashMap<>();

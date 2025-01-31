@@ -92,18 +92,18 @@ public class BookingSvc {
         boolean isOnHoliday = managerScheduleSvc.existsHolidayByDate(bookingCheckAvaibleTimeRequest.getDate());
         boolean isThereBlockedSchedule = managerScheduleSvc.existsBlockedByDate(bookingCheckAvaibleTimeRequest.getDate());
         if (isOnHoliday) {
-            dayWithAvaibleTime.setAvaiableTimes(new ArrayList<>());
+            dayWithAvaibleTime.setAvailableTimes(new ArrayList<>());
             List<ManagerSchedule> managerSchedules = managerScheduleSvc.findAllByDate(bookingCheckAvaibleTimeRequest.getDate());
             dayWithAvaibleTime.setManagerSchedules(managerSchedules);
         } else if (isThereBlockedSchedule) {
             List<AvailableTime> filteredAvailableTimeRanges = availableTimeRanges.stream()
                     .filter(availableTime -> !managerScheduleSvc.existsOverlappingSchedules(bookingCheckAvaibleTimeRequest.getDate(), availableTime.getStartTime(), availableTime.getEndTime()))
                     .toList();
-            dayWithAvaibleTime.setAvaiableTimes(filteredAvailableTimeRanges);
+            dayWithAvaibleTime.setAvailableTimes(filteredAvailableTimeRanges);
             List<ManagerSchedule> managerSchedules = managerScheduleSvc.findAllByDate(bookingCheckAvaibleTimeRequest.getDate());
             dayWithAvaibleTime.setManagerSchedules(managerSchedules);
         } else {
-            dayWithAvaibleTime.setAvaiableTimes(availableTimeRanges);
+            dayWithAvaibleTime.setAvailableTimes(availableTimeRanges);
             dayWithAvaibleTime.setManagerSchedules(null);
 
         }
@@ -120,7 +120,7 @@ public class BookingSvc {
             case SUNDAY -> "dom";
         });
         dayWithAvaibleTime.setDayNumber(bookingCheckAvaibleTimeRequest.getDate().getDayOfMonth() + "");
-        dayWithAvaibleTime.setAvailable(!dayWithAvaibleTime.getAvaiableTimes().isEmpty());
+        dayWithAvaibleTime.setAvailable(!dayWithAvaibleTime.getAvailableTimes().isEmpty());
         return dayWithAvaibleTime;
         }
 

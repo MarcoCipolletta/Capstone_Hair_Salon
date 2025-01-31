@@ -1,1 +1,23 @@
 <h1 class="mt-5">SCEGLIO DATA E ORARIO</h1>
+<div *ngIf="dayAvailableSlots">
+  <h6>{{ dayAvailableSlots.date | date : "dd/MM/yyyy" }}</h6>
+  <p>{{ dayAvailableSlots.dayName }}</p>
+  <div class="d-flex">
+    <button
+      (click)="previousDay()"
+      [disabled]="!isBackActive"
+      class="btn btn-accent"
+    >
+      indietro
+    </button>
+    <button (click)="nextDay()" class="btn btn-accent">avanti</button>
+  </div>
+  <div class="d-flex flex-wrap">
+    <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
+      <button class="btn btn-outline-primary">
+        {{ "ciao" }}
+      </button>
+      <button>ciao</button>
+    </ng-container>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import {
 } from '@ng-icons/iconoir';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './auth/token.interceptor';
+import { akarCircleMinus, akarCirclePlus } from '@ng-icons/akar-icons';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -21,7 +22,13 @@ import { tokenInterceptor } from './auth/token.interceptor';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    NgIconsModule.withIcons({ iconoirEye, iconoirEyeClosed, iconoirEmojiSad }),
+    NgIconsModule.withIcons({
+      iconoirEye,
+      iconoirEyeClosed,
+      iconoirEmojiSad,
+      akarCirclePlus,
+      akarCircleMinus,
+    }),
   ],
   providers: [provideHttpClient(withInterceptors([tokenInterceptor]))],
   bootstrap: [AppComponent],

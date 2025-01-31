@@ -3,8 +3,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrl: './booking.component.scss'
+  styleUrl: './booking.component.scss',
 })
 export class BookingComponent {
+  page: number = 1;
 
+  onPageChange(page: number) {
+    this.page = page;
+  }
 }

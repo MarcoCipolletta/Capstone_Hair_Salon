@@ -9,7 +9,7 @@ import { DecodeTokenService } from '../services/decodeToken.service';
 import { iRegisterRequest } from './interfaces/i-register-request';
 import { iLoginRequest } from './interfaces/i-login-request';
 import { iPasswordResetRequest } from './interfaces/i-password-reset-request';
-import { iResponseStringMessage } from './interfaces/i-response-string-message';
+import { iResponseStringMessage } from '../interfaces/i-response-string-message';
 import { iAuthUserResponse } from './interfaces/i-auth-user-response';
 import { iChangePasswordRequest } from './interfaces/i-change-password-request';
 

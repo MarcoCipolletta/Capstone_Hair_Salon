@@ -1,1 +1,19 @@
-<p>booking works!</p>
+<div class="container">
+  <div class="mt-5">
+    <div class="">
+      <h4>Prenota il tuo appuntamento</h4>
+      <p class="">
+        Scegli i <b>servizi</b>, la <b>data</b> e l'<b>orario</b>.<br />
+        Conferma ed il tuo appuntamento sarà automaticametne segnato in agenda!
+      </p>
+    </div>
+  </div>
+  <ng-container *ngIf="page === 1">
+    <app-choose-services
+      (pageChanged)="onPageChange($event)"
+    ></app-choose-services>
+  </ng-container>
+  <ng-container *ngIf="page === 2">
+    <app-choose-day-and-time></app-choose-day-and-time>
+  </ng-container>
+</div>

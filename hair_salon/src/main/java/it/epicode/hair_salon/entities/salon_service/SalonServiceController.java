@@ -3,10 +3,14 @@ package it.epicode.hair_salon.entities.salon_service;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceCreateRequest;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -30,8 +34,11 @@ public class SalonServiceController {
     @PostMapping
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public String create(@RequestBody SalonServiceCreateRequest salonServiceCreateRequest){
-        return salonServiceSvc.create(salonServiceCreateRequest);
+    public ResponseEntity<Map<String, String>> create(@RequestBody SalonServiceCreateRequest salonServiceCreateRequest){
+        String message = salonServiceSvc.create(salonServiceCreateRequest);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -47,8 +54,11 @@ public class SalonServiceController {
     @DeleteMapping("/{id}")
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public String delete(@PathVariable UUID id){
-        return salonServiceSvc.delete(id);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable UUID id){
+        String message = salonServiceSvc.delete(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

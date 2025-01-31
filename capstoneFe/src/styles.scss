@@ -107,6 +107,11 @@ app-root {
   height: 100vh;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 .nav-link {
   position: relative;
   &::after {

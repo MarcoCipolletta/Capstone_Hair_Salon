@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/requestForgotPassword")
-    public ResponseEntity<Map<String, String>> changePassword(@RequestBody EmailForPasswordResetRequest passwordResetRequest) {
+    public ResponseEntity<Map<String, String>> requestForgotPassword(@RequestBody EmailForPasswordResetRequest passwordResetRequest) {
         String message = authUserSvc.sendEmailForChangePassword(passwordResetRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);

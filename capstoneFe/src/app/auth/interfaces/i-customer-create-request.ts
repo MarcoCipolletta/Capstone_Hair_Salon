@@ -1,6 +1,6 @@
 export interface iCustomerCreateRequest {
   name: string;
   surname: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   phoneNumber: string;
 }

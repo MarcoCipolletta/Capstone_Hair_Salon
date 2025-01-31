@@ -67,6 +67,9 @@ public class AuthUserSvc {
         if (authUserRepo.existsByUsername(registerRequest.getUsername())) {
             throw new AlreadyExistsException("Username già usato");
         }
+        if (authUserRepo.existsByCustomerPhoneNumber(registerRequest.getCustomer().getPhoneNumber())) {
+            throw new AlreadyExistsException("Numero di telefono già usato");
+        }
 
         AuthUser authUser = new AuthUser();
         BeanUtils.copyProperties(registerRequest, authUser);

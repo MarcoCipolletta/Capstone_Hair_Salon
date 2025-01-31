@@ -31,6 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         return new ResponseEntity<>(authUserSvc.Login(loginRequest), HttpStatus.OK);
     }

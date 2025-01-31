@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgIconsModule } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthRoutingModule,
     NgIconsModule,
     ReactiveFormsModule,
+    NgbProgressbarModule,
   ],
 })
 export class AuthModule {}

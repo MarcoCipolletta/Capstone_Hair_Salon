@@ -30,18 +30,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 $nav-link-color: $text;
 $nav-link-hover-color: $text;
 
-:root {
-  --primary: $primary,
-  --secondary: $secondary,
-  --accent: $accent,
-  --light: $background,
-  --dark: $text,
-  --warning: $warning,
-  --danger: $danger,
-  --success: $success,
-  --info: $secondary,
-}
-
 $widths: (
   30: 30px,
   50: 50px,
@@ -145,13 +133,12 @@ app-root {
 a {
   color: $accent;
   transition: all 0.3s ease-in-out;
-  &:hover{
-    text-shadow: 1px 1px 14px  #88425a85;
-
+  &:hover {
+    text-shadow: 1px 1px 14px #88425a85;
   }
 }
 
-:root{
+:root {
   input {
     color: $accent;
     font-size: 16px;

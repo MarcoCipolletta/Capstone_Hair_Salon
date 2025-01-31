@@ -54,22 +54,9 @@ export class ChooseDayAndTimeComponent {
   nextDay() {
     this.dayIndex++;
     this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+
     console.log(this.dayAvailableSlots);
-
-    console.log('dayIndex:', this.dayIndex);
-    console.log('weekOfDayAvailableSlots:', this.weekOfDayAvailableSlots);
-    console.log(
-      'weekOfDayAvailableSlots[dayIndex]:',
-      this.weekOfDayAvailableSlots[this.dayIndex]
-    );
-
-    setTimeout(() => {
-      console.log('Dopo timeout - dayAvailableSlots:', this.dayAvailableSlots);
-      console.log(
-        'Dopo timeout - availableTimes:',
-        this.dayAvailableSlots?.availableTimes || 'Ancora undefined'
-      );
-    }, 2000);
+    console.log(this.dayAvailableSlots.availableTimes);
 
     if (this.dayIndex === this.weekOfDayAvailableSlots.length - 2) {
       console.log('day index =>' + this.dayIndex);

@@ -2,6 +2,8 @@ package it.epicode.hair_salon.entities.manager_schedule;
 
 import it.epicode.hair_salon.entities.manager_schedule.dto.ManagerScheduleCreateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +17,8 @@ public class ManagerScheduleController {
     private final ManagerScheduleSvc managerScheduleSvc;
 
     @PostMapping
-    public String insertSchedule(@RequestBody ManagerScheduleCreateRequest managerScheduleCreateRequest){
-        return managerScheduleSvc.create(managerScheduleCreateRequest);
+    public ResponseEntity<String> insertSchedule(@RequestBody ManagerScheduleCreateRequest managerScheduleCreateRequest){
+        return new ResponseEntity<>( managerScheduleSvc.create(managerScheduleCreateRequest), HttpStatus.CREATED);
     }
 
     // Aggiungere eventuale modifica e cancellazione

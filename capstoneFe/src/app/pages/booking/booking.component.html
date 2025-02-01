@@ -8,12 +8,21 @@
       </p>
     </div>
   </div>
+  <ng-container *ngIf="page > 1">
+    <button class="btn btn-accent" (click)="previousPage()">Indietro</button>
+  </ng-container>
   <ng-container *ngIf="page === 1">
     <app-choose-services
       (pageChanged)="onPageChange($event)"
     ></app-choose-services>
   </ng-container>
   <ng-container *ngIf="page === 2">
-    <app-choose-day-and-time></app-choose-day-and-time>
+    <app-choose-day-and-time
+      (pageChanged)="onPageChange($event)"
+    ></app-choose-day-and-time>
+  </ng-container>
+  <ng-container *ngIf="page === 3"> Ordine completato </ng-container>
+  <ng-container *ngIf="page === 4">
+    Vai al login <button (click)="goToLogin()">login</button>
   </ng-container>
 </div>

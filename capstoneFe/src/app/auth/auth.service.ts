@@ -29,6 +29,7 @@ export class AuthSvc {
   userAuthSubject$ = new BehaviorSubject<iAccess | null>(null);
 
   baseUrl: string = environment.baseUrl + '/auth';
+  $isLogged = new BehaviorSubject<boolean>(false);
   autoLogoutTimer: any;
 
   register(user: iRegisterRequest) {
@@ -43,6 +44,8 @@ export class AuthSvc {
     return this.http.post<iAccess>(this.baseUrl + '/login', userDates).pipe(
       tap((dati) => {
         this.userAuthSubject$.next(dati);
+        this.$isLogged.next(true);
+
         this.decodeToken.userRoles$.next(this.decodeToken.getRoles());
         localStorage.setItem('accessData', JSON.stringify(dati));
 
@@ -56,6 +59,8 @@ export class AuthSvc {
   logout() {
     this.userAuthSubject$.next(null);
     this.decodeToken.userRoles$.next([]);
+    this.$isLogged.next(false);
+
     localStorage.removeItem('accessData');
     this.router.navigate(['/auth']);
   }
@@ -81,6 +86,7 @@ export class AuthSvc {
     }
 
     this.userAuthSubject$.next(accessdata);
+    this.$isLogged.next(true);
     this.decodeToken.userRoles$.next(this.decodeToken.getRoles());
   }
 

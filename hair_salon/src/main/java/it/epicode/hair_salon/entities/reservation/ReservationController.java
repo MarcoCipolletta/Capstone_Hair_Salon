@@ -10,7 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/reservation")
@@ -20,8 +22,11 @@ public class ReservationController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> createReservationByUser(@RequestBody ReservationCreateRequest reservationCreateRequest, @AuthenticationPrincipal User userDetails) {
-        return new ResponseEntity<>(reservationSvc.createReservationByUser(reservationCreateRequest, userDetails), HttpStatus.CREATED);
+    public ResponseEntity<Map<String, String>> createReservationByUser(@RequestBody ReservationCreateRequest reservationCreateRequest, @AuthenticationPrincipal User userDetails) {
+         String message = reservationSvc.createReservationByUser(reservationCreateRequest, userDetails);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping

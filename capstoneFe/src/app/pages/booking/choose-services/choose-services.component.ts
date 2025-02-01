@@ -18,13 +18,19 @@ export class ChooseServicesComponent {
 
   ngOnInit() {
     this.getAllServices();
+    if (this.salonServicesSvc.$selctedService) {
+      this.salonServicesSvc.$selctedService.subscribe({
+        next: (res) => {
+          this.selectedServices = res;
+        },
+      });
+    }
   }
 
   getAllServices() {
     this.salonServicesSvc.getAllServices().subscribe({
       next: (res) => {
         this.salonServices = res;
-        console.log(this.salonServices);
       },
     });
   }

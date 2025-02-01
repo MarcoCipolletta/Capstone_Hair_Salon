@@ -3,7 +3,7 @@ import { AuthSvc } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { iLoginRequest } from '../interfaces/i-login-request';
 import { tap } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   form: FormGroup;
+  returnUrl: string = '/';
   constructor() {
     this.form = new FormGroup({
       identifier: new FormControl('', [Validators.required]),
@@ -20,7 +21,12 @@ export class LoginComponent {
   }
   private authSvc = inject(AuthSvc);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   isLoadingLogin: boolean = false;
+
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
   login() {
     if (this.form.valid) {
@@ -32,8 +38,8 @@ export class LoginComponent {
           console.log(res);
 
           setTimeout(() => {
-            this.router.navigate(['/']);
             this.isLoadingLogin = false;
+            this.router.navigateByUrl(this.returnUrl);
           }, 1500);
         },
         error: (err) => {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { SalonservicesService } from '../../../services/salonservices.service';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
+import { iReservationCreateRequest } from '../../../interfaces/reservation/i-reservation-create-request';
 
 @Component({
   selector: 'app-choose-services',
@@ -13,18 +14,28 @@ export class ChooseServicesComponent {
   timeConversionSvc = inject(TimeConversionSvcService);
   salonServices: iSalonServiceResponse[] = [];
   selectedServices: iSalonServiceResponse[] = [];
+  isReserved!: iReservationCreateRequest;
 
   @Output() pageChanged = new EventEmitter<number>();
 
   ngOnInit() {
     this.getAllServices();
-    if (this.salonServicesSvc.$selctedService) {
-      this.salonServicesSvc.$selctedService.subscribe({
-        next: (res) => {
-          this.selectedServices = res;
-        },
-      });
+    if (sessionStorage.getItem('selectedServices')) {
+      this.selectedServices = JSON.parse(
+        sessionStorage.getItem('selectedServices')!
+      );
     }
+    if (sessionStorage.getItem('newReservation')) {
+      this.isReserved = JSON.parse(sessionStorage.getItem('newReservation')!);
+    }
+
+    // if (this.salonServicesSvc.$selctedService) {
+    //   this.salonServicesSvc.$selctedService.subscribe({
+    //     next: (res) => {
+    //       this.selectedServices = res;
+    //     },
+    //   });
+    // }
   }
 
   getAllServices() {
@@ -49,10 +60,9 @@ export class ChooseServicesComponent {
       return;
     }
     this.selectedServices.push(service);
-    console.log(this.selectedServices);
   }
 
-  totalTimeSelectedServices() {
+  totalDuration() {
     let totalTime = 0;
     this.selectedServices.forEach((service) => {
       totalTime += service.duration;
@@ -64,9 +74,35 @@ export class ChooseServicesComponent {
     return this.selectedServices.reduce((a, b) => a + b.price, 0).toFixed(0);
   }
 
+  private areServiceArraysEqual(
+    arr1: iSalonServiceResponse[],
+    arr2: iSalonServiceResponse[]
+  ): boolean {
+    if (arr1.length !== arr2.length) return false;
+
+    const ids1 = arr1.map((s) => s.id).sort();
+    const ids2 = arr2.map((s) => s.id).sort();
+
+    return ids1.every((id, index) => id === ids2[index]);
+  }
+
   nextPage() {
     if (this.selectedServices.length > 0) {
-      this.salonServicesSvc.$selctedService.next(this.selectedServices);
+      // this.salonServicesSvc.$selctedService.next(this.selectedServices);
+      sessionStorage.setItem(
+        'selectedServices',
+        JSON.stringify(this.selectedServices)
+      );
+      if (
+        this.isReserved &&
+        !this.areServiceArraysEqual(
+          this.isReserved.services,
+          this.selectedServices
+        )
+      ) {
+        sessionStorage.removeItem('newReservation');
+      }
+
       this.pageChanged.emit(2);
     }
   }

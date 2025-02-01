@@ -2,6 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { AuthSvc } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationsService } from '../../services/reservations.service';
+import { iReservationCreateRequest } from '../../interfaces/reservation/i-reservation-create-request';
 
 @Component({
   selector: 'app-booking',
@@ -21,7 +22,8 @@ export class BookingComponent {
     this.authSvc.$isLogged.subscribe({
       next: (res) => {
         this.isLogged = res;
-        if (this.isLogged && this.reservationSvc.$newReservation.value) {
+
+        if (this.isLogged && sessionStorage.getItem('newReservation')) {
           console.log(
             'new reservation',
             this.reservationSvc.$newReservation.value

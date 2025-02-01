@@ -12,7 +12,7 @@ export class BookingSlotTimesService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl + '/booking';
 
-  getWeekOfDayWithAvaiableTime(bookingCheckRequest: iCheckAvailableRequest) {
+  getWeekOfDayWithAvailableTime(bookingCheckRequest: iCheckAvailableRequest) {
     return this.http.post<iDayWithAvaibleTime[]>(
       this.baseUrl + '/get-week',
       bookingCheckRequest

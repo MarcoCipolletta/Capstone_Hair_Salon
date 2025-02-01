@@ -37,13 +37,30 @@ export class ChooseDayAndTimeComponent {
   @Output() pageChanged = new EventEmitter<number>();
 
   ngOnInit() {
-    this.salonServicesSvc.$selctedService.subscribe({
-      next: (res) => {
-        this.selectedServices = res;
+    // this.salonServicesSvc.$selctedService.subscribe({
+    //   next: (res) => {
+    //     this.selectedServices = res;
+    //     this.newReservation.services = this.selectedServices;
+    //     this.getWeekOfAvailableTimes(this.date);
+    //   },
+    // });
+    if (sessionStorage.getItem('selectedServices')) {
+      if (sessionStorage.getItem('newReservation')) {
+        this.newReservation = JSON.parse(
+          sessionStorage.getItem('newReservation')!
+        );
+        this.selectedTime = 'time' + this.newReservation.startTime;
+        this.selectedServices = this.newReservation.services;
+        this.getPreviousWeek(this.newReservation.date);
+        this.isBackActive = true;
+      } else {
+        this.selectedServices = JSON.parse(
+          sessionStorage.getItem('selectedServices')!
+        );
         this.newReservation.services = this.selectedServices;
         this.getWeekOfAvailableTimes(this.date);
-      },
-    });
+      }
+    }
   }
 
   getWeekOfAvailableTimes(date: Date) {
@@ -53,29 +70,91 @@ export class ChooseDayAndTimeComponent {
     };
 
     this.bookingSlotSvc
-      .getWeekOfDayWithAvaiableTime(checkAvailableRequest)
+      .getWeekOfDayWithAvailableTime(checkAvailableRequest)
       .subscribe((res) => {
         this.weekOfDayAvailableSlots.push(...res);
         if (!this.dayAvailableSlots) {
           this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
         }
-        console.log(this.dayAvailableSlots);
       });
   }
 
+  getPreviousWeek(date: Date, defaultMiddleIndex: number = 3) {
+    if (!this.dayAvailableSlots) {
+      const startDate = new Date(date);
+      startDate.setDate(startDate.getDate() - 3);
+
+      const checkAvailableRequest: iCheckAvailableRequest = {
+        date: startDate,
+        services: this.selectedServices,
+      };
+
+      this.bookingSlotSvc
+        .getWeekOfDayWithAvailableTime(checkAvailableRequest)
+        .subscribe((res) => {
+          this.weekOfDayAvailableSlots = [...res];
+          this.dayIndex = defaultMiddleIndex;
+          this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+        });
+    } else {
+      const currentFirstDay = new Date(this.weekOfDayAvailableSlots[0].date);
+      let previousWeekStart = new Date(currentFirstDay);
+      previousWeekStart.setDate(previousWeekStart.getDate() - 7);
+
+      let today = new Date();
+      const todayMidnight = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      );
+
+      if (previousWeekStart < today) {
+        previousWeekStart = new Date(today);
+      }
+
+      const checkAvailableRequest: iCheckAvailableRequest = {
+        date: previousWeekStart,
+        services: this.selectedServices,
+      };
+
+      this.bookingSlotSvc
+        .getWeekOfDayWithAvailableTime(checkAvailableRequest)
+        .subscribe((res) => {
+          const filteredRes = res.filter((item) => {
+            const itemDate = new Date(item.date);
+
+            return itemDate >= todayMidnight;
+          });
+
+          const newDays = filteredRes.filter(
+            (newDay) =>
+              !this.weekOfDayAvailableSlots.some(
+                (existingDay) =>
+                  new Date(existingDay.date).toISOString().split('T')[0] ===
+                  new Date(newDay.date).toISOString().split('T')[0]
+              )
+          );
+
+          this.weekOfDayAvailableSlots = [
+            ...newDays,
+            ...this.weekOfDayAvailableSlots,
+          ];
+
+          this.dayIndex += newDays.length;
+          this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+        });
+    }
+  }
+
   nextDay() {
+    this.selectedTime = '';
     this.dayIndex++;
     this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
-
-    console.log(this.dayAvailableSlots);
-    console.log(this.dayAvailableSlots.availableTimes);
 
     if (
       this.dayIndex === this.weekOfDayAvailableSlots.length - 2 ||
       this.dayIndex === this.weekOfDayAvailableSlots.length - 1
     ) {
-      console.log('day index =>' + this.dayIndex);
-
       this.date.setDate(this.date.getDate() + 7);
       this.getWeekOfAvailableTimes(this.date);
     }
@@ -83,17 +162,27 @@ export class ChooseDayAndTimeComponent {
   }
 
   previousDay() {
-    console.log(this.dayIndex);
+    this.selectedTime = '';
 
     this.dayIndex--;
     this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
-    if (this.dayIndex === 0) {
+    if (
+      this.dayAvailableSlots.date.toString() ===
+      new Date().toISOString().split('T')[0]
+    ) {
       this.isBackActive = false;
+      return;
+    }
+    if (
+      (this.dayIndex === 0 || this.dayIndex === 1) &&
+      new Date(this.dayAvailableSlots.date).getDate() - new Date().getDate() > 2
+    ) {
+      this.getPreviousWeek(this.dayAvailableSlots.date);
     }
   }
 
-  selectTime(time: iAvailableTime, id: string) {
-    this.selectedTime = id;
+  selectTime(time: iAvailableTime) {
+    this.selectedTime = 'time' + time.startTime;
     this.newReservation.date = this.dayAvailableSlots.date;
     this.newReservation.startTime = time.startTime;
     this.newReservation.endTime = time.endTime;
@@ -101,7 +190,6 @@ export class ChooseDayAndTimeComponent {
 
   nextPage() {
     if (this.selectedTime) {
-      this.reservationSvc.$newReservation.next(this.newReservation);
       sessionStorage.setItem(
         'newReservation',
         JSON.stringify(this.newReservation)

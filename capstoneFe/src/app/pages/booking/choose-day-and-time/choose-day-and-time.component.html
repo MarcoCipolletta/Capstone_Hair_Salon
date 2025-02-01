@@ -13,24 +13,21 @@
     <button (click)="nextDay()" class="btn btn-accent">avanti</button>
   </div>
   <div class="d-flex flex-wrap gap-3 mt-3">
-    <ng-container
-      *ngFor="let time of dayAvailableSlots.availableTimes; let i = index"
-    >
+    <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
       <input
         type="radio"
-        id="time{{ i }}"
-        (click)="selectTime(time, radioTime.id)"
+        id="time{{ time.startTime }}"
+        (click)="selectTime(time)"
         name="time"
         hidden
-        #radioTime
       />
 
       <label
-        for="time{{ i }}"
+        for="time{{ time.startTime }}"
         class="btn"
         [ngClass]="{
-          'btn-outline-secondary': selectedTime !== 'time' + i,
-          'btn-secondary': selectedTime === 'time' + i
+          'btn-outline-secondary': selectedTime !== 'time' + time.startTime,
+          'btn-secondary': selectedTime === 'time' + time.startTime
         }"
         >{{ timeConversionSvc.secondsToTime(time.startTime) }}</label
       >

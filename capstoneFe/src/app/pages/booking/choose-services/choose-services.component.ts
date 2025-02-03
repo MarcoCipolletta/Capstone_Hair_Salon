@@ -28,14 +28,6 @@ export class ChooseServicesComponent {
     if (sessionStorage.getItem('newReservation')) {
       this.isReserved = JSON.parse(sessionStorage.getItem('newReservation')!);
     }
-
-    // if (this.salonServicesSvc.$selctedService) {
-    //   this.salonServicesSvc.$selctedService.subscribe({
-    //     next: (res) => {
-    //       this.selectedServices = res;
-    //     },
-    //   });
-    // }
   }
 
   getAllServices() {
@@ -88,7 +80,6 @@ export class ChooseServicesComponent {
 
   nextPage() {
     if (this.selectedServices.length > 0) {
-      // this.salonServicesSvc.$selctedService.next(this.selectedServices);
       sessionStorage.setItem(
         'selectedServices',
         JSON.stringify(this.selectedServices)
@@ -96,7 +87,7 @@ export class ChooseServicesComponent {
       if (
         this.isReserved &&
         !this.areServiceArraysEqual(
-          this.isReserved.services,
+          this.isReserved.salonServices,
           this.selectedServices
         )
       ) {

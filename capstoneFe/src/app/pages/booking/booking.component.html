@@ -21,8 +21,10 @@
       (pageChanged)="onPageChange($event)"
     ></app-choose-day-and-time>
   </ng-container>
-  <ng-container *ngIf="page === 3"> Ordine completato </ng-container>
+  <ng-container *ngIf="page === 3">
+    <app-confirm-reservation></app-confirm-reservation>
+  </ng-container>
   <ng-container *ngIf="page === 4">
-    Vai al login <button (click)="goToLogin()">login</button>
+    <app-redirect-login></app-redirect-login>
   </ng-container>
 </div>

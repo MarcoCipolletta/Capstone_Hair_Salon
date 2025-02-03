@@ -11,6 +11,7 @@ import {
   iconoirEmojiSad,
   iconoirEye,
   iconoirEyeClosed,
+  iconoirXboxX,
 } from '@ng-icons/iconoir';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './auth/token.interceptor';
@@ -28,6 +29,7 @@ import { akarCircleMinus, akarCirclePlus } from '@ng-icons/akar-icons';
       iconoirEmojiSad,
       akarCirclePlus,
       akarCircleMinus,
+      iconoirXboxX,
     }),
   ],
   providers: [provideHttpClient(withInterceptors([tokenInterceptor]))],

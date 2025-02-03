@@ -4,5 +4,5 @@ export interface iReservationCreateRequest {
   date: Date;
   startTime: number;
   endTime: number;
-  services: iSalonServiceResponse[];
+  salonServices: iSalonServiceResponse[];
 }

@@ -39,6 +39,8 @@ export class LoginComponent {
 
           setTimeout(() => {
             this.isLoadingLogin = false;
+            console.log(this.returnUrl);
+
             this.router.navigateByUrl(this.returnUrl);
           }, 1500);
         },

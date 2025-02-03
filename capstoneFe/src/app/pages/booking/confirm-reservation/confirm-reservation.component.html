@@ -1,0 +1,43 @@
+<h1 class="mt-5">Riepilogo prenotazione</h1>
+
+<div class="mt-5">
+  <p class="text-center fw-semibold text-bg-success">Il mio appuntamento</p>
+
+  <div>
+    <p>Servizi:</p>
+    <div class="d-flex flex-column gap-3">
+      <ng-container
+        *ngFor="let service of reservation.salonServices; let i = index"
+      >
+        <div class="border border-accent p-2 position-relative w-c-35">
+          <p class="fw-semibold">{{ service.name | uppercase }}:</p>
+          <p class="fw-light">{{ service.duration }} min</p>
+          <button class="btn-closer" (click)="removeService(i)">
+            <ng-icon name="iconoirXboxX"></ng-icon>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-3">
+    <div>
+      <p class="fw-semibold">Data:</p>
+      <p>{{ reservation.date | date : "dd/MM/yyyy" }}</p>
+    </div>
+    <div>
+      <p class="fw-semibold">Orario:</p>
+      <p>{{ timeConversionSvc.secondsToDuration(reservation.startTime) }}</p>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between mt-3">
+    <div>
+      <p class="fw-semibold">Prezzo:</p>
+    </div>
+    <div>
+      <p>{{ totalPrice | number : "1.0-0" }} €</p>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-accent" (click)="sendReservation()">Conferma</button>

@@ -17,7 +17,10 @@ export class ReservationsService {
   baseUrl: string = environment.baseUrl + '/reservation';
 
   makeReservation(reservationRequest: iReservationCreateRequest) {
-    this.http.post<iResponseStringMessage>(this.baseUrl, reservationRequest);
+    return this.http.post<iResponseStringMessage>(
+      this.baseUrl,
+      reservationRequest
+    );
   }
 
   getAllReservations() {

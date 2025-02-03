@@ -1,0 +1,20 @@
+.btn-closer {
+  border: none;
+  // background-color: transparent;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  vertical-align: middle;
+  outline: none;
+  color: #891c1c;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  translate: 50% -50%;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px #891c1c4d;
+  }
+}

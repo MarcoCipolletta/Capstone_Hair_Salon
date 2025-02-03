@@ -1,65 +1,85 @@
-import { Component, HostListener, inject } from '@angular/core';
-import { AuthSvc } from '../../auth/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReservationsService } from '../../services/reservations.service';
-import { Location } from '@angular/common';
+import { AuthSvc } from '../../auth/auth.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrl: './booking.component.scss',
+  styleUrls: ['./booking.component.scss'],
 })
-export class BookingComponent {
-  private authSvc = inject(AuthSvc);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private reservationSvc = inject(ReservationsService);
-  private location = inject(Location);
-  page: number = 1;
-  isLogged: boolean = false;
+export class BookingComponent implements OnInit {
+  page = 1;
+  isLogged = false;
 
-  ngOnInit() {
-    // history.pushState({ page: this.page }, '', location.href);
-    this.authSvc.$isLogged.subscribe({
-      next: (res) => {
-        this.isLogged = res;
+  constructor(
+    private authSvc: AuthSvc,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-        if (this.isLogged && sessionStorage.getItem('newReservation')) {
-          this.route.queryParams.subscribe((params) => {
-            this.page = +params['page'] || 1;
-          });
+  ngOnInit(): void {
+    combineLatest([this.route.queryParams, this.authSvc.$isLogged]).subscribe(
+      ([params, logged]) => {
+        this.isLogged = logged;
+
+        let requestedPage = +params['page'] || 1;
+
+        if (requestedPage === 3 && !this.isLogged) {
+          if (sessionStorage.getItem('newReservation')) {
+            requestedPage = 4;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: 4 },
+            });
+          } else {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: 1 },
+            });
+          }
         }
-      },
-    });
+
+        this.page = requestedPage;
+      }
+    );
   }
 
-  onPageChange(page: number) {
+  onPageChange(page: number): void {
     if (page === 3 && !this.isLogged) {
       page = 4;
     }
-    this.page = page;
-    this.location.go('/booking', 'page=' + this.page);
-    // history.pushState({ page: this.page }, '', location.href);
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+    });
   }
 
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event: PopStateEvent) {
-  //   if (this.page > 1) {
-  //     this.page--;
-  //     history.pushState({ page: this.page }, '', location.href);
-  //   }
-  // }
+  previousPage(): void {
+    if (this.page > 1) {
+      if (this.page === 4) {
+        this.page = 2;
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page: this.page },
+        });
+        return;
+      }
+      let newPage = this.page - 1;
 
-  previousPage() {
-    if (this.page === 1) {
-      return;
+      if (newPage === 3 && !this.isLogged) {
+        newPage = 4;
+      }
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: newPage },
+      });
     }
-    this.page--;
-    this.location.go('/booking', 'page=' + this.page);
-    // history.pushState({ page: this.page }, '', location.href);
   }
 
-  goToLogin() {
+  goToLogin(): void {
     this.router.navigate(['/auth/login'], {
       queryParams: { returnUrl: '/booking?page=3' },
     });

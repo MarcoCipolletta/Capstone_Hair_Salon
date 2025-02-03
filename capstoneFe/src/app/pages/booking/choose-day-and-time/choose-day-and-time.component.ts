@@ -1,13 +1,12 @@
 import { iCheckAvailableRequest } from './../../../interfaces/bookingtimes/icheck-available-request';
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { SalonservicesService } from '../../../services/salonservices.service';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 import { BookingSlotTimesService } from '../../../services/booking-slot-times.service';
 import { iAvailableTime } from '../../../interfaces/bookingtimes/i-available-time';
 import { iDayWithAvaibleTime } from '../../../interfaces/bookingtimes/i-day-with-avaible-time';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
-import { ReservationsService } from '../../../services/reservations.service';
 import { iReservationCreateRequest } from '../../../interfaces/reservation/i-reservation-create-request';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-day-and-time',
@@ -15,10 +14,10 @@ import { iReservationCreateRequest } from '../../../interfaces/reservation/i-res
   styleUrl: './choose-day-and-time.component.scss',
 })
 export class ChooseDayAndTimeComponent {
-  private salonServicesSvc = inject(SalonservicesService);
   private bookingSlotSvc = inject(BookingSlotTimesService);
   protected timeConversionSvc = inject(TimeConversionSvcService);
-  private reservationSvc = inject(ReservationsService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   weekOfDayAvailableSlots: iDayWithAvaibleTime[] = [];
   dayAvailableSlots!: iDayWithAvaibleTime;
@@ -31,37 +30,36 @@ export class ChooseDayAndTimeComponent {
     date: new Date(),
     startTime: 0,
     endTime: 0,
-    services: [],
+    salonServices: [],
   };
 
   @Output() pageChanged = new EventEmitter<number>();
 
   ngOnInit() {
-    // this.salonServicesSvc.$selctedService.subscribe({
-    //   next: (res) => {
-    //     this.selectedServices = res;
-    //     this.newReservation.services = this.selectedServices;
-    //     this.getWeekOfAvailableTimes(this.date);
-    //   },
-    // });
     if (sessionStorage.getItem('selectedServices')) {
       if (sessionStorage.getItem('newReservation')) {
         this.newReservation = JSON.parse(
           sessionStorage.getItem('newReservation')!
         );
-        console.log(this.newReservation);
 
         this.selectedTime = 'time' + this.newReservation.startTime;
-        this.selectedServices = this.newReservation.services;
+        this.selectedServices = this.newReservation.salonServices;
         this.getPreviousWeek(this.newReservation.date);
         this.isBackActive = true;
       } else {
         this.selectedServices = JSON.parse(
           sessionStorage.getItem('selectedServices')!
         );
-        this.newReservation.services = this.selectedServices;
+        this.newReservation.salonServices = this.selectedServices;
         this.getWeekOfAvailableTimes(this.date);
       }
+    } else {
+      let page = 1;
+      this.pageChanged.emit(page);
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page },
+      });
     }
   }
 
@@ -88,7 +86,6 @@ export class ChooseDayAndTimeComponent {
 
       if (startDate < new Date()) {
         defaultMiddleIndex = new Date().getDate() - startDate.getDate();
-        console.log(defaultMiddleIndex);
 
         startDate = new Date();
       }
@@ -173,6 +170,7 @@ export class ChooseDayAndTimeComponent {
     this.selectedTime = '';
 
     this.dayIndex--;
+
     this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
     if (
       this.dayAvailableSlots.date.toString() ===
@@ -181,10 +179,7 @@ export class ChooseDayAndTimeComponent {
       this.isBackActive = false;
       return;
     }
-    if (
-      (this.dayIndex === 0 || this.dayIndex === 1) &&
-      new Date(this.dayAvailableSlots.date).getDate() - new Date().getDate() > 2
-    ) {
+    if (this.dayIndex === 0 || this.dayIndex === 1) {
       this.getPreviousWeek(this.dayAvailableSlots.date);
     }
   }

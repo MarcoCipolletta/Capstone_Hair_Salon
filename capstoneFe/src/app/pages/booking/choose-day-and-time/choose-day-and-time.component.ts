@@ -49,6 +49,8 @@ export class ChooseDayAndTimeComponent {
         this.newReservation = JSON.parse(
           sessionStorage.getItem('newReservation')!
         );
+        console.log(this.newReservation);
+
         this.selectedTime = 'time' + this.newReservation.startTime;
         this.selectedServices = this.newReservation.services;
         this.getPreviousWeek(this.newReservation.date);
@@ -81,9 +83,15 @@ export class ChooseDayAndTimeComponent {
 
   getPreviousWeek(date: Date, defaultMiddleIndex: number = 3) {
     if (!this.dayAvailableSlots) {
-      const startDate = new Date(date);
+      let startDate = new Date(date);
       startDate.setDate(startDate.getDate() - 3);
 
+      if (startDate < new Date()) {
+        defaultMiddleIndex = new Date().getDate() - startDate.getDate();
+        console.log(defaultMiddleIndex);
+
+        startDate = new Date();
+      }
       const checkAvailableRequest: iCheckAvailableRequest = {
         date: startDate,
         services: this.selectedServices,

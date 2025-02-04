@@ -20,11 +20,10 @@ export class HeaderComponent {
       this.authSvc.$isLogged,
       this.decodeToken.userRole$,
     ]).subscribe(([isLogged, role]) => {
-      this.isLogged = isLogged;
-      this.role = role;
-    });
-    this.authSvc.$isLogged.subscribe((res) => {
-      this.isLogged = res;
+      if (isLogged) {
+        this.isLogged = isLogged;
+        this.role = role;
+      }
     });
   }
   logout() {

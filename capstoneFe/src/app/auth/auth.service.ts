@@ -50,8 +50,8 @@ export class AuthSvc {
           this.userAuthSubject$.next(dati);
           this.$isLogged.next(true);
 
-          this.decodeToken.userRole$.next(this.decodeToken.getRole());
           localStorage.setItem('accessData', JSON.stringify(dati));
+          this.decodeToken.userRole$.next(this.decodeToken.getRole());
 
           //recupero la data di scadenza del token
           const date = this.jwtHelper.getTokenExpirationDate(dati.token);

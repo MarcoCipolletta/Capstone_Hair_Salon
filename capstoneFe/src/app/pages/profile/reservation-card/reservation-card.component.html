@@ -29,6 +29,8 @@
       <h5 class="card-title">Durata prevista:</h5>
       <p>{{ totalDuration }}</p>
     </div>
+  </div>
+  <div class="card-footer text-body-secondary">
     <button
       *ngIf="
         reservation.status === 'PENDING' || reservation.status === 'CONFIRMED'
@@ -39,5 +41,4 @@
       Annulla prenotazione
     </button>
   </div>
-  <div class="card-footer text-body-secondary"></div>
 </div>

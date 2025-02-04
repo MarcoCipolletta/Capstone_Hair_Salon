@@ -21,6 +21,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/profile/profile.module').then((m) => m.ProfileModule),
   },
+  {
+    path: 'salonManagement',
+    loadChildren: () =>
+      import('./pages/salon-management/salon-management.module').then(
+        (m) => m.SalonManagementModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -11,11 +11,19 @@ import {
   iconoirEmojiSad,
   iconoirEye,
   iconoirEyeClosed,
+  iconoirUser,
   iconoirXboxX,
 } from '@ng-icons/iconoir';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './auth/token.interceptor';
-import { akarCircleMinus, akarCirclePlus } from '@ng-icons/akar-icons';
+import {
+  akarCalendar,
+  akarCircleMinus,
+  akarCirclePlus,
+  akarClock,
+  akarPeopleGroup,
+  akarScissor,
+} from '@ng-icons/akar-icons';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -30,6 +38,10 @@ import { akarCircleMinus, akarCirclePlus } from '@ng-icons/akar-icons';
       akarCirclePlus,
       akarCircleMinus,
       iconoirXboxX,
+      akarCalendar,
+      akarClock,
+      akarScissor,
+      akarPeopleGroup,
     }),
     NgbDropdownModule,
   ],

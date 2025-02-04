@@ -1,0 +1,19 @@
+/* Modifica lo stile degli eventi sovrapposti */
+.overlapping-event {
+  background-color: rgba(255, 69, 0, 0.7) !important; /* Rosso trasparente */
+  border: 2px solid #ff4500 !important; /* Bordo più spesso */
+  z-index: 10 !important;
+}
+
+/* Riduci l'opacità degli eventi normali per evidenziare quelli sovrapposti */
+.fc-timegrid-event {
+  opacity: 0.8;
+}
+
+/* Testo leggibile sugli eventi */
+.fc-timegrid-event .fc-event-title {
+  font-size: 12px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

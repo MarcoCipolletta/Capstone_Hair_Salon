@@ -76,7 +76,11 @@
             >
               Prenotazioni
             </button>
-            <button *ngIf="role === 'ADMIN'" ngbDropdownItem>
+            <button
+              routerLink="/salonManagement"
+              *ngIf="role === 'ADMIN'"
+              ngbDropdownItem
+            >
               Gestione salone
             </button>
             <button ngbDropdownItem (click)="logout()" class="">Logout</button>

@@ -90,7 +90,7 @@ public class AuthUserSvc {
 
         authUserRepo.save(authUser);
 
-  //      emailSvc.sendEmailHtml(emailMapper.fromAuthUserToEmailRequest(authUser));
+        //      emailSvc.sendEmailHtml(emailMapper.fromAuthUserToEmailRequest(authUser));
 
         return "Registrazione avvenuta con successo";
     }
@@ -193,16 +193,16 @@ public class AuthUserSvc {
         if (authUser.getRole() == Role.ADMIN) {
             authUserRepo.save(authUser);
         } else {
-        authUser.setCustomer(customerSvc.update(authUserResponse.getCustomer(), authUser));
-        authUserRepo.save(authUser);
+            authUser.setCustomer(customerSvc.update(authUserResponse.getCustomer(), authUser));
+            authUserRepo.save(authUser);
 
         }
-UserDetails newUserDetails = new User(authUser.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        UserDetails newUserDetails = new User(authUser.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
 
         AuthUpdateResponse authUpdateResponse = new AuthUpdateResponse();
         authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails)));
         authUpdateResponse.setAuthUserResponse(authUserResponse);
-            return authUpdateResponse;
+        return authUpdateResponse;
 
     }
 

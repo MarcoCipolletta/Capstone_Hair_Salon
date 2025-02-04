@@ -63,6 +63,12 @@ public class CustomerSvc {
         return customerRepo.save(customer);
     }
 
+    public Customer createGuest( CustomerCreateRequest customerCreateRequest) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerCreateRequest, customer);
+        return customerRepo.save(customer);
+    }
+
     @Transactional
     public Customer update(@Valid CustomerResponseForAuthResponse customerResponseForAuthResponse, AuthUser authUser) {
         Customer customer = findByAuthUserUsername(authUser.getUsername());

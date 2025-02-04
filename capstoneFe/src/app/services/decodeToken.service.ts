@@ -7,19 +7,18 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DecodeTokenService {
   constructor() {
-    console.log(this.getRoles() + '                riga 10 decodeTokenSvc');
-    this.userRoles$.next(this.getRoles());
+    this.userRole$.next(this.getRole());
   }
 
   jwtHelper: JwtHelperService = new JwtHelperService();
 
-  userRoles$ = new BehaviorSubject<string[]>([]);
+  userRole$ = new BehaviorSubject<string>('');
 
-  getRoles() {
+  getRole() {
     const json = localStorage.getItem('accessData');
     if (!json) return;
     const { token } = JSON.parse(json);
     if (!token) return;
-    return this.jwtHelper.decodeToken(token).roles;
+    return this.jwtHelper.decodeToken(token).role;
   }
 }

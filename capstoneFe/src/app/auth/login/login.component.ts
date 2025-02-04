@@ -42,7 +42,7 @@ export class LoginComponent {
             console.log(this.returnUrl);
 
             this.router.navigateByUrl(this.returnUrl);
-          }, 1500);
+          }, 1000);
         },
         error: (err) => {
           this.isLoadingLogin = false;

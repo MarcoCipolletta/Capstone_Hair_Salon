@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { iReservationCreateRequest } from '../interfaces/reservation/i-reservation-create-request';
 import { environment } from '../../environments/environment.development';
 import { iResponseStringMessage } from '../interfaces/i-response-string-message';
-import { IReservationResponse } from '../interfaces/reservation/i-reservation-response';
+import { iReservationResponse } from '../interfaces/reservation/i-reservation-response';
 import { BehaviorSubject } from 'rxjs';
+import { iReservationResponseForCustomer } from '../interfaces/reservation/i-reservation-response-for-customer';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,19 @@ export class ReservationsService {
   }
 
   getAllReservations() {
-    return this.http.get<IReservationResponse[]>(this.baseUrl);
+    return this.http.get<iReservationResponse[]>(this.baseUrl);
+  }
+
+  getAllByLoggedUser() {
+    return this.http.get<iReservationResponseForCustomer[]>(
+      this.baseUrl + '/byCustomer'
+    );
+  }
+
+  cancelReservationByUser(reservationId: string) {
+    return this.http.patch<iReservationResponseForCustomer>(
+      this.baseUrl + '/cancelReservation/' + reservationId,
+      {}
+    );
   }
 }

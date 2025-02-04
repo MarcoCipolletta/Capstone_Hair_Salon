@@ -1,0 +1,43 @@
+<div class="card text-center h-100" *ngIf="reservation">
+  <div class="card-header">{{ status }}</div>
+  <div class="card-body pb-0">
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom"
+    >
+      <h5 class="card-title">Servizi scelti:</h5>
+      <div class="text-end">
+        <p *ngFor="let service of reservation.salonServices" class="card-text">
+          {{ service.name }}
+        </p>
+      </div>
+    </div>
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom pt-2"
+    >
+      <h5 class="card-title">Il giorno:</h5>
+      <p>{{ reservation.date | date : "dd/MM/yyyy" }}</p>
+    </div>
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom pt-2"
+    >
+      <h5 class="card-title">Alle ore:</h5>
+      <p>{{ timeConversionsSvc.secondsToTime(reservation.startTime) }}</p>
+    </div>
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom pt-2"
+    >
+      <h5 class="card-title">Durata prevista:</h5>
+      <p>{{ totalDuration }}</p>
+    </div>
+    <button
+      *ngIf="
+        reservation.status === 'PENDING' || reservation.status === 'CONFIRMED'
+      "
+      class="btn btn-primary my-3"
+      (click)="cancelReservation()"
+    >
+      Annulla prenotazione
+    </button>
+  </div>
+  <div class="card-footer text-body-secondary"></div>
+</div>

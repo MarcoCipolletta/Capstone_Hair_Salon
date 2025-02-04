@@ -9,6 +9,8 @@ import it.epicode.hair_salon.entities.operator.dto.AvailabilityResult;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationCreateRequest;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationMapper;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponse;
+import it.epicode.hair_salon.entities.reservation.dto.ReservationResponseForCustomer;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,10 @@ public class ReservationSvc {
         List<Reservation> reservations = reservationRepo.findAll();
 
         return reservationMapper.toReservationResponseList(reservations);
+    }
+
+    public Reservation findById(UUID id) {
+        return reservationRepo.findById(id).orElseThrow(() ->new EntityNotFoundException("Prenotazione non trovata"));
     }
 
     @Transactional
@@ -83,6 +90,24 @@ public class ReservationSvc {
 
     public boolean existsByDate(LocalDate date) {
         return reservationRepo.existsByDate(date);
+    }
+
+    public List<ReservationResponseForCustomer> findAllByLoggedCustomer(User userDetails) {
+        Customer customer = customerSvc.findByAuthUserUsername(userDetails.getUsername());
+
+        List<Reservation> reservations = reservationRepo.findByCustomerId(customer.getId());
+        return reservationMapper.toReservationResponseForCustomerList(reservations);
+
+    }
+
+    public ReservationResponseForCustomer cancelReservationByCustomer(UUID reservationId, User userDetails) {
+        Customer customer = customerSvc.findByAuthUserUsername(userDetails.getUsername());
+        Reservation reservation = findById(reservationId);
+        if (!reservation.getCustomer().getId().equals(customer.getId())) throw new IllegalArgumentException("Non hai il permesso di annullare questa prenotazione");
+        reservation.setStatus(Status.CANCELLED);
+        reservationRepo.save(reservation);
+        return reservationMapper.toReservationResponseForCustomer(reservation);
+
     }
 
 

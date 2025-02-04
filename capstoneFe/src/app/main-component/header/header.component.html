@@ -2,7 +2,7 @@
   <header
     class="d-flex flex-wrap align-items-center justify-content-around fs-7"
   >
-    <ul class="nav col-3 justify-content-center mb-0">
+    <ul class="nav col-3 justify-content-start mb-0">
       <li>
         <a
           routerLink="/"
@@ -27,33 +27,62 @@
 
     <div class="col-3 d-flex justify-content-end">
       <ul class="nav me-2">
-        <a
-          routerLink="/booking"
-          routerLinkActive="linkSelected"
-          class="nav-link"
-        >
-          PRENOTA
-        </a>
+        <ng-container *ngIf="role !== 'ADMIN'">
+          <a
+            routerLink="/booking"
+            routerLinkActive="linkSelected"
+            class="nav-link"
+          >
+            PRENOTA
+          </a>
+        </ng-container>
       </ul>
 
-      <div>
-        <button
-          routerLink="/auth/login"
-          routerLinkActive=""
-          type="button"
-          class="btn btn-outline-accent me-2 fs-7"
-        >
-          Accedi
-        </button>
-        <button
-          routerLink="/auth/register"
-          type="button"
-          class="btn btn-accent fs-7"
-        >
-          Registrati
-        </button>
-      </div>
+      <ng-container *ngIf="!isLogged">
+        <div>
+          <button
+            routerLink="/auth/login"
+            routerLinkActive=""
+            type="button"
+            class="btn btn-outline-accent me-2 fs-7"
+          >
+            Accedi
+          </button>
+          <button
+            routerLink="/auth/register"
+            type="button"
+            class="btn btn-accent fs-7"
+          >
+            Registrati
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isLogged">
+        <div ngbDropdown class="d-inline-block">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="profileDropdown"
+            ngbDropdownToggle
+          >
+            Profilo
+          </button>
+          <div ngbDropdownMenu aria-labelledby="profileDropdown">
+            <button routerLink="/profile" ngbDropdownItem>Profilo</button>
+            <button
+              routerLink="/profile/myReservations"
+              *ngIf="role !== 'ADMIN'"
+              ngbDropdownItem
+            >
+              Prenotazioni
+            </button>
+            <button *ngIf="role === 'ADMIN'" ngbDropdownItem>
+              Gestione salone
+            </button>
+            <button ngbDropdownItem (click)="logout()" class="">Logout</button>
+          </div>
+        </div>
+      </ng-container>
     </div>
-    <button (click)="logout()" class="btn fs-9">Logout</button>
   </header>
 </div>

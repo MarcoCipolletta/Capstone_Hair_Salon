@@ -43,22 +43,24 @@ export class AuthSvc {
     // qui uso una post per proteggere i dati sensibili e creare un token lato server
     return this.http.post<iAccess>(this.baseUrl + '/login', userDates).pipe(
       tap((dati) => {
-        this.userAuthSubject$.next(dati);
-        this.$isLogged.next(true);
+        setTimeout(() => {
+          this.userAuthSubject$.next(dati);
+          this.$isLogged.next(true);
 
-        this.decodeToken.userRoles$.next(this.decodeToken.getRoles());
-        localStorage.setItem('accessData', JSON.stringify(dati));
+          this.decodeToken.userRole$.next(this.decodeToken.getRole());
+          localStorage.setItem('accessData', JSON.stringify(dati));
 
-        //recupero la data di scadenza del token
-        const date = this.jwtHelper.getTokenExpirationDate(dati.token);
-        if (date) this.autoLogout(date);
+          //recupero la data di scadenza del token
+          const date = this.jwtHelper.getTokenExpirationDate(dati.token);
+          if (date) this.autoLogout(date);
+        }, 1000);
       })
     );
   }
 
   logout() {
     this.userAuthSubject$.next(null);
-    this.decodeToken.userRoles$.next([]);
+    this.decodeToken.userRole$.next('');
     this.$isLogged.next(false);
 
     localStorage.removeItem('accessData');
@@ -87,7 +89,7 @@ export class AuthSvc {
 
     this.userAuthSubject$.next(accessdata);
     this.$isLogged.next(true);
-    this.decodeToken.userRoles$.next(this.decodeToken.getRoles());
+    this.decodeToken.userRole$.next(this.decodeToken.getRole());
   }
 
   resetPassword(passwordResetRequest: iPasswordResetRequest) {

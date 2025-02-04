@@ -2,6 +2,7 @@ package it.epicode.hair_salon.entities.reservation;
 
 import it.epicode.hair_salon.entities.reservation.dto.ReservationCreateRequest;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponse;
+import it.epicode.hair_salon.entities.reservation.dto.ReservationResponseForCustomer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/reservation")
@@ -23,7 +25,7 @@ public class ReservationController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Map<String, String>> createReservationByUser(@RequestBody ReservationCreateRequest reservationCreateRequest, @AuthenticationPrincipal User userDetails) {
-         String message = reservationSvc.createReservationByUser(reservationCreateRequest, userDetails);
+        String message = reservationSvc.createReservationByUser(reservationCreateRequest, userDetails);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -33,5 +35,20 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ReservationResponse>> findAll() {
         return ResponseEntity.ok(reservationSvc.findAll());
+    }
+
+    @GetMapping("/byCustomer")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<ReservationResponseForCustomer>> findAllByLoggedCustomer(@AuthenticationPrincipal User userDetails) {
+        return ResponseEntity.ok(reservationSvc.findAllByLoggedCustomer(userDetails));
+    }
+
+    @PatchMapping("/cancelReservation/{reservationId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ReservationResponseForCustomer> cancelReservation(@PathVariable String reservationId, @AuthenticationPrincipal User userDetails) {
+        System.out.println(reservationId);
+        System.out.println(userDetails);
+        UUID id = UUID.fromString(reservationId);
+        return ResponseEntity.ok(reservationSvc.cancelReservationByCustomer(id, userDetails));
     }
 }

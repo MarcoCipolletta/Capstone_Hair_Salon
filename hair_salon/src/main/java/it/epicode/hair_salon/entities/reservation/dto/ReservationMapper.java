@@ -25,4 +25,14 @@ public class ReservationMapper {
     public List<ReservationResponse> toReservationResponseList(List<Reservation> reservations) {
         return reservations.stream().map(this::toReservationResponse).toList();
     }
+
+    public ReservationResponseForCustomer toReservationResponseForCustomer(Reservation reservation) {
+        ReservationResponseForCustomer response =modelMapper.map(reservation, ReservationResponseForCustomer.class);
+        response.setOperatorId(reservation.getOperator().getId());
+        return response;
+    }
+
+    public List<ReservationResponseForCustomer> toReservationResponseForCustomerList(List<Reservation> reservations) {
+        return reservations.stream().map(this::toReservationResponseForCustomer).toList();
+    }
 }

@@ -1,0 +1,17 @@
+<div class="container">
+  <h1 class="mt-5">Le mie prenotazioni</h1>
+  <ng-container *ngIf="myReservations.length === 0">
+    <p>Non hai ancora prenotato un appuntamento</p>
+  </ng-container>
+  <ng-container *ngIf="myReservations.length > 0">
+    <div class="row">
+      <ng-container *ngFor="let reservation of myReservations">
+        <div class="col-4">
+          <app-reservation-card
+            [reservation]="reservation"
+          ></app-reservation-card>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

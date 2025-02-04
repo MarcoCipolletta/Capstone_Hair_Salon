@@ -45,6 +45,9 @@ export class ConfirmReservationComponent {
   sendReservation() {
     this.reservationSvc.makeReservation(this.reservation).subscribe({
       next: (res) => {
+        sessionStorage.removeItem('newReservation');
+        sessionStorage.removeItem('selectedServices');
+
         console.log(res);
       },
 

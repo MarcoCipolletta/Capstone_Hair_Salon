@@ -11,4 +11,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
     boolean existsByDate(LocalDate date);
     List<Reservation> findByDate(LocalDate date);
 
+    List<Reservation> findByCustomerId(UUID customerId);
+
 }

@@ -12,6 +12,7 @@ import { iPasswordResetRequest } from './interfaces/i-password-reset-request';
 import { iResponseStringMessage } from '../interfaces/i-response-string-message';
 import { iAuthUserResponse } from './interfaces/i-auth-user-response';
 import { iChangePasswordRequest } from './interfaces/i-change-password-request';
+import { iAuthUpdateResponse } from './interfaces/i-auth-update-response';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,8 @@ export class AuthSvc {
     return this.http.post<iAccess>(this.baseUrl + '/login', userDates).pipe(
       tap((dati) => {
         setTimeout(() => {
+          console.log('Dati login', dati);
+
           this.userAuthSubject$.next(dati);
           this.$isLogged.next(true);
 
@@ -56,6 +59,25 @@ export class AuthSvc {
         }, 1000);
       })
     );
+  }
+
+  update(appUser: iAuthUserResponse) {
+    return this.http
+      .put<iAuthUpdateResponse>(this.baseUrl + '/update', appUser)
+      .pipe(
+        tap((data) => {
+          console.log(data);
+
+          this.userAuthSubject$.next(data.authResponse);
+          this.decodeToken.userRole$.next(this.decodeToken.getRole());
+          localStorage.setItem('accessData', JSON.stringify(data.authResponse));
+
+          const date = this.jwtHelper.getTokenExpirationDate(
+            data.authResponse.token
+          );
+          if (date) this.autoLogout(date);
+        })
+      );
   }
 
   logout() {
@@ -110,13 +132,9 @@ export class AuthSvc {
     return this.http.get<iAuthUserResponse>(this.baseUrl + '/me');
   }
 
-  update(appUser: iAuthUserResponse) {
-    return this.http.put<iAuthUserResponse>(this.baseUrl + '/update', appUser);
-  }
-
   changePassword(changePasswordRequest: iChangePasswordRequest) {
     return this.http.patch(
-      this.baseUrl + 'change-password',
+      this.baseUrl + '/change-password',
       changePasswordRequest
     );
   }

@@ -173,7 +173,7 @@ public class AuthUserSvc {
         }
     }
 
-    public AuthUserResponse updateUser(AuthUserResponse authUserResponse, User userDetails) {
+    public AuthUpdateResponse updateUser(AuthUserResponse authUserResponse, User userDetails) {
         AuthUser authUser = getByUsername(userDetails.getUsername());
         if (!authUserResponse.getId().equals(authUser.getId())) {
             throw new SecurityException("User non autorizzato");
@@ -192,13 +192,17 @@ public class AuthUserSvc {
         BeanUtils.copyProperties(authUserResponse, authUser);
         if (authUser.getRole() == Role.ADMIN) {
             authUserRepo.save(authUser);
-
-            return authUserResponse;
-        }
-
+        } else {
         authUser.setCustomer(customerSvc.update(authUserResponse.getCustomer(), authUser));
         authUserRepo.save(authUser);
-        return authUserResponse;
+
+        }
+UserDetails newUserDetails = new User(authUser.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+
+        AuthUpdateResponse authUpdateResponse = new AuthUpdateResponse();
+        authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails)));
+        authUpdateResponse.setAuthUserResponse(authUserResponse);
+            return authUpdateResponse;
 
     }
 

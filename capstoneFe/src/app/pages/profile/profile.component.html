@@ -1,1 +1,316 @@
-<p>profile works!</p>
+<div class="container">
+  <div class="mt-5">
+    <ng-container *ngIf="user">
+      <div class="p-3">
+        <div class="mb-3 d-flex justify-content-start gap-3">
+          <h1 class="mt-2" *ngIf="!isEditingPassword">
+            {{ isEditing ? "Modifica profilo" : "Profilo utente" }}
+          </h1>
+          <h1 class="mt-2" *ngIf="isEditingPassword">Modifica Password</h1>
+          <span class="position-relative">
+            <img
+              src="{{ user.avatar }}"
+              alt="avatar"
+              class="avatar rounded-circle"
+            />
+          </span>
+          <button
+            (click)="enableEditing()"
+            class="btn mt-4 ms-auto"
+            [ngClass]="{
+              'btn-primary': !isEditing || !isEditingPassword,
+              'btn-warning': isEditing || isEditingPassword
+            }"
+          >
+            {{ isEditing || isEditingPassword ? "Annulla" : "Modifica info" }}
+          </button>
+        </div>
+        <ng-container *ngIf="!isEditing && user && !isEditingPassword">
+          <div class="py-1 d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fs-6 w-25">Username</h5>
+            <p class="mb-0 flex-grow-1">{{ user.username }}</p>
+          </div>
+          <div class="py-1 d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fs-6 w-25">Email</h5>
+            <p class="mb-0 flex-grow-1">{{ user.email }}</p>
+          </div>
+          <ng-container *ngIf="user.customer">
+            <div class="py-1 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0 fs-6 w-25">Nome</h5>
+              <p class="mb-0 flex-grow-1">{{ user.customer.name }}</p>
+            </div>
+            <div class="py-1 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0 fs-6 w-25">Cognome</h5>
+              <p class="mb-0 flex-grow-1">{{ user.customer.surname }}</p>
+            </div>
+            <div class="py-1 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0 fs-6 w-25">Data di nascita</h5>
+              <p class="mb-0 flex-grow-1">{{ user.customer.dateOfBirth }}</p>
+            </div>
+            <div class="py-1 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0 fs-6 w-25">Telefono</h5>
+              <p class="mb-0 flex-grow-1">{{ user.customer.phoneNumber }}</p>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!isEditing && user && !isEditingPassword">
+          <div class="py-1 d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fs-6 w-25">Password</h5>
+            <p class="mb-0 flex-grow-1">********</p>
+            <button
+              (click)="enableEditingPassword()"
+              class="btn ms-auto"
+              [ngClass]="{
+                'btn-primary': !isEditing,
+                'btn-warning': isEditing
+              }"
+            >
+              {{ isEditing ? "Annulla" : "Modifica password" }}
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="form && isEditing">
+          <form [formGroup]="form" (ngSubmit)="save()">
+            <!-- User Data -->
+            <fieldset>
+              <legend>Dati utente</legend>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                  id="username"
+                  type="text"
+                  placeholder="mario.rossi"
+                  class="form-control"
+                  formControlName="username"
+                />
+                <div>
+                  <span
+                    class="validator"
+                    role="alert"
+                    *ngIf="isInvalidTouched(form, 'username')"
+                    ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+                    obbligatorio!</span
+                  >
+                </div>
+
+                <label for="email" class="mt-3">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="mario@rossi.it"
+                  class="form-control"
+                  formControlName="email"
+                />
+                <div>
+                  <span
+                    class="validator"
+                    role="alert"
+                    *ngIf="isInvalidTouched(form, 'email')"
+                    ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                    {{ getError("email") }}</span
+                  >
+                </div>
+
+                <!-- <label for="avatar" class="mt-3">Avatar</label> -->
+                <input
+                  id="avatar"
+                  type="text"
+                  placeholder="https://example.com/avatar.jpg"
+                  class="form-control"
+                  formControlName="avatar"
+                  hidden="true"
+                />
+
+                <ng-container *ngIf="user.customer" formGroupName="customer">
+                  <label for="name" class="mt-3">Nome</label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="mario"
+                    class="form-control"
+                    formControlName="name"
+                  />
+                  <div>
+                    <span
+                      class="validator"
+                      role="alert"
+                      *ngIf="isInvalidTouched(form, 'customer.name')"
+                      ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                      {{ getError("customer.name") }}</span
+                    >
+                  </div>
+                  <label for="surname" class="mt-3">Cognome</label>
+                  <input
+                    id="surname"
+                    type="text"
+                    placeholder="rossi"
+                    class="form-control"
+                    formControlName="surname"
+                  />
+                  <span
+                    class="validator"
+                    role="alert"
+                    *ngIf="isInvalidTouched(form, 'customer.surname')"
+                    ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                    {{ getError("customer.surname") }}</span
+                  >
+                  <label for="phoneNumber" class="mt-3">Telefono </label>
+                  <input
+                    id="phoneNumber"
+                    type="tel"
+                    placeholder="+39 3333333333"
+                    class="form-control"
+                    formControlName="phoneNumber"
+                  />
+                  <span
+                    class="validator"
+                    role="alert"
+                    *ngIf="isInvalidTouched(form, 'customer.phoneNumber')"
+                    ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                    {{ getError("customer.phoneNumber") }}</span
+                  >
+                </ng-container>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary mt-4"
+                [disabled]="form.invalid"
+              >
+                Save
+              </button>
+            </fieldset>
+          </form>
+        </ng-container>
+
+        <ng-container *ngIf="passForm && isEditingPassword">
+          <form [formGroup]="passForm" (ngSubmit)="savePassword()">
+            <label for="oldPassword" class="mt-3">Vecchia password</label>
+            <div class="position-relative w-100">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                name="oldPassword"
+                [placeholder]="showPassword ? 'password' : '********'"
+                class="form-control"
+                formControlName="oldPassword"
+                id="oldPassword"
+              />
+              <label
+                class="iconEye"
+                (click)="togglePassword()"
+                style="cursor: pointer"
+                for="oldPassword"
+              >
+                <ng-icon
+                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  size="1.25rem"
+                  color="#0d1821"
+                ></ng-icon>
+              </label>
+            </div>
+            <div>
+              <span
+                class="validator"
+                role="alert"
+                *ngIf="isInvalidTouched(passForm, 'oldPassword')"
+                ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                {{ getErrorPass("oldPassword") }}</span
+              >
+            </div>
+
+            <label for="newPassword" class="mt-3">New password</label>
+            <div class="position-relative w-100">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                name="newPassword"
+                [placeholder]="showPassword ? 'password' : '********'"
+                class="form-control"
+                formControlName="newPassword"
+                id="newPassword"
+              />
+              <label
+                class="iconEye"
+                (click)="togglePassword()"
+                style="cursor: pointer"
+                for="newPassword"
+              >
+                <ng-icon
+                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  size="1.25rem"
+                  color="#0d1821"
+                ></ng-icon>
+              </label>
+            </div>
+            <div>
+              <span
+                class="validator"
+                role="alert"
+                *ngIf="isInvalidTouched(passForm, 'newPassword')"
+                ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                {{ getErrorPass("newPassword") }}</span
+              >
+            </div>
+
+            <label for="confirmNewPassword" class="mt-2"
+              >Conferma password</label
+            >
+            <div class="position-relative w-100">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                name="confirmNewPassword"
+                [placeholder]="showPassword ? 'password' : '********'"
+                class="form-control"
+                formControlName="confirmNewPassword"
+                id="confirmNewPassword"
+              />
+              <label
+                class="iconEye"
+                (click)="togglePassword()"
+                style="cursor: pointer"
+                for="confirmNewPassword"
+              >
+                <ng-icon
+                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  size="1.25rem"
+                  color="#0d1821"
+                ></ng-icon>
+              </label>
+            </div>
+            <div>
+              <span
+                class="validator"
+                role="alert"
+                *ngIf="
+                    isInvalidTouched(passForm,'confirmNewPassword') &&
+                    !( passForm.errors?.['passwordMismatch'] &&
+                    passForm.get('confirmNewPassword')?.touched)
+
+                  "
+                ><ng-icon name="iconoirEmojiSad"></ng-icon>
+                {{ getErrorPass("confirmNewPassword") }}</span
+              >
+              <span
+                class="validator"
+                role="alert"
+                *ngIf="
+                    passForm.errors?.['passwordMismatch'] &&
+                    passForm.get('confirmNewPassword')?.touched
+                  "
+                ><ng-icon name="iconoirEmojiSad"></ng-icon> Le password non
+                corrispondono</span
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary mt-4"
+              [disabled]="passForm.invalid"
+            >
+              Save
+            </button>
+          </form>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

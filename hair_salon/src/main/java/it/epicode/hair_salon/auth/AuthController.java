@@ -60,10 +60,9 @@ public class AuthController {
 
     @PutMapping("/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<AuthUserResponse> updateByCustomerWithAppUser(@RequestBody AuthUserResponse authUserResponse, @AuthenticationPrincipal User userDetails) {
+    public ResponseEntity<AuthUpdateResponse> updateByCustomerWithAppUser(@RequestBody AuthUserResponse authUserResponse, @AuthenticationPrincipal User userDetails) {
 
-        AuthUserResponse response = authUserSvc.updateUser(authUserResponse, userDetails);
-        System.out.println(response);
+        AuthUpdateResponse response = authUserSvc.updateUser(authUserResponse, userDetails);
         return ResponseEntity.ok(response);
     }
 

@@ -1,0 +1,23 @@
+.avatar {
+  width: 64px;
+  height: 64px;
+}
+.validator {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  padding-block: 0.2rem;
+  color: #891c1c;
+  ng-icon {
+    font-size: 1rem;
+    margin-inline-end: 0.25rem;
+  }
+}
+
+.iconEye {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  height: 20px;
+  transform: translateY(-50%);
+}

@@ -3,17 +3,16 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
   .reservation-section {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    &.pending {
-      flex-basis: 10%;
-      flex-grow: 0;
-    }
-    &.confirmed {
-      flex-basis: 90%;
-      flex-grow: 1;
+    flex-grow: 1;
+    height: 300px;
+    overflow-y: auto;
+    &.full-h {
+      height: 600px;
     }
     .scrollable {
       flex-grow: 1;

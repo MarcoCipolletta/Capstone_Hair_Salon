@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { iReservationResponse } from '../interfaces/reservation/i-reservation-response';
 import { iCalendarEvent } from '../interfaces/i-calendar-event';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest, tap } from 'rxjs';
 import { ReservationsService } from './reservations.service';
+import { ManagerScheduleService } from './manager-schedule.service';
+import { iManagerSchedule } from '../interfaces/managerSchedule/i-manager-schedule';
 
 @Injectable({
   providedIn: 'root',
@@ -10,17 +12,29 @@ import { ReservationsService } from './reservations.service';
 export class CalendarService {
   events$ = new BehaviorSubject<iCalendarEvent[]>([]);
 
-  constructor(private reservationSvc: ReservationsService) {
-    this.reservationSvc.getConfirmedAndPending().subscribe({
-      next: (res) => {
-        const events: any = [];
-
-        res.forEach((r) => {
+  constructor(
+    private reservationSvc: ReservationsService,
+    private managerScheduleSvc: ManagerScheduleService
+  ) {
+    combineLatest([
+      this.reservationSvc.$confirmedReservations,
+      this.reservationSvc.$pendingReservations,
+      this.managerScheduleSvc.getAll(),
+    ]).subscribe({
+      next: ([confirmed, pending, managerSchedule]) => {
+        const events: iCalendarEvent[] = [];
+        confirmed.forEach((r) => {
           const e = this.mapReservationToEvent(r);
           events.push(e);
         });
-        console.log(events);
-
+        pending.forEach((r) => {
+          const e = this.mapReservationToEvent(r);
+          events.push(e);
+        });
+        managerSchedule.forEach((s) => {
+          const e = this.mapScheduleToEvent(s);
+          events.push(e);
+        });
         this.events$.next(events);
       },
     });
@@ -39,10 +53,6 @@ export class CalendarService {
     const endHour = Math.floor(reservation.endTime / 3600);
     const endMinutes = (reservation.endTime - endHour * 3600) / 60;
     endDate.setHours(endHour, endMinutes, 0);
-
-    console.log(
-      `${reservation.salonServices.map((service) => service.name).join('\n')}`
-    );
 
     return {
       id: reservation.id,
@@ -66,6 +76,38 @@ export class CalendarService {
             ? '<br><b>Confermato</b>'
             : '<br><b>Da confermare</b>'
         }
+        `,
+      },
+      classNames: ['appointment'],
+    };
+  }
+  mapScheduleToEvent(schedule: iManagerSchedule): iCalendarEvent {
+    const eventDate = new Date(schedule.date);
+
+    const startDate = new Date(eventDate);
+
+    const startHour = Math.floor(schedule.startTime / 3600);
+    const startMinutes = (schedule.startTime - startHour * 3600) / 60;
+    startDate.setHours(startHour, startMinutes, 0);
+
+    const endDate = new Date(eventDate);
+    const endHour = Math.floor(schedule.endTime / 3600);
+    const endMinutes = (schedule.endTime - endHour * 3600) / 60;
+    endDate.setHours(endHour, endMinutes, 0);
+
+    return {
+      id: schedule.id,
+      title: `Ferie`,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+      extendedProps: {
+        description: `
+       <b>Ora</b>: ${startHour}:${startMinutes}<br>
+       <b>Cliente</b>:
+
+        <b>Servizi</b>:
+        ${'<br>- '}
+
         `,
       },
       classNames: ['appointment'],

@@ -62,4 +62,70 @@ export class ReservationsService {
       {}
     );
   }
+
+  updateStatus(reservationId: string, status: string) {
+    return (
+      this.http
+        .patch<iReservationResponse>(
+          this.baseUrl + '/updateStatus/' + reservationId,
+          status
+        )
+        // .pipe(
+        //   tap((res) => {
+        //     console.log(status);
+
+        //     if (status === 'CONFIRMED') {
+        //       let pendingArr = this.$pendingReservations.getValue();
+        //       console.log(pendingArr);
+
+        //       let findPendingIndex = pendingArr.findIndex(
+        //         (reservation) => reservation.id === reservationId
+        //       );
+        //       console.log(findPendingIndex);
+        //       if (findPendingIndex != null) {
+        //         pendingArr.splice(findPendingIndex, 1);
+        //         console.log(pendingArr);
+
+        //         this.$pendingReservations.next(pendingArr);
+        //       }
+
+        //       let confirmedArr = this.$confirmedReservations.getValue();
+        //       confirmedArr.push(res);
+        //       this.$confirmedReservations.next(confirmedArr);
+        //     } else if (status === 'COMPLETED') {
+        //       let confirmedArr = this.$confirmedReservations.getValue();
+        //       let findConfirmedIndex = confirmedArr.findIndex(
+        //         (reservation) => reservation.id === reservationId
+        //       );
+        //       if (findConfirmedIndex != null) {
+        //         confirmedArr.splice(findConfirmedIndex, 1);
+        //         this.$confirmedReservations.next(confirmedArr);
+        //       }
+        //     } else if (status === 'CANCELLED') {
+        //       let pendingArr = this.$pendingReservations.getValue();
+        //       let findPendingIndex = pendingArr.findIndex(
+        //         (reservation) => reservation.id === reservationId
+        //       );
+        //       if (findPendingIndex != null) {
+        //         pendingArr.splice(findPendingIndex, 1);
+        //         this.$pendingReservations.next(pendingArr);
+        //       }
+        //       let confirmedArr = this.$confirmedReservations.getValue();
+        //       let findConfirmedIndex = confirmedArr.findIndex(
+        //         (reservation) => reservation.id === reservationId
+        //       );
+        //       if (findConfirmedIndex != null) {
+        //         confirmedArr.splice(findConfirmedIndex, 1);
+        //         this.$confirmedReservations.next(confirmedArr);
+        //       }
+        //     }
+        //   })
+        // );
+        .pipe(
+          tap((res) => {
+            this.getConfirmedAndPending().subscribe();
+          })
+        )
+    );
+  }
 }

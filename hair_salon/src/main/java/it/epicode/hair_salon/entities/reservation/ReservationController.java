@@ -49,6 +49,22 @@ public class ReservationController {
         return ResponseEntity.ok(reservationSvc.findConfirmedAndPending());
     }
 
+    @PatchMapping("/updateStatus/{reservationId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ReservationResponse> updateStatus(@PathVariable UUID reservationId, @RequestBody String status) {
+        Status statusEnum = Status.valueOf(status);
+        System.out.println(statusEnum);
+        return ResponseEntity.ok(reservationSvc.updateStatus(reservationId, statusEnum));
+    }
+
+    @PostMapping("/byAdminWithCustomer")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> createReservationByAdminWithCustomer(@RequestBody ReservationCreateRequest reservationCreateRequest, @RequestParam UUID customerId) {
+        return ResponseEntity.ok(reservationSvc.createReservationByAdminWithCustomer(reservationCreateRequest, customerId));
+    }
+
+
+
     @PatchMapping("/cancelReservation/{reservationId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReservationResponseForCustomer> cancelReservation(@PathVariable String reservationId, @AuthenticationPrincipal User userDetails) {

@@ -28,7 +28,7 @@ public class ManagerScheduleSvc {
         // Modificare il ritorno togliendo il .toString()
 
         //Controllo se ha un range di date o un singolo giorno
-        if (managerScheduleCreateRequest.getEndDate() == null) {
+        if (managerScheduleCreateRequest.getEndDate() == null || managerScheduleCreateRequest.getStartDate().equals(managerScheduleCreateRequest.getEndDate())) {
             // Se è un singolo giorno controllo se ha un range di orari
             if ((managerScheduleCreateRequest.getStartTime() == null && managerScheduleCreateRequest.getEndTime() == null) ||
                     (managerScheduleCreateRequest.getStartTime() == 0 && managerScheduleCreateRequest.getEndTime() == 0)) {

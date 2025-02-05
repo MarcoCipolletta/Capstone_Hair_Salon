@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/manager_schedule")
+@RequestMapping("/manager-schedule")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class ManagerScheduleController {

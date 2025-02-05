@@ -1,10 +1,7 @@
 package it.epicode.hair_salon.entities.customer;
 
 import it.epicode.hair_salon.auth.AuthUser;
-import it.epicode.hair_salon.entities.customer.dto.CustomerCreateRequest;
-import it.epicode.hair_salon.entities.customer.dto.CustomerMapper;
-import it.epicode.hair_salon.entities.customer.dto.CustomerResponse;
-import it.epicode.hair_salon.entities.customer.dto.CustomerResponseForAuthResponse;
+import it.epicode.hair_salon.entities.customer.dto.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -63,11 +60,7 @@ public class CustomerSvc {
         return customerRepo.save(customer);
     }
 
-    public Customer createGuest( CustomerCreateRequest customerCreateRequest) {
-        Customer customer = new Customer();
-        BeanUtils.copyProperties(customerCreateRequest, customer);
-        return customerRepo.save(customer);
-    }
+
 
     @Transactional
     public Customer update(@Valid CustomerResponseForAuthResponse customerResponseForAuthResponse, AuthUser authUser) {

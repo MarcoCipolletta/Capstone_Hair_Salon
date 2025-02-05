@@ -12,10 +12,14 @@ import { TimeConversionSvcService } from '../../../services/time-conversion-svc.
 export class AppointmentsListComponent {
   confirmedReservation: iReservationResponse[] = [];
   pendingReservation: iReservationResponse[] = [];
+
   constructor(
     private reservationSvc: ReservationsService,
     protected timeConverterSvc: TimeConversionSvcService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.reservationSvc.getConfirmedAndPending().subscribe();
     combineLatest([
       this.reservationSvc.$confirmedReservations,
       this.reservationSvc.$pendingReservations,
@@ -23,8 +27,30 @@ export class AppointmentsListComponent {
       next: ([confirmedReservations, pendingReservations]) => {
         this.confirmedReservation = confirmedReservations;
         this.pendingReservation = pendingReservations;
-        console.log(this.confirmedReservation);
-        console.log(this.pendingReservation);
+      },
+    });
+  }
+
+  cancelReservation(reservationId: string) {
+    this.reservationSvc.updateStatus(reservationId, 'CANCELLED').subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+    });
+  }
+
+  confirmReservation(reservationId: string) {
+    this.reservationSvc.updateStatus(reservationId, 'CONFIRMED').subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+    });
+  }
+
+  completeReservation(reservationId: string) {
+    this.reservationSvc.updateStatus(reservationId, 'COMPLETED').subscribe({
+      next: (res) => {
+        console.log(res);
       },
     });
   }

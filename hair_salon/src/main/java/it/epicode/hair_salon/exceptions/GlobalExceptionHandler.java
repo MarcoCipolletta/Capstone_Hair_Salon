@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.exceptions;
 
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = EntityExistsException.class)
     protected ResponseEntity<ErrorMessage> entityExists(EntityExistsException ex) {
         ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(e, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(value = MalformedJwtException.class)
+    protected ResponseEntity<ErrorMessage> alformedJwtException(MalformedJwtException ex) {
+        ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(e, HttpStatus.CONFLICT);
     }
 

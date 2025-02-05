@@ -12,6 +12,20 @@
 .fc-event.appointment .fc-event-time {
   color: $background !important;
 }
+.holiday {
+  background-color: $text !important;
+  border: 2px solid $secondary !important;
+  padding: 0.25rem;
+  color: #000000 !important;
+  font-weight: bold;
+}
+.fc-event.holiday .fc-event-title {
+  color: $background !important;
+}
+
+.fc-event.holiday .fc-event-time {
+  color: $background !important;
+}
 
 .tippy-box[data-theme~="light"] {
   background-color: $background;

@@ -137,6 +137,13 @@ a {
       border: 1px solid $accent;
       box-shadow: 0 0 14px 0.25rem #88425a5e;
       color: #5e3241;
+      outline: none;
+    }
+    &:focus-visible {
+      border: 1px solid $accent;
+      box-shadow: 0 0 14px 0.25rem #88425a5e;
+      color: #5e3241;
+      outline: none;
     }
   }
 }

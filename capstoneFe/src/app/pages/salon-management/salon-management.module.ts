@@ -12,6 +12,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarComponent } from './calendar/calendar.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppointmentsListComponent } from './appointments-list/appointments-list.component';
+import { AddHolidaysComponent } from './add-holidays/add-holidays.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,12 +24,14 @@ import { AppointmentsListComponent } from './appointments-list/appointments-list
     CustomersComponent,
     CalendarComponent,
     AppointmentsListComponent,
+    AddHolidaysComponent,
   ],
   imports: [
     CommonModule,
     SalonManagementRoutingModule,
     NgIcon,
     FullCalendarModule,
+    FormsModule,
   ],
 })
 export class SalonManagementModule {}

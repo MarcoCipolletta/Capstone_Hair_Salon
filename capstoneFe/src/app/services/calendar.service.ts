@@ -82,18 +82,23 @@ export class CalendarService {
     };
   }
   mapScheduleToEvent(schedule: iManagerSchedule): iCalendarEvent {
+    if (schedule.typeSchedule === 'HOLIDAY') {
+      return this.mapHolidayToEvent(schedule);
+    } else {
+      return this.mapHolidayToEvent(schedule);
+    }
+  }
+
+  private mapHolidayToEvent(schedule: iManagerSchedule): iCalendarEvent {
     const eventDate = new Date(schedule.date);
 
     const startDate = new Date(eventDate);
 
-    const startHour = Math.floor(schedule.startTime / 3600);
-    const startMinutes = (schedule.startTime - startHour * 3600) / 60;
-    startDate.setHours(startHour, startMinutes, 0);
+    startDate.setHours(6, 0, 0);
+    console.log(startDate);
 
     const endDate = new Date(eventDate);
-    const endHour = Math.floor(schedule.endTime / 3600);
-    const endMinutes = (schedule.endTime - endHour * 3600) / 60;
-    endDate.setHours(endHour, endMinutes, 0);
+    endDate.setHours(22, 0, 0);
 
     return {
       id: schedule.id,
@@ -101,16 +106,9 @@ export class CalendarService {
       start: startDate.toISOString(),
       end: endDate.toISOString(),
       extendedProps: {
-        description: `
-       <b>Ora</b>: ${startHour}:${startMinutes}<br>
-       <b>Cliente</b>:
-
-        <b>Servizi</b>:
-        ${'<br>- '}
-
-        `,
+        description: 'Chiuso per ferie',
       },
-      classNames: ['appointment'],
+      classNames: ['holiday'],
     };
   }
 }

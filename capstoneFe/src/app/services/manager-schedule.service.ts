@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { BehaviorSubject, tap } from 'rxjs';
 import { iManagerSchedule } from '../interfaces/managerSchedule/i-manager-schedule';
+import { iCreateManagerSchedule } from '../interfaces/managerSchedule/i-manager-schedule-create';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class ManagerScheduleService {
     );
   }
 
-  createSchedule(managerSchedule: iManagerSchedule) {
+  createSchedule(managerSchedule: iCreateManagerSchedule) {
     return this.http.post<iManagerSchedule>(this.baseUrl, managerSchedule);
   }
 }

@@ -43,6 +43,12 @@ public class ReservationController {
         return ResponseEntity.ok(reservationSvc.findAllByLoggedCustomer(userDetails));
     }
 
+    @GetMapping("/confirmedAndPending")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<ReservationResponse>> findConfirmedAndPending() {
+        return ResponseEntity.ok(reservationSvc.findConfirmedAndPending());
+    }
+
     @PatchMapping("/cancelReservation/{reservationId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReservationResponseForCustomer> cancelReservation(@PathVariable String reservationId, @AuthenticationPrincipal User userDetails) {

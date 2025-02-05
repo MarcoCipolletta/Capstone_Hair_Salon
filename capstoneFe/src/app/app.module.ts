@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './main-component/header/header.component';
 import { FooterComponent } from './main-component/footer/footer.component';
 import { NgIconsModule } from '@ng-icons/core';

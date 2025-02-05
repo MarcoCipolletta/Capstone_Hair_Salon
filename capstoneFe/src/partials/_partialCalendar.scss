@@ -1,0 +1,23 @@
+.appointment {
+  background-color: $primary !important;
+  border: 2px solid $secondary !important;
+  padding: 0.25rem;
+  color: #000000 !important;
+  font-weight: bold;
+}
+.fc-event.appointment .fc-event-title {
+  color: $background !important;
+}
+
+.fc-event.appointment .fc-event-time {
+  color: $background !important;
+}
+
+.tippy-box[data-theme~="light"] {
+  background-color: $background;
+  color: $text;
+  border: 1px solid $text;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+}

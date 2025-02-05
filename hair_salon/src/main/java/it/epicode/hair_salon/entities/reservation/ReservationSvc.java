@@ -38,6 +38,14 @@ public class ReservationSvc {
         return reservationMapper.toReservationResponseList(reservations);
     }
 
+    public List<ReservationResponse> findConfirmedAndPending(){
+        List<Reservation> reservations = reservationRepo.findByStatusIn(List.of(Status.CONFIRMED, Status.PENDING));
+        return reservationMapper.toReservationResponseList(reservations);
+
+    }
+
+
+
     public Reservation findById(UUID id) {
         return reservationRepo.findById(id).orElseThrow(() ->new EntityNotFoundException("Prenotazione non trovata"));
     }

@@ -10,6 +10,8 @@ import { ServicesComponent } from './services/services.component';
 import { CustomersComponent } from './customers/customers.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarComponent } from './calendar/calendar.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppointmentsListComponent } from './appointments-list/appointments-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     ServicesComponent,
     CustomersComponent,
     CalendarComponent,
+    AppointmentsListComponent,
   ],
   imports: [
     CommonModule,

@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import {
-  CalendarOptions,
-  DateSelectArg,
-  EventClickArg,
-} from '@fullcalendar/core/index.js';
+import { CalendarOptions, EventClickArg } from '@fullcalendar/core/index.js';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { ReservationsService } from '../../../services/reservations.service';
 import { CalendarService } from '../../../services/calendar.service';
+import tippy from 'tippy.js';
+// import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale-extreme.css';
+import { iCalendarEvent } from '../../../interfaces/i-calendar-event';
 
 @Component({
   selector: 'app-calendar',
@@ -16,7 +16,6 @@ import { CalendarService } from '../../../services/calendar.service';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent {
-  private reservationSvc = inject(ReservationsService);
   private calendarSvc = inject(CalendarService);
 
   calendarOptions: CalendarOptions = {
@@ -43,6 +42,7 @@ export class CalendarComponent {
     slotMinTime: '07:00:00',
     slotMaxTime: '21:30:00',
     slotLabelInterval: '00:30:00',
+    height: '100%',
     slotLabelFormat: {
       hour: 'numeric',
       minute: '2-digit',
@@ -50,28 +50,24 @@ export class CalendarComponent {
       hour12: false,
       meridiem: false,
     },
-    eventClick: (arg) => this.handleEventClick(arg),
 
+    eventDidMount: (info) => {
+      tippy(info.el, {
+        content: info.event.extendedProps['description'], // Testo del tooltip
+        allowHTML: true, // Se vuoi supportare HTML nel tooltip
+        placement: 'top', // Posizione del tooltip (top, bottom, left, right)
+        theme: 'light', // Tema chiaro (puoi cambiarlo con CSS)
+        trigger: 'click',
+        animation: 'scale-extreme',
+        arrow: true,
+      });
+    },
     events: [],
   };
 
   ngOnInit() {
-    this.reservationSvc.getAllReservations().subscribe({
-      next: (res) => {
-        const events: any = [];
-        res.forEach((r) => {
-          const e = this.calendarSvc.mapReservationToEvent(r);
-          if (this.calendarOptions.events) events.push(e);
-        });
-        this.calendarOptions.events = events;
-      },
+    this.calendarSvc.events$.subscribe((res) => {
+      this.calendarOptions.events = res;
     });
-  }
-
-  handleDateClick(arg: any) {
-    alert('date click! ' + arg.dateStr);
-  }
-  handleEventClick(arg: EventClickArg) {
-    console.log('event clicked! ' + arg.event.title);
   }
 }

@@ -1,0 +1,26 @@
+.maxHeigtAppointment {
+  max-height: 64vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .reservation-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    &.pending {
+      flex-basis: 10%;
+      flex-grow: 0;
+    }
+    &.confirmed {
+      flex-basis: 90%;
+      flex-grow: 1;
+    }
+    .scrollable {
+      flex-grow: 1;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      padding: 10px;
+      border: none;
+    }
+  }
+}

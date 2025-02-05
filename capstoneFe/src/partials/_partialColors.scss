@@ -1,0 +1,20 @@
+$text: #0d1821;
+$background: #f0efec;
+$primary: #ae8b97;
+$secondary: #5e3241;
+$accent: #88425a;
+$warning: #ffc107;
+$danger: #891c1c;
+$success: $accent;
+
+$custom-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "accent": $accent,
+  "light": $background,
+  "dark": $text,
+  "warning": $warning,
+  "danger": $danger,
+  "success": $success,
+  "info": $secondary,
+);

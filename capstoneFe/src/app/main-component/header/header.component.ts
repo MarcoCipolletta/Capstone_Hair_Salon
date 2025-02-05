@@ -23,6 +23,8 @@ export class HeaderComponent {
       if (isLogged) {
         this.isLogged = isLogged;
         this.role = role;
+      } else {
+        this.isLogged = isLogged;
       }
     });
   }

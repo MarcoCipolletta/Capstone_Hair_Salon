@@ -4,26 +4,7 @@
 
 $font-family-sans-serif: "Josefin Sans", sans-serif;
 
-$text: #0d1821;
-$background: #f0efec;
-$primary: #ae8b97;
-$secondary: #5e3241;
-$accent: #88425a;
-$warning: #ffc107;
-$danger: #891c1c;
-$success: $accent;
-
-$custom-colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "accent": $accent,
-  "light": $background,
-  "dark": $text,
-  "warning": $warning,
-  "danger": $danger,
-  "success": $success,
-  "info": $secondary,
-);
+@import "./partials/partialColors";
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
@@ -67,7 +48,7 @@ $heights: (
 
 @for $i from 1 through 100 {
   .h-c-#{$i} {
-    width: #{$i * 1%};
+    height: #{$i * 1%};
   }
 }
 
@@ -159,3 +140,5 @@ a {
     }
   }
 }
+
+@import "./partials/_partialCalendar";

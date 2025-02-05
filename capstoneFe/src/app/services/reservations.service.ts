@@ -4,7 +4,7 @@ import { iReservationCreateRequest } from '../interfaces/reservation/i-reservati
 import { environment } from '../../environments/environment.development';
 import { iResponseStringMessage } from '../interfaces/i-response-string-message';
 import { iReservationResponse } from '../interfaces/reservation/i-reservation-response';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { iReservationResponseForCustomer } from '../interfaces/reservation/i-reservation-response-for-customer';
 
 @Injectable({
@@ -14,6 +14,9 @@ export class ReservationsService {
   constructor(private http: HttpClient) {}
 
   $newReservation = new BehaviorSubject<iReservationCreateRequest | null>(null);
+  $confirmedReservations = new BehaviorSubject<iReservationResponse[]>([]);
+  $pendingReservations = new BehaviorSubject<iReservationResponse[]>([]);
+  $allReservations = new BehaviorSubject<iReservationResponse[]>([]);
 
   baseUrl: string = environment.baseUrl + '/reservation';
 
@@ -25,7 +28,26 @@ export class ReservationsService {
   }
 
   getAllReservations() {
-    return this.http.get<iReservationResponse[]>(this.baseUrl);
+    return this.http.get<iReservationResponse[]>(this.baseUrl).pipe(
+      tap((res) => {
+        this.$allReservations.next(res);
+      })
+    );
+  }
+
+  getConfirmedAndPending() {
+    return this.http
+      .get<iReservationResponse[]>(this.baseUrl + '/confirmedAndPending')
+      .pipe(
+        tap((res) => {
+          this.$confirmedReservations.next(
+            res.filter((reservation) => reservation.status === 'CONFIRMED')
+          );
+          this.$pendingReservations.next(
+            res.filter((reservation) => reservation.status === 'PENDING')
+          );
+        })
+      );
   }
 
   getAllByLoggedUser() {

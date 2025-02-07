@@ -78,6 +78,10 @@ export class CardOpeningHourComponent {
       this.day.launchBreakEndTime = 0;
       this.day.launchBreakStartTime = 0;
     }
+    if (this.openAllDay) {
+      this.day.launchBreakEndTime = 0;
+      this.day.launchBreakStartTime = 0;
+    }
     this.openingHoursSvc.updateOpeningHour(this.day.id, this.day).subscribe();
   }
 

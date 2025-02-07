@@ -21,7 +21,6 @@ public class ManagerSchedule {
     @Enumerated(EnumType.STRING)
     private TypeSchedule typeSchedule;
 
-    private CustomerGuest customer;
 
     private String reason;
 

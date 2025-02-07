@@ -21,7 +21,7 @@ export class ConfirmReservationComponent {
 
   ngOnInit(): void {
     if (
-      this.authSvc.$isLogged.getValue() &&
+      this.authSvc.isLogged$.getValue() &&
       sessionStorage.getItem('newReservation')
     ) {
       this.reservation = JSON.parse(sessionStorage.getItem('newReservation')!);

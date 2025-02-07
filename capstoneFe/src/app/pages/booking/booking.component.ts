@@ -19,7 +19,7 @@ export class BookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.route.queryParams, this.authSvc.$isLogged]).subscribe(
+    combineLatest([this.route.queryParams, this.authSvc.isLogged$]).subscribe(
       ([params, logged]) => {
         this.isLogged = logged;
 

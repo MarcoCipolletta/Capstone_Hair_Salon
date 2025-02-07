@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthSvc } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'capstone';
+  isLoading = true;
+
+  constructor(private authSvc: AuthSvc) {
+    console.log(this.isLoading);
+    if (!localStorage.getItem('accessData')) {
+      this.isLoading = false;
+    }
+    this.authSvc.restoreUser()?.subscribe((res) => {
+      this.isLoading = false;
+    });
+  }
 }

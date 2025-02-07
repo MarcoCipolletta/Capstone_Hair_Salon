@@ -2,7 +2,6 @@ import { Component, inject, Input } from '@angular/core';
 import { iReservationResponseForCustomer } from '../../../interfaces/reservation/i-reservation-response-for-customer';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 import { ReservationsService } from '../../../services/reservations.service';
-import { DecodeTokenService } from '../../../services/decodeToken.service';
 
 @Component({
   selector: 'app-reservation-card',
@@ -12,17 +11,8 @@ import { DecodeTokenService } from '../../../services/decodeToken.service';
 export class ReservationCardComponent {
   protected timeConversionsSvc = inject(TimeConversionSvcService);
   private reservationSvc = inject(ReservationsService);
-  private decodeTokenSvc = inject(DecodeTokenService);
-
-  userRole!: string;
 
   @Input() reservation!: iReservationResponseForCustomer;
-
-  ngOnInit() {
-    this.decodeTokenSvc.userRole$.subscribe((res) => {
-      this.userRole = res;
-    });
-  }
 
   get status() {
     switch (this.reservation.status) {
@@ -48,17 +38,13 @@ export class ReservationCardComponent {
   }
 
   cancelReservation() {
-    if (this.userRole === 'USER') {
-      this.reservationSvc
-        .cancelReservationByUser(this.reservation.id)
-        .subscribe({
-          next: (res) => {
-            this.reservation = res;
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
+    this.reservationSvc.cancelReservationByUser(this.reservation.id).subscribe({
+      next: (res) => {
+        this.reservation = res;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

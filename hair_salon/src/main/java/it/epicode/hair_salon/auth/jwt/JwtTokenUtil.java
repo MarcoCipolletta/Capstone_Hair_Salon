@@ -77,9 +77,10 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String generateTokenResetPassword(AuthUser appUser) {
+
+    public String generateTokenResetPassword(AuthUser authUser) {
         return Jwts.builder()
-                .setSubject(appUser.getUsername())
+                .setSubject(authUser.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 *60*15))
                 .signWith(key)
@@ -99,6 +100,19 @@ public class JwtTokenUtil {
 
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public Boolean isValidToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            throw new SecurityException("Token non valido: " + e.getMessage());
+        }
+    }
+
 
 
 }

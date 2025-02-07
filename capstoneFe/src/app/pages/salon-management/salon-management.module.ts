@@ -10,7 +10,6 @@ import { ServicesComponent } from './services/services.component';
 import { CustomersComponent } from './customers/customers.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarComponent } from './calendar/calendar.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppointmentsListComponent } from './appointments-list/appointments-list.component';
 import { AddHolidaysComponent } from './add-holidays/add-holidays.component';
 import { FormsModule } from '@angular/forms';

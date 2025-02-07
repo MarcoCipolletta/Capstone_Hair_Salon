@@ -1,7 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { ReservationsService } from '../../../services/reservations.service';
 import { iReservationResponseForCustomer } from '../../../interfaces/reservation/i-reservation-response-for-customer';
-import { DecodeTokenService } from '../../../services/decodeToken.service';
 
 @Component({
   selector: 'app-my-reservation',

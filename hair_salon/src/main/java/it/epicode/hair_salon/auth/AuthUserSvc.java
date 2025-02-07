@@ -124,7 +124,9 @@ public class AuthUserSvc {
                 );
 
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                return new AuthResponse(jwtTokenUtil.generateToken(userDetails));
+                AuthUser authUser = getByUsername(userDetails.getUsername());
+
+                return new AuthResponse(jwtTokenUtil.generateToken(userDetails),authMapper.toAuthUserResponse(authUser));
             } catch (AuthenticationException e) {
                 throw new SecurityException("Credenziali non valide", e);
             }
@@ -146,6 +148,7 @@ public class AuthUserSvc {
 
     public String verifyTokenPasswordReset(String token, HttpServletResponse response) {
         try {
+            jwtTokenUtil.isValidToken(token);
             if (jwtTokenUtil.isTokenExpired(token)) {
                 response.sendRedirect("http://localhost:4200/error?message=Token non valido o scaduto");
                 return "Token non valido o scaduto";
@@ -200,7 +203,7 @@ public class AuthUserSvc {
         UserDetails newUserDetails = new User(authUser.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
 
         AuthUpdateResponse authUpdateResponse = new AuthUpdateResponse();
-        authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails)));
+        authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails),authMapper.toAuthUserResponse(authUser)));
         authUpdateResponse.setAuthUserResponse(authUserResponse);
         return authUpdateResponse;
 
@@ -226,6 +229,14 @@ public class AuthUserSvc {
         authUser.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         authUserRepo.save(authUser);
         return "Password cambiata con successo";
+    }
+
+    public AuthResponse restoreUser(String token){
+        jwtTokenUtil.isValidToken(token);
+        if(jwtTokenUtil.isTokenExpired(token)) throw new SecurityException("Token scaduto");
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        AuthUser authUser = getByUsername(username);
+        return new AuthResponse(token,authMapper.toAuthUserResponse(authUser));
     }
 
 }

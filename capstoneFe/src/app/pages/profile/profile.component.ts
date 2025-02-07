@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthSvc } from '../../auth/auth.service';
 import { iAuthUserResponse } from '../../auth/interfaces/i-auth-user-response';
-import { DecodeTokenService } from '../../services/decodeToken.service';
 import { combineLatest } from 'rxjs';
 import {
   AbstractControl,
@@ -17,11 +16,9 @@ import {
 })
 export class ProfileComponent {
   private authSvc = inject(AuthSvc);
-  private decodeTokenSvc = inject(DecodeTokenService);
   private fb = inject(FormBuilder);
 
   user!: iAuthUserResponse;
-  role!: string;
   form!: FormGroup;
   passForm!: FormGroup;
 

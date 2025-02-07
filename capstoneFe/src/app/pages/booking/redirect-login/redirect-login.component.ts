@@ -21,7 +21,7 @@ export class RedirectLoginComponent {
         queryParams: { page: 1 },
       });
     }
-    this.isLogged = this.authSvc.$isLogged.getValue();
+    this.isLogged = this.authSvc.isLogged$.getValue();
     if (this.isLogged) {
       this.router.navigate([], {
         relativeTo: this.route,

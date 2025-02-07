@@ -13,6 +13,8 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   if (!accessData) {
     return next(req);
   }
+  console.log(accessData);
+
   //altrimenti clono la richiesta e aggiungo il token
   const newRequest = req.clone({
     headers: req.headers.append('Authorization', `Bearer ${accessData.token}`),

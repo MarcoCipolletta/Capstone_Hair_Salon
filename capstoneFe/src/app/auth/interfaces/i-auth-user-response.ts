@@ -4,5 +4,6 @@ export interface iAuthUserResponse {
   username: string;
   email: string;
   avatar: string;
+  role: string;
   customer?: iCustomerResponseForAuthResponse;
 }

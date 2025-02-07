@@ -81,4 +81,9 @@ public class AuthController {
         response.put("message", message);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/restoreUser/{token}")
+    public ResponseEntity<AuthResponse> restoreUser(@PathVariable String token) {
+        return new ResponseEntity<>(authUserSvc.restoreUser(token), HttpStatus.OK);
+    }
 }

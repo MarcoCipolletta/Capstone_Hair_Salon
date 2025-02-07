@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { iAccess } from './interfaces/i-access';
-import { DecodeTokenService } from '../services/decodeToken.service';
 import { iRegisterRequest } from './interfaces/i-register-request';
 import { iLoginRequest } from './interfaces/i-login-request';
 import { iPasswordResetRequest } from './interfaces/i-password-reset-request';
@@ -20,17 +19,30 @@ import { iAuthUpdateResponse } from './interfaces/i-auth-update-response';
 export class AuthSvc {
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private decodeToken: DecodeTokenService
+    private router: Router // private decodeToken: DecodeTokenService
   ) {
-    this.restoreUser();
+    // setTimeout(() => {
+    //   this.restoreUser();
+    // }, 1);
+    this.userAuthSubject$.subscribe((res) => {
+      if (res?.user) {
+        this.isLogged$.next(true);
+        this.userRole$.next(res.user.role);
+      } else {
+        this.isLogged$.next(false);
+        this.userRole$.next('');
+      }
+    });
   }
+
   private jwtHelper: JwtHelperService = new JwtHelperService();
 
-  userAuthSubject$ = new BehaviorSubject<iAccess | null>(null);
-
   baseUrl: string = environment.baseUrl + '/auth';
-  $isLogged = new BehaviorSubject<boolean>(false);
+
+  userAuthSubject$ = new BehaviorSubject<iAccess | null>(null);
+  isLogged$ = new BehaviorSubject<boolean>(false);
+  userRole$ = new BehaviorSubject<string>('');
+
   autoLogoutTimer: any;
 
   register(user: iRegisterRequest) {
@@ -43,18 +55,17 @@ export class AuthSvc {
   login(userDates: iLoginRequest) {
     // qui uso una post per proteggere i dati sensibili e creare un token lato server
     return this.http.post<iAccess>(this.baseUrl + '/login', userDates).pipe(
-      tap((dati) => {
+      tap((data) => {
         setTimeout(() => {
-          console.log('Dati login', dati);
+          console.log('Dati login', data);
 
-          this.userAuthSubject$.next(dati);
-          this.$isLogged.next(true);
+          this.userAuthSubject$.next(data);
 
-          localStorage.setItem('accessData', JSON.stringify(dati));
-          this.decodeToken.userRole$.next(this.decodeToken.getRole());
+          localStorage.setItem('accessData', JSON.stringify(data.token));
+          // this.decodeToken.userRole$.next(this.decodeToken.getRole());
 
           //recupero la data di scadenza del token
-          const date = this.jwtHelper.getTokenExpirationDate(dati.token);
+          const date = this.jwtHelper.getTokenExpirationDate(data.token);
           if (date) this.autoLogout(date);
         }, 1000);
       })
@@ -69,8 +80,11 @@ export class AuthSvc {
           console.log(data);
 
           this.userAuthSubject$.next(data.authResponse);
-          this.decodeToken.userRole$.next(this.decodeToken.getRole());
-          localStorage.setItem('accessData', JSON.stringify(data.authResponse));
+          // this.decodeToken.userRole$.next(this.decodeToken.getRole());
+          localStorage.setItem(
+            'accessData',
+            JSON.stringify(data.authResponse.token)
+          );
 
           const date = this.jwtHelper.getTokenExpirationDate(
             data.authResponse.token
@@ -82,8 +96,6 @@ export class AuthSvc {
 
   logout() {
     this.userAuthSubject$.next(null);
-    this.decodeToken.userRole$.next('');
-    this.$isLogged.next(false);
 
     localStorage.removeItem('accessData');
     this.router.navigate(['/auth']);
@@ -99,19 +111,32 @@ export class AuthSvc {
   }
 
   restoreUser() {
+    console.log('Restore');
+
     const userJson: string | null = localStorage.getItem('accessData');
     if (!userJson) return;
 
-    const accessdata: iAccess = JSON.parse(userJson);
+    const accessdata: string = JSON.parse(userJson);
+    console.log(accessdata);
 
-    if (this.jwtHelper.isTokenExpired(accessdata.token)) {
-      localStorage.removeItem('accessData');
-      return;
-    }
+    return this.http
+      .get<iAccess>(this.baseUrl + '/restoreUser/' + accessdata)
+      .pipe(
+        tap((res) => {
+          console.log(res);
 
-    this.userAuthSubject$.next(accessdata);
-    this.$isLogged.next(true);
-    this.decodeToken.userRole$.next(this.decodeToken.getRole());
+          this.userAuthSubject$.next(res);
+          this.isLogged$.next(true);
+          const date = this.jwtHelper.getTokenExpirationDate(res.token);
+          if (date) this.autoLogout(date);
+        }),
+        catchError((err) => {
+          console.log(err);
+
+          this.logout();
+          return of();
+        })
+      );
   }
 
   resetPassword(passwordResetRequest: iPasswordResetRequest) {

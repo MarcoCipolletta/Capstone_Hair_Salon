@@ -18,6 +18,7 @@ import {
   NgbTimepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { AllClosingCardComponent } from './all-closing-card/all-closing-card.component';
+import { CardOpeningHourComponent } from './card-opening-hour/card-opening-hour.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AllClosingCardComponent } from './all-closing-card/all-closing-card.com
     AppointmentsListComponent,
     AddHolidaysComponent,
     AllClosingCardComponent,
+    CardOpeningHourComponent,
   ],
   imports: [
     CommonModule,

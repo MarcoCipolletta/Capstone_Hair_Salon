@@ -20,6 +20,7 @@ import {
   akarCircleMinus,
   akarCirclePlus,
   akarClock,
+  akarEdit,
   akarPeopleGroup,
   akarScissor,
 } from '@ng-icons/akar-icons';
@@ -41,6 +42,7 @@ import {
       akarClock,
       akarScissor,
       akarPeopleGroup,
+      akarEdit,
     }),
     NgbDropdownModule,
   ],

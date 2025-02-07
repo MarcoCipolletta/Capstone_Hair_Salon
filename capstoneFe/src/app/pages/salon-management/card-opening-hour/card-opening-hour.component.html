@@ -1,0 +1,130 @@
+<ng-container *ngIf="day">
+  <div
+    class="position-relative opening-card"
+    [ngClass]="{ 'border-card': !isEditing }"
+  >
+    <ng-container *ngIf="!isEditing">
+      <h3 class="text-center">{{ dayName }}</h3>
+      <ng-container *ngIf="!day.closed">
+        <ng-container
+          *ngIf="day.launchBreakEndTime > 0 && day.launchBreakStartTime > 0"
+        >
+          <p class="text-center mb-0 fs-5">
+            <b>Mattina:</b>
+            {{ timeConversionSvc.secondsToTime(day.openingTime) }} -
+            {{ timeConversionSvc.secondsToTime(day.launchBreakStartTime) }}
+          </p>
+          <p class="text-center mb-0 fs-5">
+            <b>Pomeriggio:</b>
+            {{ timeConversionSvc.secondsToTime(day.launchBreakEndTime) }} -
+            {{ timeConversionSvc.secondsToTime(day.closingTime) }}
+          </p>
+        </ng-container>
+        <ng-container
+          *ngIf="day.launchBreakEndTime === 0 && day.launchBreakStartTime === 0"
+        >
+          <p class="text-center mb-0 fs-5"><b>Orario continuato</b></p>
+          <p class="text-center mb-0 fs-5">
+            {{ timeConversionSvc.secondsToTime(day.openingTime) }} -
+            {{ timeConversionSvc.secondsToTime(day.closingTime) }}
+          </p>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="day.closed">
+        <p class="text-center align-middle mb-0 fs-5 fw-bolder">CHIUSO</p>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="isEditing">
+      <div
+        class="position-absolute top-0 start-0 w-100 editHour"
+        [ngClass]="{ 'border-card': isEditing }"
+      >
+        <h3 class="text-center">{{ dayName }}</h3>
+        <label for="closed" class="checkbox-container">
+          <input
+            type="checkbox"
+            name="closed"
+            id="closed"
+            [(ngModel)]="newDay.closed"
+          />
+          <span class="custom-checkbox"></span><span>CHIUSO</span>
+        </label>
+        <div *ngIf="!newDay.closed">
+          <label for="openAllDay" class="checkbox-container">
+            <input
+              type="checkbox"
+              name="openAllDay"
+              id="openAllDay"
+              [(ngModel)]="openAllDay"
+            />
+            <span class="custom-checkbox"></span><span>Orario continuato</span>
+          </label>
+          <div *ngIf="openAllDay">
+            <div class="d-flex flex-column">
+              <label for="openingTime" class="me-3">Orario di apertura</label>
+              <input
+                id="openingTime"
+                type="time"
+                name="openingTime"
+                [(ngModel)]="openingTime"
+              />
+              <label for="closingTime" class="me-3">Orario di chiusura</label>
+              <input
+                id="closingTime"
+                type="time"
+                name="closingTime"
+                [(ngModel)]="closingTime"
+              />
+            </div>
+          </div>
+          <div *ngIf="!openAllDay" class="d-flex flex-column">
+            <label for="openingTime" class="me-3">Orario di apertura</label>
+            <input
+              id="openingTime"
+              type="time"
+              name="openingTime"
+              [(ngModel)]="openingTime"
+            />
+            <label for="launchBreakStartTime" class="me-3"
+              >Inizio pausa pranzo</label
+            >
+            <input
+              id="launchBreakStartTime"
+              type="time"
+              name="launchBreakStartTime"
+              [(ngModel)]="launchBreakStartTime"
+            />
+            <label for="launchBreakEndTime" class="me-3"
+              >Fine pausa pranzo</label
+            >
+            <input
+              id="launchBreakEndTime"
+              type="time"
+              name="launchBreakEndTime"
+              [(ngModel)]="launchBreakEndTime"
+            />
+            <label for="closingTime" class="me-3">Orario di chiusura</label>
+            <input
+              id="closingTime"
+              type="time"
+              name="closingTime"
+              [(ngModel)]="closingTime"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+          <button class="btn btn-accent" (click)="save()">Salva</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-icon
+      name="akarEdit"
+      class="edit-icon"
+      [ngClass]="{ 'editing-icon': isEditing }"
+      role="button"
+      (click)="edit()"
+    ></ng-icon>
+  </div>
+</ng-container>

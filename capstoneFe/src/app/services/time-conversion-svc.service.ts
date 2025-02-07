@@ -8,8 +8,10 @@ export class TimeConversionSvcService {
 
   ngOnInist() {}
   secondsToTime(seconds: number) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor(seconds - hours * 3600) / 60;
+    const hours = parseInt(Math.floor(seconds / 3600).toFixed(0));
+    const minutes = parseInt(
+      (Math.floor(seconds - hours * 3600) / 60).toFixed(0)
+    );
     return `${hours < 10 ? `0${hours}` : hours}:${
       minutes < 10 ? `0${minutes}` : minutes
     }`;

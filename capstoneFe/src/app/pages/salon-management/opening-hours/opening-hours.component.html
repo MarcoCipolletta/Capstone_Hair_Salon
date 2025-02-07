@@ -1,1 +1,5 @@
-<p>opening-hours works!</p>
+<div class="row g-3">
+  <ng-container *ngFor="let day of days">
+    <app-card-opening-hour class="col-3" [day]="day"></app-card-opening-hour>
+  </ng-container>
+</div>

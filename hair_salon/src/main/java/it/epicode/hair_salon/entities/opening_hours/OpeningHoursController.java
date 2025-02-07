@@ -2,6 +2,8 @@ package it.epicode.hair_salon.entities.opening_hours;
 
 import it.epicode.hair_salon.entities.opening_hours.dto.OpeningHoursDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,26 +19,29 @@ public class OpeningHoursController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public OpeningHours createOpeningHours(@RequestBody OpeningHoursDTO openingHoursDTO) {
-        return openingHoursSvc.create(openingHoursDTO);
+    public ResponseEntity<OpeningHours> createOpeningHours(@RequestBody OpeningHoursDTO openingHoursDTO) {
+        return new ResponseEntity<>(openingHoursSvc.create(openingHoursDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
     // ALL
-    public List<OpeningHours> getOpeningHours() {return openingHoursSvc.findAll();}
+    public ResponseEntity<List<OpeningHours>> getOpeningHours() {
+
+        return new ResponseEntity<>(openingHoursSvc.findAll(),HttpStatus.OK);}
+
 
     @GetMapping("/{day}")
     // ALL
-    public OpeningHours getOpeningHoursByDay(@PathVariable DayOfWeek day) {
-        return openingHoursSvc.findByDay(day);
+    public ResponseEntity<OpeningHours> getOpeningHoursByDay(@PathVariable DayOfWeek day) {
+        return new ResponseEntity<>(openingHoursSvc.findByDay(day),HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public OpeningHours updateOpeningHours(@PathVariable UUID id, @RequestBody OpeningHours openingHours) {
+    public ResponseEntity<OpeningHours> updateOpeningHours(@PathVariable UUID id, @RequestBody OpeningHours openingHours) {
         if (!id.equals(openingHours.getId())) {
             throw new IllegalArgumentException("ID dell'URL e del body non corrispondono");
         }
-        return openingHoursSvc.update(openingHours);
+        return new ResponseEntity<>( openingHoursSvc.update(openingHours), HttpStatus.OK);
     }
 }

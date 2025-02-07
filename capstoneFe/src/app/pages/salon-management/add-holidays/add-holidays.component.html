@@ -1,4 +1,4 @@
-<h3>Gestisci ferie</h3>
+<h3>Gestione chiusure</h3>
 <div class="d-flex gap-3">
   <div>
     <input
@@ -42,25 +42,45 @@
     <input
       type="radio"
       name="closingType"
-      id="blockHour"
-      value="blockHour"
+      id="blockHours"
+      value="blockHours"
       [(ngModel)]="closingType"
       hidden
     />
     <label
-      for="blockHour"
+      for="blockHours"
       class="btn"
       [ngClass]="{
-        'btn-outline-secondary': closingType !== 'blockHour',
-        'btn-secondary': closingType === 'blockHour'
+        'btn-outline-secondary': closingType !== 'blockHours',
+        'btn-secondary': closingType === 'blockHours'
       }"
       >Blocca degli orari</label
+    >
+  </div>
+  <div>
+    <input
+      type="radio"
+      name="closingType"
+      id="allClosing"
+      value="allClosing"
+      [(ngModel)]="closingType"
+      hidden
+    />
+    <label
+      for="allClosing"
+      class="btn"
+      (click)="getClosing()"
+      [ngClass]="{
+        'btn-outline-secondary': closingType !== 'allClosing',
+        'btn-secondary': closingType === 'allClosing'
+      }"
+      >Tutte le chiusure</label
     >
   </div>
 </div>
 <ng-container *ngIf="closingType === 'holiday'">
   <div class="mt-3 d-flex align-items-center gap-3">
-    <div>
+    <div class="d-flex flex-column">
       <label for="startDate" class="me-3">Data inizio</label>
       <input
         id="startDate"
@@ -69,7 +89,7 @@
         [(ngModel)]="holiday.startDate"
       />
     </div>
-    <div>
+    <div class="d-flex flex-column">
       <label for="endDate" class="me-3">Data fine</label
       ><input
         id="endDate"
@@ -78,7 +98,7 @@
         [(ngModel)]="holiday.endDate"
       />
     </div>
-    <div>
+    <div class="d-flex flex-column">
       <label for="reason" class="me-3">Descrizione</label>
       <input
         type="text"
@@ -88,10 +108,102 @@
         [(ngModel)]="holiday.reason"
       />
     </div>
-    <div>
+    <div class="align-self-end ms-auto">
       <button class="btn btn-accent ms-2" (click)="addHoliday()">
         Aggiungi
       </button>
     </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="closingType === 'closingDay'">
+  <div class="mt-3 d-flex align-items-center gap-3">
+    <div class="d-flex flex-column">
+      <label for="startDate" class="me-3">Data</label>
+      <input
+        id="startDate"
+        type="date"
+        name="date"
+        [(ngModel)]="closingDay.startDate"
+      />
+    </div>
+    <div class="d-flex flex-column">
+      <label for="reason" class="me-3">Descrizione</label>
+      <input
+        type="text"
+        id="reason"
+        name="reason"
+        placeholder="Ci serve riposo!"
+        [(ngModel)]="closingDay.reason"
+      />
+    </div>
+    <div class="align-self-end ms-auto">
+      <button class="btn btn-accent ms-2" (click)="addHoliday()">
+        Aggiungi
+      </button>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="closingType === 'blockHours'">
+  <div class="mt-3 d-flex align-items-center gap-3">
+    <div class="d-flex flex-column">
+      <label for="startDate" class="me-3">Data</label>
+
+      <input
+        id="startDate"
+        type="date"
+        name="date"
+        [(ngModel)]="closingHours.startDate"
+      />
+    </div>
+    <div class="d-flex flex-column">
+      <label for="startDate" class="me-3">Ora inizio</label>
+
+      <input
+        id="startDate"
+        type="time"
+        name="date"
+        [(ngModel)]="closingHoursStartTime"
+        min="07:00"
+        max="21:30"
+        step="1800"
+      />
+    </div>
+    <div class="d-flex flex-column">
+      <label for="startDate" class="me-3">Ora fine</label>
+
+      <input
+        id="startDate"
+        type="time"
+        name="date"
+        [(ngModel)]="closingHoursEndTime"
+        min="07:00"
+        max="21:00"
+        step="1800"
+      />
+    </div>
+    <div class="d-flex flex-column">
+      <label for="reason" class="me-3">Descrizione</label>
+      <input
+        type="text"
+        id="reason"
+        name="reason"
+        placeholder="Ci serve riposo!"
+        [(ngModel)]="closingHours.reason"
+      />
+    </div>
+    <div class="align-self-end ms-auto">
+      <button class="btn btn-accent ms-2" (click)="addHoliday()">
+        Aggiungi
+      </button>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="closingType === 'allClosing'">
+  <div class="mt-3 row gap-3">
+    <ng-container *ngFor="let schedule of allClosing">
+      <div class="col-3">
+        <app-all-closing-card [schedule]="schedule"></app-all-closing-card>
+      </div>
+    </ng-container>
   </div>
 </ng-container>

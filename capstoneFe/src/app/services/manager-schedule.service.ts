@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.development';
 import { BehaviorSubject, tap } from 'rxjs';
 import { iManagerSchedule } from '../interfaces/managerSchedule/i-manager-schedule';
 import { iCreateManagerSchedule } from '../interfaces/managerSchedule/i-manager-schedule-create';
+import { iResponseStringMessage } from '../interfaces/i-response-string-message';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,22 @@ export class ManagerScheduleService {
   }
 
   createSchedule(managerSchedule: iCreateManagerSchedule) {
-    return this.http.post<iManagerSchedule>(this.baseUrl, managerSchedule);
+    return this.http
+      .post<iResponseStringMessage>(this.baseUrl, managerSchedule)
+      .pipe(
+        tap((res) => {
+          this.getAll().subscribe();
+        })
+      );
+  }
+
+  deleteSchedule(id: string) {
+    return this.http
+      .delete<iResponseStringMessage>(this.baseUrl + '/' + id)
+      .pipe(
+        tap((res) => {
+          this.getAll().subscribe();
+        })
+      );
   }
 }

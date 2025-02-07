@@ -3,6 +3,7 @@ import { iManagerSchedule } from '../../../interfaces/managerSchedule/i-manager-
 import { iCreateManagerSchedule } from '../../../interfaces/managerSchedule/i-manager-schedule-create';
 import { start } from '@popperjs/core';
 import { ManagerScheduleService } from '../../../services/manager-schedule.service';
+import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 
 @Component({
   selector: 'app-add-holidays',
@@ -11,6 +12,9 @@ import { ManagerScheduleService } from '../../../services/manager-schedule.servi
 })
 export class AddHolidaysComponent {
   private managerScheduleSvc = inject(ManagerScheduleService);
+  protected timeConversionSvc = inject(TimeConversionSvcService);
+
+  allClosing: iManagerSchedule[] = [];
 
   closingType: string = 'holiday';
   holiday: iCreateManagerSchedule = {
@@ -22,6 +26,18 @@ export class AddHolidaysComponent {
     })(),
     reason: '',
   };
+  closingDay: iCreateManagerSchedule = {
+    startDate: new Date().toISOString().split('T')[0],
+    reason: '',
+  };
+  closingHours: iCreateManagerSchedule = {
+    startDate: new Date().toISOString().split('T')[0],
+    startTime: 0,
+    endTime: 0,
+    reason: '',
+  };
+  closingHoursStartTime: string = '';
+  closingHoursEndTime: string = '';
 
   addHoliday() {
     if (this.closingType === 'holiday') {
@@ -40,6 +56,34 @@ export class AddHolidaysComponent {
             console.log(res);
           });
       }
+    } else if (this.closingType === 'closingDay') {
+      const date = new Date(this.closingDay.startDate);
+      this.managerScheduleSvc
+        .createSchedule(this.closingDay)
+        .subscribe((res) => {
+          console.log(res);
+        });
+    } else if (this.closingType === 'blockHours') {
+      this.closingHours.startTime = this.timeConversionSvc.timeToSeconds(
+        this.closingHoursStartTime.toString()
+      );
+      this.closingHours.endTime = this.timeConversionSvc.timeToSeconds(
+        this.closingHoursEndTime.toString()
+      );
+      this.managerScheduleSvc
+        .createSchedule(this.closingHours)
+        .subscribe((res) => {
+          console.log(res);
+        });
     }
   }
+  getClosing() {
+    if (this.closingType === 'allClosing') return;
+    this.managerScheduleSvc.managerSchedule$.subscribe((res) => {
+      this.allClosing = res;
+      console.log(res);
+    });
+  }
+
+
 }

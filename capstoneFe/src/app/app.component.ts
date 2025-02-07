@@ -11,7 +11,6 @@ export class AppComponent {
   isLoading = true;
 
   constructor(private authSvc: AuthSvc) {
-    console.log(this.isLoading);
     if (!localStorage.getItem('accessData')) {
       this.isLoading = false;
     }

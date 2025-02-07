@@ -18,6 +18,7 @@
   padding: 0.25rem;
   color: #000000 !important;
   font-weight: bold;
+  pointer-events: none;
 }
 .fc-event.holiday .fc-event-title {
   color: $background !important;

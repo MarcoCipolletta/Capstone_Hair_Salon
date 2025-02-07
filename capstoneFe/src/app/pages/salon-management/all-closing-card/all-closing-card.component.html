@@ -1,0 +1,37 @@
+<div class="card text-center h-100" *ngIf="schedule">
+  <div class="card-body pb-0">
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom"
+    >
+      <h5 class="card-title">
+        <p><b>Data: </b>{{ schedule.date | date : "dd/MM/yyyy" }}</p>
+      </h5>
+    </div>
+    <ng-container *ngIf="schedule.typeSchedule !== 'HOLIDAY'">
+      <div
+        class="d-flex justify-content-between align-items-center border-bottom pt-2"
+      >
+        <h5 class="card-title">Ora inizio:</h5>
+        <p>{{ timeConversionSvc.secondsToTime(schedule.startTime) }}</p>
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center border-bottom pt-2"
+      >
+        <h5 class="card-title">Ora fine:</h5>
+        <p>{{ timeConversionSvc.secondsToTime(schedule.endTime) }}</p>
+      </div>
+    </ng-container>
+    <div
+      class="d-flex justify-content-between align-items-center border-bottom pt-2"
+      *ngIf="schedule.reason !== ''"
+    >
+      <h5 class="card-title">Descrizione:</h5>
+      <p>{{ schedule.reason }}</p>
+    </div>
+  </div>
+  <div class="card-footer text-body-secondary">
+    <button class="btn btn-primary my-3" (click)="cancelSchedule(schedule.id)">
+      Annulla chiusura
+    </button>
+  </div>
+</div>

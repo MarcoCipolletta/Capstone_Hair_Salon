@@ -21,9 +21,6 @@ export class AuthSvc {
     private http: HttpClient,
     private router: Router // private decodeToken: DecodeTokenService
   ) {
-    // setTimeout(() => {
-    //   this.restoreUser();
-    // }, 1);
     this.userAuthSubject$.subscribe((res) => {
       if (res?.user) {
         this.isLogged$.next(true);
@@ -57,8 +54,6 @@ export class AuthSvc {
     return this.http.post<iAccess>(this.baseUrl + '/login', userDates).pipe(
       tap((data) => {
         setTimeout(() => {
-          console.log('Dati login', data);
-
           this.userAuthSubject$.next(data);
 
           localStorage.setItem('accessData', JSON.stringify(data.token));
@@ -77,8 +72,6 @@ export class AuthSvc {
       .put<iAuthUpdateResponse>(this.baseUrl + '/update', appUser)
       .pipe(
         tap((data) => {
-          console.log(data);
-
           this.userAuthSubject$.next(data.authResponse);
           // this.decodeToken.userRole$.next(this.decodeToken.getRole());
           localStorage.setItem(
@@ -111,28 +104,21 @@ export class AuthSvc {
   }
 
   restoreUser() {
-    console.log('Restore');
-
     const userJson: string | null = localStorage.getItem('accessData');
     if (!userJson) return;
 
     const accessdata: string = JSON.parse(userJson);
-    console.log(accessdata);
 
     return this.http
       .get<iAccess>(this.baseUrl + '/restoreUser/' + accessdata)
       .pipe(
         tap((res) => {
-          console.log(res);
-
           this.userAuthSubject$.next(res);
           this.isLogged$.next(true);
           const date = this.jwtHelper.getTokenExpirationDate(res.token);
           if (date) this.autoLogout(date);
         }),
         catchError((err) => {
-          console.log(err);
-
           this.logout();
           return of();
         })

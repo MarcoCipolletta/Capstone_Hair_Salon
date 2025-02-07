@@ -4,6 +4,7 @@ import it.epicode.hair_salon.entities.manager_schedule.dto.ManagerScheduleCreate
 import it.epicode.hair_salon.entities.reservation.Reservation;
 import it.epicode.hair_salon.entities.reservation.ReservationRepository;
 import it.epicode.hair_salon.entities.reservation.Status;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +35,9 @@ public class ManagerScheduleSvc {
             if ((managerScheduleCreateRequest.getStartTime() == null && managerScheduleCreateRequest.getEndTime() == null) ||
                     (managerScheduleCreateRequest.getStartTime() == 0 && managerScheduleCreateRequest.getEndTime() == 0)) {
                 // Se non ha un range di orari lo salvo come ferie e blocco tutto il giorno
-                if (existsHolidayByDate(managerScheduleCreateRequest.getStartDate()))
+                if (existsHolidayByDate(managerScheduleCreateRequest.getStartDate())) {
                     throw new IllegalArgumentException("Hai già impostato un giorno di ferie per quella data.");
+                }
                 if(existsBlockedByDate(managerScheduleCreateRequest.getStartDate())){
                     List<ManagerSchedule> alreadyExist = managerScheduleRepo.findByDate(managerScheduleCreateRequest.getStartDate());
                     alreadyExist.forEach(managerScheduleRepo::delete);
@@ -52,15 +55,19 @@ public class ManagerScheduleSvc {
             } else if (managerScheduleCreateRequest.getEndTime() != null &&
                     managerScheduleCreateRequest.getStartTime() != 0 &&
                     managerScheduleCreateRequest.getEndTime() != 0) {
+                if (managerScheduleRepo.existsHolidayByDate(managerScheduleCreateRequest.getStartDate()))
+                    throw new IllegalArgumentException("Hai già impostato un giorno di ferie per quella data.");
                 if (managerScheduleCreateRequest.getStartTime() > managerScheduleCreateRequest.getEndTime())
                     throw new IllegalArgumentException("L'ora di fine deve essere successiva all'ora di inizio");
+
                 if (managerScheduleRepo.existsOverlappingSchedules(
                         managerScheduleCreateRequest.getStartDate(),
                         managerScheduleCreateRequest.getStartTime(),
                         managerScheduleCreateRequest.getEndTime()
                 )) throw new IllegalArgumentException("Hai già bloccato quell'orario");
 
-                setCancelledByDate(managerScheduleCreateRequest.getStartDate(), "Ci dispiace per il disagio, abbiamo dovuto annullare la prenotazione: ");
+                // Da modificare, e levare solo gli orari sovrapposti
+//                setCancelledByDate(managerScheduleCreateRequest.getStartDate(), "Ci dispiace per il disagio, abbiamo dovuto annullare la prenotazione: ");
 
                 // Se ha un range di orari validi lo salvo come blocco
                 ManagerSchedule managerSchedule = new ManagerSchedule();
@@ -131,6 +138,14 @@ public class ManagerScheduleSvc {
         //Inviare email di eliminazione
             reservationRepo.save(reservation);
         }
+    }
+    public ManagerSchedule findById(UUID id) {
+        return managerScheduleRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Giorno di chiusura non trovato"));
+    }
 
+    public String delete(UUID id) {
+        ManagerSchedule managerSchedule = findById(id);
+        managerScheduleRepo.delete(managerSchedule);
+        return "Giorno di chiusura cancellato con successo";
     }
 }

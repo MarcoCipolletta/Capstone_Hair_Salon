@@ -1,1 +1,38 @@
-<p>customers works!</p>
+<div
+  class="d-flex justify-content-between align-items-center border-bottom pb-3"
+>
+  <div class="d-flex align-items-center">
+    <ngb-pagination
+      class="d-flex align-items-center"
+      size="sm"
+      [ellipses]="false"
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [maxSize]="5"
+      [boundaryLinks]="true"
+      [pageSize]="pageSize"
+      (pageChange)="loadCustomers()"
+    />
+  </div>
+  <div>
+    <label for="pageSize">Elementi</label>
+    <select
+      id="pageSize"
+      [(ngModel)]="pageSize"
+      class="form-select form-select-sm"
+      (change)="loadCustomers()"
+    >
+      <option selected value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+    </select>
+  </div>
+</div>
+<div class="row">
+  <ng-container *ngFor="let customer of customers">
+    <div class="mt-5 col-4">
+      <app-customer-card [customer]="customer"></app-customer-card>
+    </div>
+  </ng-container>
+</div>

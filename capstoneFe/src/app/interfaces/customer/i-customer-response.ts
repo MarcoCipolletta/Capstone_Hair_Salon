@@ -5,5 +5,5 @@ export interface iCustomerResponse {
   dateOfBirth: Date;
   phoneNumber: string;
   email: string;
-  Avatar: string;
+  avatar: string;
 }

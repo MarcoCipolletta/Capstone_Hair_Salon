@@ -22,14 +22,14 @@ public class CustomerSvc {
     private final CustomerRepository customerRepo;
     private final CustomerMapper mapper;
 
-    public List<CustomerResponse> findAll() {
+    public List<CustomerResponseForAdmin> findAll() {
         List<Customer> customers = customerRepo.findAll();
-        return customers.stream().map(mapper::toCustomerResponse).toList();
+        return customers.stream().map(mapper::toCustomerResponseForAdmin).toList();
     }
 
-    public Page<CustomerResponse> getAllPageable(Pageable pageable) {
+    public Page<CustomerResponseForAdmin> getAllPageable(Pageable pageable) {
         Page<Customer> customers = customerRepo.findAll(pageable);
-        return customers.map(mapper::toCustomerResponse);
+        return customers.map(mapper::toCustomerResponseForAdmin);
     }
 
     public Customer findByAuthUserUsername(String username) {
@@ -47,9 +47,9 @@ public class CustomerSvc {
 
 
 
-    public CustomerResponse findByIdResponse(UUID id) {
+    public CustomerResponseForAdmin findByIdResponse(UUID id) {
         Customer customer = customerRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User non trovato"));
-        return mapper.toCustomerResponse(customer);
+        return mapper.toCustomerResponseForAdmin(customer);
     }
 
     @Transactional

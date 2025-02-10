@@ -1,0 +1,17 @@
+<ng-container *ngIf="customer">
+  <div class="customer-card h-100">
+    <h3 class="text-capitalize">
+      {{ customer.name + " " + customer.surname }}
+    </h3>
+    <p>
+      <b>Data di nascita:</b> {{ customer.dateOfBirth | date : "dd/MM/yyyy" }}
+    </p>
+    <p><b>Telefono:</b> {{ customer.phoneNumber }}</p>
+    <p><b>Email:</b> {{ customer.email }}</p>
+    <p><b>Prenotazioni:</b> {{ customer.reservations.length }}</p>
+
+    <ng-container *ngIf="customer.reservations.length > 0"
+      ><button class="btn btn-accent">Vedi Prenotazioni</button></ng-container
+    >
+  </div>
+</ng-container>

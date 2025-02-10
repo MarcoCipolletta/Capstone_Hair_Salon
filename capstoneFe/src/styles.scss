@@ -148,4 +148,30 @@ a {
   }
 }
 
+.pagination.pagination-sm {
+  margin: 0;
+}
+
+.page-link {
+  color: $primary;
+  &:focus {
+    color: $accent;
+    background-color: #fff;
+    box-shadow: none;
+  }
+  &:hover {
+    color: $accent;
+    background-color: #fff;
+    box-shadow: none;
+  }
+}
+.page-link.active,
+.active > .page-link {
+  background-color: $accent;
+  border: 1px solid $secondary;
+  &:hover {
+    color: $primary;
+  }
+}
+
 @import "./partials/_partialCalendar";

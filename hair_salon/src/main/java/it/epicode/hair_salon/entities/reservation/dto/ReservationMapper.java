@@ -4,6 +4,7 @@ import it.epicode.hair_salon.entities.customer.dto.CustomerMapper;
 import it.epicode.hair_salon.entities.reservation.Reservation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class ReservationMapper {
     private final ModelMapper modelMapper = new ModelMapper();
     @Autowired
+    @Lazy
     private CustomerMapper customerMapper;
 
 

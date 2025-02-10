@@ -7,7 +7,7 @@ import { AuthSvc } from './auth/auth.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'capstone';
+  title = 'Nicoletta & Sandro';
   isLoading = true;
 
   constructor(private authSvc: AuthSvc) {

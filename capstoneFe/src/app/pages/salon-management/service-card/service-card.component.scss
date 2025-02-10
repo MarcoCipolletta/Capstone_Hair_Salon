@@ -1,0 +1,41 @@
+@import "../../../../partials/partialColors";
+
+.service-card {
+  padding: 0.5rem 0.75rem;
+  height: 100%;
+}
+
+.border-card {
+  border: 2px solid $secondary;
+}
+
+.px-9 {
+  padding-inline: 9rem;
+}
+
+.editService {
+  padding: 0.5rem 0.75rem;
+  background-color: $background;
+  z-index: 1000;
+}
+
+.badge {
+  font-size: 0.5rem;
+  rotate: -15deg;
+  top: 0;
+  translate: 15% -50%;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 1.5rem;
+  transform: translate(50%, -50%);
+  background-color: $background;
+  color: $warning;
+}
+
+.editing-icon {
+  z-index: 1001;
+}

@@ -12,15 +12,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AppointmentsListComponent } from './appointments-list/appointments-list.component';
 import { AddHolidaysComponent } from './add-holidays/add-holidays.component';
-import { FormsModule } from '@angular/forms';
-import {
-  NgbCollapseModule,
-  NgbDatepickerModule,
-  NgbTimepickerModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { AllClosingCardComponent } from './all-closing-card/all-closing-card.component';
 import { CardOpeningHourComponent } from './card-opening-hour/card-opening-hour.component';
 import { ServiceCardComponent } from './service-card/service-card.component';
+import { CreateServiceComponent } from './create-service/create-service.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +32,7 @@ import { ServiceCardComponent } from './service-card/service-card.component';
     AllClosingCardComponent,
     CardOpeningHourComponent,
     ServiceCardComponent,
+    CreateServiceComponent,
   ],
   imports: [
     CommonModule,
@@ -42,9 +40,8 @@ import { ServiceCardComponent } from './service-card/service-card.component';
     NgIcon,
     FullCalendarModule,
     FormsModule,
-    NgbTimepickerModule,
-    NgbDatepickerModule,
     NgbCollapseModule,
+    ReactiveFormsModule,
   ],
 })
 export class SalonManagementModule {}

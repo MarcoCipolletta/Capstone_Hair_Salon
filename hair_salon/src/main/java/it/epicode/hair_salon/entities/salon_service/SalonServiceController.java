@@ -38,7 +38,7 @@ public class SalonServiceController {
         String message = salonServiceSvc.create(salonServiceCreateRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -61,6 +61,14 @@ public class SalonServiceController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PatchMapping("/hide/{id}")
+    // ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String, String>> hide(@PathVariable UUID id,@RequestBody boolean hidden) {
+        String message = salonServiceSvc.updateHiddenValue(id, hidden);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.OK);}
 
 
 

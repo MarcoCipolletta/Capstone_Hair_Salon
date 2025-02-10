@@ -13,10 +13,10 @@ public class SalonServiceResponse {
     private UUID id;
     @NotBlank(message = "Il nome é richiesto")
     private String name;
-    @NotBlank(message = "La descrizione é richiesta")
     private String description;
     @NotNull(message = "Il prezzo é richiesto")
     private double price;
     @NotNull(message = "La durata é richiesta")
     private long duration;
+    private boolean hidden;
 }

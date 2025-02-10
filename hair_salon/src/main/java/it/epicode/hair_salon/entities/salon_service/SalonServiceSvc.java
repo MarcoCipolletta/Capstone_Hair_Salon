@@ -1,11 +1,13 @@
 package it.epicode.hair_salon.entities.salon_service;
 
+import it.epicode.hair_salon.entities.reservation.ReservationRepository;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceCreateRequest;
 import it.epicode.hair_salon.entities.salon_service.dto.SalonServiceResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Validated
 public class SalonServiceSvc {
     private final SalonServiceRepository salonServiceRepo;
+    private final ReservationRepository reservationRepo;
 
     public String create(@Valid SalonServiceCreateRequest salonServiceCreateRequest) {
         SalonService salonService = new SalonService();
@@ -38,6 +41,9 @@ public class SalonServiceSvc {
     }
 
     public String delete(UUID id) {
+        if (reservationRepo.existsBySalonServicesId(id)) {
+            throw new IllegalArgumentException("Impossibile cancellare il servizio, perchè è già stato prenotato");
+        }
         SalonService salonService = findById(id);
         salonServiceRepo.delete(salonService);
         return "Servizio cancellato con successo";
@@ -51,12 +57,19 @@ public class SalonServiceSvc {
     }
 
     public List<SalonServiceResponse> findAllResponse() {
-        List<SalonService> salonServices = salonServiceRepo.findAll();
+        List<SalonService> salonServices = salonServiceRepo.findAll(Sort.by(Sort.Order.by("name").ignoreCase()));
         return salonServices.stream().map(s -> {
             SalonServiceResponse salonServiceResponse = new SalonServiceResponse();
             BeanUtils.copyProperties(s, salonServiceResponse);
             return salonServiceResponse;
         }).toList();
+    }
+
+    public String updateHiddenValue(UUID id, boolean hidden) {
+        SalonService salonService = findById(id);
+        salonService.setHidden(hidden);
+        salonServiceRepo.save(salonService);
+        return "Servizio aggiornato con successo";
     }
 
 

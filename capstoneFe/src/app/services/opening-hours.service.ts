@@ -22,12 +22,6 @@ export class OpeningHoursService {
   }
 
   updateOpeningHour(id: string, openingHour: iOpeningHour) {
-    return this.http
-      .put<iOpeningHour>(this.baseUrl + '/' + id, openingHour)
-      .pipe(
-        tap((res) => {
-          this.getAll().subscribe();
-        })
-      );
+    return this.http.put<iOpeningHour>(this.baseUrl + '/' + id, openingHour);
   }
 }

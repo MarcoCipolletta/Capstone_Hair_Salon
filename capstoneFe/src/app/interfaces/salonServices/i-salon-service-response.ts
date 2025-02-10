@@ -4,4 +4,5 @@ export interface iSalonServiceResponse {
   description: string;
   price: number;
   duration: number;
+  hidden: boolean;
 }

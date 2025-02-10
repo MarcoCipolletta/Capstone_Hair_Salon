@@ -14,12 +14,16 @@ export class ServicesComponent {
   isCollapsed2 = true;
 
   ngOnInit() {
-    this.salonServicesSvc.getAllServices().subscribe((res) => {
+    this.salonServicesSvc.allServices$.subscribe((res) => {
       this.services = res;
     });
+    this.salonServicesSvc.getAllServices().subscribe();
   }
 
   open1() {
+    if (!this.isCollapsed2) {
+      this.salonServicesSvc.getAllServices().subscribe();
+    }
     this.isCollapsed1 = false;
     this.isCollapsed2 = true;
   }

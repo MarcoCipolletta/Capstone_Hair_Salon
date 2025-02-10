@@ -21,6 +21,7 @@ public class SalonService {
     private String description;
     private double price;
     private Long duration;
+    private boolean hidden;
     
 //    @ManyToMany
 //    private List<Reservation> reservations = new ArrayList<>();

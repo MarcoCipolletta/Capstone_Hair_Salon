@@ -15,5 +15,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
 
     List<Reservation> findByStatusIn(List<Status> statuses);
 
+    boolean existsBySalonServicesId(UUID salonServicesID);
+
 
 }

@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment.development';
 import { iSalonServiceResponse } from '../interfaces/salonServices/i-salon-service-response';
 import { iSalonServiceCreateRequest } from '../interfaces/salonServices/i-salon-service-create-request';
 import { iResponseStringMessage } from '../interfaces/i-response-string-message';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,14 @@ export class SalonservicesService {
   private baseUrl = environment.baseUrl + '/salon-service';
 
   $selctedService = new BehaviorSubject<iSalonServiceResponse[]>([]);
+  allServices$ = new BehaviorSubject<iSalonServiceResponse[]>([]);
 
   getAllServices() {
-    return this.http.get<iSalonServiceResponse[]>(this.baseUrl);
+    return this.http.get<iSalonServiceResponse[]>(this.baseUrl).pipe(
+      tap((res) => {
+        this.allServices$.next(res);
+      })
+    );
   }
 
   getServiceById(id: string) {
@@ -29,13 +34,22 @@ export class SalonservicesService {
   }
 
   updateService(salonService: iSalonServiceResponse, id: string) {
-    return this.http.patch<iSalonServiceResponse>(
-      this.baseUrl + '/' + id,
-      salonService
-    );
+    return this.http
+      .put<iSalonServiceResponse>(this.baseUrl + '/' + id, salonService)
+      .pipe(
+        tap((res) => {
+          this.getAllServices().subscribe();
+        })
+      );
   }
 
-  deleteService(id: string) {
-    return this.http.delete<iResponseStringMessage>(this.baseUrl + '/' + id);
+  updateHiddenService(id: string, hidden: boolean) {
+    return this.http
+      .patch<iResponseStringMessage>(this.baseUrl + '/hide/' + id, hidden)
+      .pipe(
+        tap((res) => {
+          this.getAllServices().subscribe();
+        })
+      );
   }
 }

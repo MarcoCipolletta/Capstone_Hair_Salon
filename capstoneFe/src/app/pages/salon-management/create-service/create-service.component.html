@@ -1,0 +1,87 @@
+<div class="py-3 px-2">
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="d-flex flex-column">
+      <label for="name" class="me-3">Nome servizio: </label>
+      <input type="text" name="name" id="name" formControlName="name" />
+      <div>
+        <span class="validator" role="alert" *ngIf="isInvalidTouched('name')"
+          ><ng-icon name="iconoirEmojiSad"></ng-icon>
+          {{ getError("name") }}</span
+        >
+      </div>
+    </div>
+
+    <div class="d-flex flex-column">
+      <label for="description" class=""
+        >Descrizione:
+        <span class="fw-light fs-8">&lpar;opzionale&rpar;</span>
+      </label>
+      <input
+        type="text"
+        name="description"
+        id="description"
+        formControlName="description"
+      />
+    </div>
+    <div class="d-flex flex-column">
+      <p class="me-3">Durata:</p>
+      <div class="d-flex gap-3">
+        <div class="d-flex flex-column">
+          <label for="hours" class="fs-7">Ore</label>
+          <input
+            type="number"
+            name="hours"
+            id="hours"
+            formControlName="durationHours"
+          />
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="isInvalidTouched('durationHours')"
+              ><ng-icon name="iconoirEmojiSad"></ng-icon>
+              {{ getError("durationHours") }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <label for="minutes" class="fs-7">Minuti</label>
+          <input
+            type="number"
+            name="minutes"
+            id="minutes"
+            formControlName="durationMinutes"
+          />
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="isInvalidTouched('durationMinutes')"
+              ><ng-icon name="iconoirEmojiSad"></ng-icon>
+              {{ getError("durationMinutes") }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column my-2">
+      <label for="price" class="me-2">Prezzo: </label>
+      <span>
+        <input type="number" name="price" id="price" formControlName="price" />
+        €
+      </span>
+      <div>
+        <span class="validator" role="alert" *ngIf="isInvalidTouched('price')"
+          ><ng-icon name="iconoirEmojiSad"></ng-icon>
+          {{ getError("price") }}</span
+        >
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button type="submit" class="btn btn-accent" [disabled]="form.invalid">
+        Salva
+      </button>
+    </div>
+  </form>
+</div>

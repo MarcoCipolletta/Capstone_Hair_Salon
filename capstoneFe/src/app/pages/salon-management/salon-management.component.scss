@@ -1,0 +1,10 @@
+@import "../../../partials/partialColors";
+
+.border-selection {
+  border: 1px solid #0d182186;
+}
+
+.active {
+  border-width: 2px;
+  border-color: $secondary;
+}

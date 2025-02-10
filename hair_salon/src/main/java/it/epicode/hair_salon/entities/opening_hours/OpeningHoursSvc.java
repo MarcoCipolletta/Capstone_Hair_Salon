@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,7 +26,9 @@ public class OpeningHoursSvc {
     }
 
     public List<OpeningHours> findAll() {
-        return openingHoursRepo.findAll();
+        List<OpeningHours> openingHours = openingHoursRepo.findAll();
+        openingHours.sort(Comparator.comparing(o -> o.getDay().getValue()));
+        return openingHours;
     }
 
     public OpeningHours findByDay(DayOfWeek day) {

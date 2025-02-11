@@ -1,0 +1,41 @@
+@import "../../../../partials/partialColors";
+.icon-back {
+  color: $primary;
+  font-size: 2.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: $accent;
+  }
+}
+
+.status-confirmed {
+  color: $info;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: $warning;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: $danger;
+  font-weight: bold;
+}
+
+.customer-details {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.reservation {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.status-completed {
+  color: $success;
+  font-weight: bold;
+}

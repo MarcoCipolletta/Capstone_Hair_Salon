@@ -23,7 +23,7 @@ public class CustomerSvc {
     private final CustomerMapper mapper;
 
     public List<CustomerResponseForAdmin> findAll() {
-        List<Customer> customers = customerRepo.findAll();
+        List<Customer> customers = customerRepo.findAllByOrderByNameAscSurnameAsc();
         return customers.stream().map(mapper::toCustomerResponseForAdmin).toList();
     }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -37,6 +38,13 @@ public class GlobalExceptionHandler {
         ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.CONFLICT);
         return new ResponseEntity<>(e, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(value = PropertyReferenceException.class)
+    protected ResponseEntity<ErrorMessage> propertyReferenceException(PropertyReferenceException ex) {
+        ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(e, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(value = MalformedJwtException.class)
     protected ResponseEntity<ErrorMessage> alformedJwtException(MalformedJwtException ex) {
         ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST);

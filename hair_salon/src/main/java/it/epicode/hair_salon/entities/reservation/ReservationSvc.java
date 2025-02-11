@@ -11,7 +11,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -103,7 +102,7 @@ public class ReservationSvc {
         return "Prenotazione confermata";
     }
 
-    public String createReservationByAdminWithCustomer(@Valid ReservationCreateRequest reservationCreateRequest, UUID customerId) {
+    public String createReservationByAdminWithExistingCustomer(@Valid ReservationCreateRequest reservationCreateRequest, UUID customerId) {
         Customer customer = customerSvc.findById(customerId);
         AvailabilityResult availabilityResult = operatorSvc.checkOperatorAvailability(
                 reservationCreateRequest.getDate(),

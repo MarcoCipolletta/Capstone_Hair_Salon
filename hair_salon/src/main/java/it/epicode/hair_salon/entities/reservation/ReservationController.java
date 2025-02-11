@@ -60,7 +60,7 @@ public class ReservationController {
     @PostMapping("/byAdminWithCustomer")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createReservationByAdminWithCustomer(@RequestBody ReservationCreateRequest reservationCreateRequest, @RequestParam UUID customerId) {
-        return ResponseEntity.ok(reservationSvc.createReservationByAdminWithCustomer(reservationCreateRequest, customerId));
+        return ResponseEntity.ok(reservationSvc.createReservationByAdminWithExistingCustomer(reservationCreateRequest, customerId));
     }
 
 

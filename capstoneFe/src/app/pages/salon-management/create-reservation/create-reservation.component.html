@@ -1,0 +1,12 @@
+<h3>Aggiungi prenotazioni</h3>
+
+<div class="mb-3">
+  <label class="form-label">Scegli il cliente</label>
+  <ng-select [(ngModel)]="selectedCustomer">
+    @for(customer of customers;track customer.id){
+    <ng-option [value]="customer.id"
+      >{{ customer.name }} {{ customer.surname }}</ng-option
+    >
+    }</ng-select
+  >
+</div>

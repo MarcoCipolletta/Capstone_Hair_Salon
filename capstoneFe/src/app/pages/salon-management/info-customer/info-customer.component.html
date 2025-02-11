@@ -1,0 +1,63 @@
+<ng-icon
+  name="iconoirArrowLeftCircle"
+  class="icon-back"
+  (click)="goBack()"
+></ng-icon>
+
+<ng-container *ngIf="customer">
+  <div class="customer-details">
+    <h3>{{ customer.name }} {{ customer.surname }}</h3>
+    <p>
+      <b>Data di nascita:</b>
+      {{ customer.dateOfBirth | date : "dd/MM/yyyy" }}
+    </p>
+    <p>
+      <b>Email: </b>
+      {{ customer.email }}
+    </p>
+    <p>
+      <b>Numero di telefono: </b>
+      {{ customer.phoneNumber }}
+    </p>
+    <p>
+      <b>Ultimo appuntamento: </b>
+      {{ lastSeen }}
+    </p>
+
+    <div class="d-flex justify-content-between">
+      <h3 class="mt-3">Prenotazioni:</h3>
+      <button class="btn btn-accent">Crea prenotazione</button>
+    </div>
+    <div *ngIf="customer.reservations.length > 0; else noReservations">
+      <div
+        *ngFor="let reservation of customer.reservations"
+        class="reservation"
+      >
+        <p><b>Data:</b> {{ reservation.date | date : "dd/MM/yyyy" }}</p>
+        <p>
+          <b>Orario:</b>
+          {{ timeConverter.secondsToTime(reservation.startTime) }}
+        </p>
+        <p>
+          <b>Stato: </b>
+          <span [ngClass]="getStatusClass(reservation.status)">
+            {{ setStatus(reservation.status) }}</span
+          >
+        </p>
+        <p>
+          <b>Durata totale:</b>
+          {{ getTotalDuration(reservation.salonServices) }}
+        </p>
+        <p><b>Servizi:</b></p>
+        <ul>
+          <li *ngFor="let service of reservation.salonServices">
+            <span>{{ service.name }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ng-template #noReservations>
+      <p>Nessuna prenotazione trovata.</p>
+    </ng-template>
+  </div>
+</ng-container>

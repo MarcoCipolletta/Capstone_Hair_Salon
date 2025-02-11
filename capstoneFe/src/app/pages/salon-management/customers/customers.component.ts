@@ -15,16 +15,28 @@ export class CustomersComponent {
   collectionSize!: number;
   pageSize: number = 5;
 
+  sortDirection: string = 'asc';
+
   ngOnInit(): void {
     this.loadCustomers();
   }
 
   loadCustomers(): void {
-    this.customerSvc.getAllPaged(this.page - 1, this.pageSize).subscribe({
-      next: (res) => {
-        this.customers = res.content;
-        this.collectionSize = res.totalElements;
-      },
-    });
+    this.customerSvc
+      .getAllPaged(this.page - 1, this.pageSize, [
+        `name,${this.sortDirection}`,
+        'surname,asc',
+      ])
+      .subscribe({
+        next: (res) => {
+          this.customers = res.content;
+          this.collectionSize = res.totalElements;
+        },
+      });
+  }
+
+  changeSort(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.loadCustomers();
   }
 }

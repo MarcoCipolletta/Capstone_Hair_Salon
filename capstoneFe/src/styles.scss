@@ -119,9 +119,9 @@ p {
 a {
   color: $accent;
   transition: all 0.3s ease-in-out;
-  &:hover {
-    text-shadow: 1px 1px 14px #88425a85;
-  }
+  // &:hover {
+  //   text-shadow: 1px 1px 14px #88425a85;
+  // }
 }
 
 :root {
@@ -174,4 +174,5 @@ a {
   }
 }
 
+@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "./partials/_partialCalendar";

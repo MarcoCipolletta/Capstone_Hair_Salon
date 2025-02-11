@@ -10,8 +10,10 @@
     <p><b>Email:</b> {{ customer.email }}</p>
     <p><b>Prenotazioni:</b> {{ customer.reservations.length }}</p>
 
-    <ng-container *ngIf="customer.reservations.length > 0"
-      ><button class="btn btn-accent">Vedi Prenotazioni</button></ng-container
-    >
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-accent" (click)="viewReservation()">
+        Vedi info
+      </button>
+    </div>
   </div>
 </ng-container>

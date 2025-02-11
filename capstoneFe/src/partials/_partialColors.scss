@@ -5,7 +5,8 @@ $secondary: #5e3241;
 $accent: #88425a;
 $warning: #ca7d19;
 $danger: #891c1c;
-$success: $accent;
+$success: #179217;
+$info: #1a1a9f;
 
 $custom-colors: (
   "primary": $primary,
@@ -16,5 +17,5 @@ $custom-colors: (
   "warning": $warning,
   "danger": $danger,
   "success": $success,
-  "info": $secondary,
+  "info": $info,
 );

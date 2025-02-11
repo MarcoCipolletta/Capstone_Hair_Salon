@@ -8,6 +8,7 @@ import { HeaderComponent } from './main-component/header/header.component';
 import { FooterComponent } from './main-component/footer/footer.component';
 import { NgIconsModule } from '@ng-icons/core';
 import {
+  iconoirArrowLeftCircle,
   iconoirEmojiSad,
   iconoirEye,
   iconoirEyeClosed,
@@ -16,9 +17,12 @@ import {
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './auth/token.interceptor';
 import {
+  akarArrowDownThick,
+  akarArrowUpThick,
   akarCalendar,
   akarCircleMinus,
   akarCirclePlus,
+  akarCircleX,
   akarClock,
   akarEdit,
   akarPeopleGroup,
@@ -37,12 +41,16 @@ import {
       iconoirEmojiSad,
       akarCirclePlus,
       akarCircleMinus,
+      akarCircleX,
       iconoirXboxX,
       akarCalendar,
       akarClock,
       akarScissor,
       akarPeopleGroup,
       akarEdit,
+      akarArrowDownThick,
+      akarArrowUpThick,
+      iconoirArrowLeftCircle,
     }),
     NgbDropdownModule,
   ],

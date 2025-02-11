@@ -22,6 +22,9 @@ import { CardOpeningHourComponent } from './card-opening-hour/card-opening-hour.
 import { ServiceCardComponent } from './service-card/service-card.component';
 import { CreateServiceComponent } from './create-service/create-service.component';
 import { CustomerCardComponent } from './customer-card/customer-card.component';
+import { InfoCustomerComponent } from './info-customer/info-customer.component';
+import { CreateReservationComponent } from './create-reservation/create-reservation.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { CustomerCardComponent } from './customer-card/customer-card.component';
     ServiceCardComponent,
     CreateServiceComponent,
     CustomerCardComponent,
+    InfoCustomerComponent,
+    CreateReservationComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +53,7 @@ import { CustomerCardComponent } from './customer-card/customer-card.component';
     NgbCollapseModule,
     ReactiveFormsModule,
     NgbPaginationModule,
+    NgSelectModule,
   ],
 })
 export class SalonManagementModule {}

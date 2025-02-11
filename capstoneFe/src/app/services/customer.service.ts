@@ -16,10 +16,14 @@ export class CustomerService {
     let url = this.baseUrl + '/page?page=' + page + '&size=' + size;
     if (sort && sort.length > 0) {
       sort.forEach((s) => {
-        url += '&sort=' + sort;
+        url += '&sort=' + s;
       });
     }
     return this.http.get<iCustomerPaged>(url);
+  }
+
+  getAll() {
+    return this.http.get<iCustomerResponseForAdmin[]>(this.baseUrl);
   }
 
   getCustomerById(id: string) {

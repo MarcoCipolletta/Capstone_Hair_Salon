@@ -11,10 +11,13 @@ import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon
   styleUrl: './info-customer.component.scss',
 })
 export class InfoCustomerComponent {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private customerSvc = inject(CustomerService);
-  protected timeConverter = inject(TimeConversionSvcService);
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private customerSvc: CustomerService,
+    protected timeConverter: TimeConversionSvcService
+  ) {}
+
   customer!: iCustomerResponseForAdmin;
 
   ngOnInit() {

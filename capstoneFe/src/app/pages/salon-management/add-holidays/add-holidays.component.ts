@@ -11,8 +11,10 @@ import { TimeConversionSvcService } from '../../../services/time-conversion-svc.
   styleUrl: './add-holidays.component.scss',
 })
 export class AddHolidaysComponent {
-  private managerScheduleSvc = inject(ManagerScheduleService);
-  protected timeConversionSvc = inject(TimeConversionSvcService);
+  constructor(
+    private managerScheduleSvc: ManagerScheduleService,
+    protected timeConversionSvc: TimeConversionSvcService
+  ) {}
 
   allClosing: iManagerSchedule[] = [];
 
@@ -84,6 +86,4 @@ export class AddHolidaysComponent {
       console.log(res);
     });
   }
-
-
 }

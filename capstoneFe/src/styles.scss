@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 $font-family-sans-serif: "Josefin Sans", sans-serif;
 
@@ -130,15 +131,13 @@ a {
     font-size: 16px;
     padding: 8px;
     transition: all 0.3s ease-in-out;
+    border-radius: 3px;
+    border: 1px solid rgb(118, 118, 118);
+
     &::placeholder {
       color: $primary;
     }
-    &:focus {
-      border: 1px solid $accent;
-      box-shadow: 0 0 14px 0.25rem #88425a5e;
-      color: #5e3241;
-      outline: none;
-    }
+    &:focus,
     &:focus-visible {
       border: 1px solid $accent;
       box-shadow: 0 0 14px 0.25rem #88425a5e;
@@ -174,5 +173,43 @@ a {
   }
 }
 
-@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+.checkbox-container {
+  display: flex;
+  vertical-align: middle;
+  gap: 10px;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #88425a;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(136, 66, 90, 0.2);
+    }
+  }
+
+  input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: #88425a;
+    border-color: #88425a;
+  }
+
+  input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: "✔";
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
 @import "./partials/_partialCalendar";
+@import "./partials/partialNgSelect";

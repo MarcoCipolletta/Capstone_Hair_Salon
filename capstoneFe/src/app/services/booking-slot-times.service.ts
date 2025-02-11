@@ -8,8 +8,7 @@ import { iDayWithAvaibleTime } from '../interfaces/bookingtimes/i-day-with-avaib
   providedIn: 'root',
 })
 export class BookingSlotTimesService {
-  constructor() {}
-  private http = inject(HttpClient);
+  constructor(private http: HttpClient) {}
   private baseUrl = environment.baseUrl + '/booking';
 
   getWeekOfDayWithAvailableTime(bookingCheckRequest: iCheckAvailableRequest) {

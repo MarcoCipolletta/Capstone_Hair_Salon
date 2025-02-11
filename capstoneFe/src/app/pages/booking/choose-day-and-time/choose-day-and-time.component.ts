@@ -14,10 +14,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './choose-day-and-time.component.scss',
 })
 export class ChooseDayAndTimeComponent {
-  private bookingSlotSvc = inject(BookingSlotTimesService);
-  protected timeConversionSvc = inject(TimeConversionSvcService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  constructor(
+    private bookingSlotSvc: BookingSlotTimesService,
+    protected timeConversionSvc: TimeConversionSvcService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   weekOfDayAvailableSlots: iDayWithAvaibleTime[] = [];
   dayAvailableSlots!: iDayWithAvaibleTime;

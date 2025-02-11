@@ -1,12 +1,99 @@
-<h3>Aggiungi prenotazioni</h3>
+<h3>Aggiungi prenotazione</h3>
 
 <div class="mb-3">
-  <label class="form-label">Scegli il cliente</label>
-  <ng-select [(ngModel)]="selectedCustomer">
-    @for(customer of customers;track customer.id){
-    <ng-option [value]="customer.id"
-      >{{ customer.name }} {{ customer.surname }}</ng-option
-    >
-    }</ng-select
-  >
+  <div class="d-inline-block">
+    <label for="closed" class="checkbox-container">
+      <input
+        type="checkbox"
+        name="closed"
+        id="closed"
+        [(ngModel)]="newCustomer"
+      />
+      <span class="custom-checkbox"></span><span>Nuovo cliente?</span>
+    </label>
+  </div>
+  <ng-container *ngIf="!newCustomer">
+    <div class="mt-3 d-flex gap-3">
+      <div class="d-flex flex-column">
+        <label class="form-label">Scegli il cliente</label>
+        <ng-select
+          class="custom flex-grow-1"
+          [(ngModel)]="selectedCustomer"
+          [placeholder]="'Nome cliente'"
+          bindValue="id"
+          [searchable]="true"
+          [minTermLength]="2"
+          notFoundText="Nessun risultato"
+          [virtualScroll]="true"
+        >
+          @for(customer of customers;track customer.id){
+          <ng-option [value]="customer.id"
+            >{{ customer.name }} {{ customer.surname }}</ng-option
+          >
+          }</ng-select
+        >
+      </div>
+    </div>
+  </ng-container>
+  <div class="mt-3 d-flex gap-3">
+    <div class="d-flex flex-column">
+      <label class="form-label">Scegli i servizi</label>
+      <ng-select
+        class="custom multiple flex-grow-1"
+        [(ngModel)]="selectedServices"
+        [placeholder]="'Seleziona servizi'"
+        bindValue=""
+        [searchable]="true"
+        [minTermLength]="2"
+        notFoundText="Nessun risultato"
+        [virtualScroll]="true"
+        [multiple]="true"
+      >
+        @for(service of services;track service.id){
+        <ng-option [value]="service">{{ service.name }}</ng-option>
+        }</ng-select
+      >
+    </div>
+    <div class="d-flex flex-column">
+      <label class="form-label">Scegli il giorno</label>
+      <div class="position-relative">
+        <span class="position-absolute badge bg-accent">{{
+          chooseDate ? getDayOfWeek(chooseDate.getDay()).toUpperCase() : ""
+        }}</span>
+        <input
+          [disabled]="selectedServices.length <= 0"
+          type="date"
+          name="date"
+          id="date"
+          [min]="today"
+          (change)="onDateChange($event)"
+          class=""
+        />
+      </div>
+    </div>
+    <div class="d-flex flex-column flex-grow-1">
+      <ng-container *ngIf="slots">
+        <label class="form-label">Scegli l'orario</label>
+        <ng-select
+          class="custom flex-grow-1"
+          [(ngModel)]="chooseTime"
+          [placeholder]="'Seleziona orario'"
+          [searchable]="false"
+          notFoundText="Nessun risultato"
+          [virtualScroll]="true"
+        >
+          @for(availableTime of slots.availableTimes;track availableTime){
+          <ng-option [value]="availableTime">{{
+            timeConversionSvc.secondsToTime(availableTime.startTime)
+          }}</ng-option>
+          }</ng-select
+        >
+      </ng-container>
+    </div>
+    <div class="d-flex flex-column justify-content-end">
+      <button class="btn btn-accent" (click)="createReservation()">
+        Inserisci appuntamento
+      </button>
+    </div>
+  </div>
 </div>

@@ -57,10 +57,13 @@ public class ReservationController {
         return ResponseEntity.ok(reservationSvc.updateStatus(reservationId, statusEnum));
     }
 
-    @PostMapping("/byAdminWithCustomer")
+    @PostMapping("/byAdminWithCustomer/{customerId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> createReservationByAdminWithCustomer(@RequestBody ReservationCreateRequest reservationCreateRequest, @RequestParam UUID customerId) {
-        return ResponseEntity.ok(reservationSvc.createReservationByAdminWithExistingCustomer(reservationCreateRequest, customerId));
+    public ResponseEntity<Map<String, String>> createReservationByAdminWithCustomer(@RequestBody ReservationCreateRequest reservationCreateRequest, @PathVariable UUID customerId) {
+        String message =reservationSvc.createReservationByAdminWithExistingCustomer(reservationCreateRequest, customerId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 

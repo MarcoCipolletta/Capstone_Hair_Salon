@@ -5,3 +5,8 @@
   left: -10%;
   translate: 15% -50%;
 }
+
+.notClickable {
+  pointer-events: none;
+  cursor: default;
+}

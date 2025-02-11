@@ -17,6 +17,7 @@ export class AddHolidaysComponent {
   ) {}
 
   allClosing: iManagerSchedule[] = [];
+  today = new Date().toISOString().split('T')[0];
 
   closingType: string = 'holiday';
   holiday: iCreateManagerSchedule = {

@@ -88,6 +88,7 @@
             id="startDate"
             type="date"
             name="date"
+            [min]="today"
             [(ngModel)]="holiday.startDate"
           />
         </div>
@@ -97,6 +98,7 @@
             id="endDate"
             type="date"
             name="date"
+            [min]="holiday.startDate"
             [(ngModel)]="holiday.endDate"
           />
         </div>

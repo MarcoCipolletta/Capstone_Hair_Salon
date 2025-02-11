@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CustomerService } from '../../../services/customer.service';
 import { iCustomerResponseForAdmin } from '../../../interfaces/customer/i-customer-response-for-admin';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
@@ -30,9 +30,10 @@ export class CreateReservationComponent {
 
   customers: iCustomerResponseForAdmin[] = [];
   newCustomer = false;
-  selectedCustomer!: string;
-  searchTerm: string = '';
-  chooseDate!: Date;
+  selectedCustomer!: string | null;
+  chooseDate!: Date | null;
+
+  @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
   services: iSalonServiceResponse[] = [];
   selectedServices: iSalonServiceResponse[] = [];
@@ -78,14 +79,19 @@ export class CreateReservationComponent {
     if (!this.newCustomer) {
       console.log(!(this.selectedServices.length <= 0));
 
-      if (
-        !this.chooseDate ||
-        !this.chooseTime?.startTime ||
-        !this.chooseTime.endTime ||
-        this.selectedServices.length <= 0 ||
-        !this.selectedCustomer
-      )
+      if (!this.selectedCustomer) {
+        alert('Devi selezionare un cliente');
         return;
+      } else if (this.selectedServices.length <= 0) {
+        alert('Devi selezionare almeno un servizio');
+        return;
+      } else if (!this.chooseDate) {
+        alert('Devi selezionare una data');
+        return;
+      } else if (!this.chooseTime) {
+        alert('Devi selezionare un orario');
+        return;
+      }
 
       const reservationRequest: iReservationCreateRequest = {
         date: this.chooseDate,
@@ -99,7 +105,13 @@ export class CreateReservationComponent {
       console.log(this.selectedCustomer);
       this.reservationSvc
         .createReservationByAdmin(reservationRequest, this.selectedCustomer)
-        .subscribe();
+        .subscribe((res) => {
+          this.selectedCustomer = null;
+          this.chooseDate = null;
+          this.dateInput.nativeElement.value = '';
+          this.selectedServices = [];
+          this.chooseTime = null;
+        });
     } else {
       return;
     }

@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.entities.reservation;
 
+import it.epicode.hair_salon.entities.reservation.dto.ReservationAndCustomerCreateByAdminRequest;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationCreateRequest;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponse;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponseForCustomer;
@@ -61,6 +62,15 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, String>> createReservationByAdminWithCustomer(@RequestBody ReservationCreateRequest reservationCreateRequest, @PathVariable UUID customerId) {
         String message =reservationSvc.createReservationByAdminWithExistingCustomer(reservationCreateRequest, customerId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/byAdminWithNewCustomer")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String, String>> createReservationByAdminWithNewCustomer(@RequestBody ReservationAndCustomerCreateByAdminRequest reservationCreateRequest) {
+        String message =reservationSvc.createCustomerForReservationByAdmin(reservationCreateRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

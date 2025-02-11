@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import it.epicode.hair_salon.auth.dto.*;
 import it.epicode.hair_salon.auth.jwt.JwtTokenUtil;
 import it.epicode.hair_salon.entities.customer.CustomerSvc;
+import it.epicode.hair_salon.entities.customer.dto.CustomerCreateRequest;
 import it.epicode.hair_salon.entities.customer.dto.CustomerMapper;
 import it.epicode.hair_salon.exceptions.AlreadyExistsException;
 import it.epicode.hair_salon.exceptions.EmailAlreadyUsedException;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -114,6 +116,24 @@ public class AuthUserSvc {
         }
         authUserRepo.save(authUser);
 
+    }
+
+    @Transactional
+    public UUID createCustomer(@Valid CustomerCreateRequestForAdmin customerCreateRequestForAdmin) {
+        AuthUser authUser = new AuthUser();
+        authUser.setUsername(customerCreateRequestForAdmin.getName() + "." + customerCreateRequestForAdmin.getSurname() + "." + customerCreateRequestForAdmin.getDateOfBirth().getDayOfMonth());
+        authUser.setEmail(customerCreateRequestForAdmin.getEmail());
+        authUser.setPassword(passwordEncoder.encode("string"));
+        authUser.setRole(Role.USER);
+        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest();
+        customerCreateRequest.setName(customerCreateRequestForAdmin.getName());
+        customerCreateRequest.setSurname(customerCreateRequestForAdmin.getSurname());
+        customerCreateRequest.setDateOfBirth(customerCreateRequestForAdmin.getDateOfBirth());
+        customerCreateRequest.setPhoneNumber(customerCreateRequestForAdmin.getPhoneNumber());
+
+        authUser.setCustomer(customerSvc.create(customerCreateRequest, authUser));
+        authUserRepo.save(authUser);
+        return authUser.getCustomer().getId();
     }
 
     public AuthResponse Login(@Valid LoginRequest loginRequest) {

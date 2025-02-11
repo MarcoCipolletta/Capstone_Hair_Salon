@@ -6,6 +6,7 @@ import { iResponseStringMessage } from '../interfaces/i-response-string-message'
 import { iReservationResponse } from '../interfaces/reservation/i-reservation-response';
 import { BehaviorSubject, tap } from 'rxjs';
 import { iReservationResponseForCustomer } from '../interfaces/reservation/i-reservation-response-for-customer';
+import { iReservationAndCustomerCreateByAdminRequest } from '../interfaces/reservation/i-reservation-and-customer-create-by-admin-request';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,20 @@ export class ReservationsService {
     return this.http
       .post<iResponseStringMessage>(
         this.baseUrl + '/byAdminWithCustomer/' + customerId,
+        reservationRequest
+      )
+      .pipe(
+        tap((res) => {
+          this.getConfirmedAndPending().subscribe();
+        })
+      );
+  }
+  createReservationAndCustomerByAdmin(
+    reservationRequest: iReservationAndCustomerCreateByAdminRequest
+  ) {
+    return this.http
+      .post<iResponseStringMessage>(
+        this.baseUrl + '/byAdminWithNewCustomer',
         reservationRequest
       )
       .pipe(

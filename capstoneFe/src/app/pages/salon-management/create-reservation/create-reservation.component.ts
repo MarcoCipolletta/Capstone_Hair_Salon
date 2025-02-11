@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CustomerService } from '../../../services/customer.service';
 import { iCustomerResponseForAdmin } from '../../../interfaces/customer/i-customer-response-for-admin';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
@@ -11,6 +11,8 @@ import { iCheckAvailableRequest } from '../../../interfaces/bookingtimes/icheck-
 import { iAvailableTime } from '../../../interfaces/bookingtimes/i-available-time';
 import { iReservationCreateRequest } from '../../../interfaces/reservation/i-reservation-create-request';
 import { ReservationsService } from '../../../services/reservations.service';
+import { iCustomerCreateByAdminRequest } from '../../../interfaces/customer/i-customer-create-by-admin-request';
+import { iReservationAndCustomerCreateByAdminRequest } from '../../../interfaces/reservation/i-reservation-and-customer-create-by-admin-request';
 
 @Component({
   selector: 'app-create-reservation',
@@ -33,10 +35,43 @@ export class CreateReservationComponent {
   selectedCustomer!: string | null;
   chooseDate!: Date | null;
 
+  newCustomerCreate: iCustomerCreateByAdminRequest = {
+    name: '',
+    surname: '',
+    dateOfBirth: new Date(),
+    phoneNumber: '',
+    email: '',
+  };
+
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
   services: iSalonServiceResponse[] = [];
   selectedServices: iSalonServiceResponse[] = [];
+
+  servicesDisabled: boolean = true;
+
+  updateServiceSelectState(): void {
+    if (this.newCustomer) {
+      const dob = new Date(this.newCustomerCreate.dateOfBirth);
+      const isValid =
+        this.newCustomerCreate.name.trim() !== '' &&
+        this.newCustomerCreate.surname.trim() !== '' &&
+        dob < new Date() &&
+        this.newCustomerCreate.phoneNumber.trim() !== '' &&
+        this.newCustomerCreate.email.trim() !== '';
+      this.servicesDisabled = !isValid;
+    }
+  }
+
+  updateChangeValueOfNewCustomer() {
+    this.newCustomerCreate = {
+      name: '',
+      surname: '',
+      dateOfBirth: new Date(),
+      phoneNumber: '',
+      email: '',
+    };
+  }
 
   slots!: iDayWithAvaibleTime;
   chooseTime!: iAvailableTime | null;
@@ -76,22 +111,22 @@ export class CreateReservationComponent {
   }
 
   createReservation() {
+    if (this.selectedServices.length <= 0) {
+      alert('Devi selezionare almeno un servizio');
+      return;
+    } else if (!this.chooseDate) {
+      alert('Devi selezionare una data');
+      return;
+    } else if (!this.chooseTime) {
+      alert('Devi selezionare un orario');
+      return;
+    }
     if (!this.newCustomer) {
-      console.log(!(this.selectedServices.length <= 0));
-
       if (!this.selectedCustomer) {
         alert('Devi selezionare un cliente');
         return;
-      } else if (this.selectedServices.length <= 0) {
-        alert('Devi selezionare almeno un servizio');
-        return;
-      } else if (!this.chooseDate) {
-        alert('Devi selezionare una data');
-        return;
-      } else if (!this.chooseTime) {
-        alert('Devi selezionare un orario');
-        return;
       }
+      console.log(!(this.selectedServices.length <= 0));
 
       const reservationRequest: iReservationCreateRequest = {
         date: this.chooseDate,
@@ -113,7 +148,34 @@ export class CreateReservationComponent {
           this.chooseTime = null;
         });
     } else {
-      return;
+      const reservationRequest: iReservationCreateRequest = {
+        date: this.chooseDate,
+        startTime: this.chooseTime.startTime,
+        endTime: this.chooseTime.endTime,
+        salonServices: this.selectedServices,
+      };
+      const createReservationAndCustomerRequest: iReservationAndCustomerCreateByAdminRequest =
+        {
+          customer: this.newCustomerCreate,
+          reservation: reservationRequest,
+        };
+      this.reservationSvc
+        .createReservationAndCustomerByAdmin(
+          createReservationAndCustomerRequest
+        )
+        .subscribe((res) => {
+          this.selectedCustomer = null;
+          this.chooseDate = null;
+          this.dateInput.nativeElement.value = '';
+          this.selectedServices = [];
+          this.chooseTime = null;
+          this.newCustomer = false;
+          this.newCustomerCreate.name = '';
+          this.newCustomerCreate.surname = '';
+          this.newCustomerCreate.dateOfBirth = new Date();
+          this.newCustomerCreate.phoneNumber = '';
+          this.newCustomerCreate.email = '';
+        });
     }
   }
 }

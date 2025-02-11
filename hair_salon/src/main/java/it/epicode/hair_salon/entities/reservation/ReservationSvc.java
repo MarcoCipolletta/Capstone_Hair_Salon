@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.entities.reservation;
 
+import it.epicode.hair_salon.auth.AuthUserSvc;
 import it.epicode.hair_salon.entities.customer.Customer;
 import it.epicode.hair_salon.entities.customer.CustomerSvc;
 import it.epicode.hair_salon.entities.manager_schedule.ManagerScheduleSvc;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @Validated
 public class ReservationSvc {
     private final ReservationRepository reservationRepo;
+    private final AuthUserSvc authUserSvc;
     private final CustomerSvc customerSvc;
     private final OperatorSvc operatorSvc;
     private final ManagerScheduleSvc managerScheduleSvc;
@@ -139,6 +141,11 @@ public class ReservationSvc {
 
         return "Prenotazione confermata";
 
+    }
+
+    public String createCustomerForReservationByAdmin(@Valid ReservationAndCustomerCreateByAdminRequest reservationAndCustomerCreateByAdminRequest) {
+        UUID customerId = authUserSvc.createCustomer(reservationAndCustomerCreateByAdminRequest.getCustomer());
+        return createReservationByAdminWithExistingCustomer(reservationAndCustomerCreateByAdminRequest.getReservation(), customerId);
     }
 
 

@@ -109,7 +109,7 @@ public class JwtTokenUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            throw new SecurityException("Token non valido" );
+            throw new SecurityException("Token non valido, rifai il login" );
         }
     }
 

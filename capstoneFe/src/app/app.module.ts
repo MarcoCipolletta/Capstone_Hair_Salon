@@ -28,6 +28,7 @@ import {
   akarPeopleGroup,
   akarScissor,
 } from '@ng-icons/akar-icons';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -54,7 +55,9 @@ import {
     }),
     NgbDropdownModule,
   ],
-  providers: [provideHttpClient(withInterceptors([tokenInterceptor]))],
+  providers: [
+    provideHttpClient(withInterceptors([tokenInterceptor, errorInterceptor])),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

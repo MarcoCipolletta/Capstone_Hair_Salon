@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthSvc } from '../../auth/auth.service';
 import { iAuthUserResponse } from '../../auth/interfaces/i-auth-user-response';
-import { combineLatest } from 'rxjs';
 import {
   AbstractControl,
   FormBuilder,
@@ -15,8 +14,7 @@ import {
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  private authSvc = inject(AuthSvc);
-  private fb = inject(FormBuilder);
+  constructor(private authSvc: AuthSvc, private fb: FormBuilder) {}
 
   user!: iAuthUserResponse;
   form!: FormGroup;

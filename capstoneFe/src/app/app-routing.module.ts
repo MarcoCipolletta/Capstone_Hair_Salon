@@ -4,6 +4,7 @@ import { LoggedGuard } from './auth/guards/logged.guard';
 import { GuestGuard } from './auth/guards/guest.guard';
 import { AdminGuard } from './auth/guards/admin.guard';
 import { UserGuard } from './auth/guards/user.guard';
+import { NotAdminGuard } from './auth/guards/not-admin.guard';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     path: 'booking',
     loadChildren: () =>
       import('./pages/booking/booking.module').then((m) => m.BookingModule),
-    canActivate: [LoggedGuard, UserGuard],
+    canActivate: [NotAdminGuard],
   },
   {
     path: 'profile',

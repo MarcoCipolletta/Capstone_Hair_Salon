@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MalformedJwtException.class)
-    protected ResponseEntity<ErrorMessage> alformedJwtException(MalformedJwtException ex) {
+    protected ResponseEntity<ErrorMessage> malformedJwtException(MalformedJwtException ex) {
         ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(e, HttpStatus.CONFLICT);
     }

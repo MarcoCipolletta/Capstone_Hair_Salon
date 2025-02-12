@@ -9,7 +9,8 @@ import { AuthSvc } from '../auth.service';
 import { Router } from '@angular/router';
 import { iRegisterRequest } from '../interfaces/i-register-request';
 import { iCustomerCreateRequest } from '../interfaces/i-customer-create-request';
-import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,12 @@ export class RegisterComponent {
   };
   currentPage: number = 1;
   progress: number = 0;
-  constructor(private config: NgbProgressbarConfig) {
+  constructor(
+    private config: NgbProgressbarConfig,
+    private authSvc: AuthSvc,
+    private router: Router,
+    private modalSvc: NgbModal
+  ) {
     config.max = 100;
     config.striped = true;
     config.animated = true;
@@ -66,8 +72,6 @@ export class RegisterComponent {
     );
     this.form.valueChanges.subscribe(() => this.updateProgress());
   }
-  private authSvc = inject(AuthSvc);
-  private router = inject(Router);
   isLoadingRegister: boolean = false;
 
   passwordMatchValidator(control: AbstractControl) {
@@ -84,9 +88,13 @@ export class RegisterComponent {
       this.authSvc.register(this.authUser).subscribe({
         next: (res) => {
           console.log(res);
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-success-modal',
+          });
+          modalRef.componentInstance.message = res.message;
+          this.isLoadingRegister = false;
           setTimeout(() => {
             this.router.navigate(['/auth/login']);
-            this.isLoadingRegister = false;
           }, 1500);
         },
         error: (err) => {

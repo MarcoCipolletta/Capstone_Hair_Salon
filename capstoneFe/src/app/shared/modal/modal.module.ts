@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ErrorModalComponent } from './error-modal.component';
+import { ModalComponent as ModalComponent } from './modal.component';
 
 @NgModule({
-  declarations: [ErrorModalComponent],
+  declarations: [ModalComponent],
   imports: [CommonModule],
-  exports: [ErrorModalComponent],
+  exports: [ModalComponent],
 })
 export class ErrorModalModule {}

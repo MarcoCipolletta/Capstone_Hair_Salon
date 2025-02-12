@@ -1,5 +1,5 @@
 .custom-error-modal .modal-dialog {
-  max-width: 500px;
+  max-width: 650px;
 
   .modal-content {
     background: $background;
@@ -7,6 +7,37 @@
     border: 3px solid $danger;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+}
+
+.custom-success-modal .modal-dialog {
+  max-width: 650px;
+
+  .modal-content {
+    background: $background;
+    color: $success;
+    border: 3px solid $success;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(15, 88, 5, 0.231);
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+}
+.custom-warning-modal .modal-dialog {
+  max-width: 650px;
+
+  .modal-content {
+    background: $background;
+    color: $warning;
+    border: 3px solid $warning;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(15, 88, 5, 0.231);
     padding: 1rem;
     text-align: center;
     font-size: 1.5rem;

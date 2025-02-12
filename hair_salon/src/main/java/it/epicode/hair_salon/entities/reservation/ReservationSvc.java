@@ -160,7 +160,7 @@ public class ReservationSvc {
 
         reservationRepo.save(reservation);
 
-        return "Prenotazione confermata";
+        return "Prenotazione inserita";
 
     }
 

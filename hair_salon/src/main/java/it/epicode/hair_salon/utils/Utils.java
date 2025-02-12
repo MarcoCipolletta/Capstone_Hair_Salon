@@ -8,4 +8,8 @@ public class Utils {
         if (u.getCustomer() == null) return "https://ui-avatars.com/api/?uppercase=true&background=88425a&color=f0efec&bold=true&font-size=0.6&size=120&name=A" ;
         return "https://ui-avatars.com/api/?uppercase=true&background=88425a&color=f0efec&bold=true&font-size=0.6&size=120&name=" + u.getCustomer().getName() + "+" + u.getCustomer().getSurname();
     }
+
+    public static String getAvatar(String name, String surname) {
+        return "https://ui-avatars.com/api/?uppercase=true&background=88425a&color=f0efec&bold=true&font-size=0.6&size=120&name=" + name + "+" + surname;
+    }
 }

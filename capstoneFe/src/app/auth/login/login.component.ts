@@ -13,15 +13,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent {
   form: FormGroup;
   returnUrl: string = '/';
-  constructor() {
+  constructor(
+    private authSvc: AuthSvc,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.form = new FormGroup({
       identifier: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
   }
-  private authSvc = inject(AuthSvc);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
   isLoadingLogin: boolean = false;
 
   ngOnInit() {

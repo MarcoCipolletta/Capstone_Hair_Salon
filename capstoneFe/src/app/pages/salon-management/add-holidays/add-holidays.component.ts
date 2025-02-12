@@ -4,6 +4,9 @@ import { iCreateManagerSchedule } from '../../../interfaces/managerSchedule/i-ma
 import { start } from '@popperjs/core';
 import { ManagerScheduleService } from '../../../services/manager-schedule.service';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { iResponseStringMessage } from '../../../interfaces/i-response-string-message';
+import { ModalComponent } from '../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-add-holidays',
@@ -13,7 +16,8 @@ import { TimeConversionSvcService } from '../../../services/time-conversion-svc.
 export class AddHolidaysComponent {
   constructor(
     private managerScheduleSvc: ManagerScheduleService,
-    protected timeConversionSvc: TimeConversionSvcService
+    protected timeConversionSvc: TimeConversionSvcService,
+    private modalSvc: NgbModal
   ) {}
 
   allClosing: iManagerSchedule[] = [];
@@ -56,7 +60,7 @@ export class AddHolidaysComponent {
         this.managerScheduleSvc
           .createSchedule(this.holiday)
           .subscribe((res) => {
-            console.log(res);
+            this.openModal(res.message);
           });
       }
     } else if (this.closingType === 'closingDay') {
@@ -64,7 +68,7 @@ export class AddHolidaysComponent {
       this.managerScheduleSvc
         .createSchedule(this.closingDay)
         .subscribe((res) => {
-          console.log(res);
+          this.openModal(res.message);
         });
     } else if (this.closingType === 'blockHours') {
       this.closingHours.startTime = this.timeConversionSvc.timeToSeconds(
@@ -76,7 +80,7 @@ export class AddHolidaysComponent {
       this.managerScheduleSvc
         .createSchedule(this.closingHours)
         .subscribe((res) => {
-          console.log(res);
+          this.openModal(res.message);
         });
     }
   }
@@ -86,5 +90,12 @@ export class AddHolidaysComponent {
       this.allClosing = res;
       console.log(res);
     });
+  }
+
+  openModal(mess: string) {
+    const modalRef = this.modalSvc.open(ModalComponent, {
+      windowClass: 'custom-success-modal',
+    });
+    modalRef.componentInstance.message = mess;
   }
 }

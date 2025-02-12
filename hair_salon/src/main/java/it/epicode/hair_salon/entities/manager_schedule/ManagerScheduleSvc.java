@@ -51,7 +51,8 @@ public class ManagerScheduleSvc {
                 managerSchedule.setReason(managerScheduleCreateRequest.getReason());
 
 
-                return managerScheduleRepo.save(managerSchedule).toString();
+                managerScheduleRepo.save(managerSchedule);
+                return "Giorno di chiusura inserito con successo";
             } else if (managerScheduleCreateRequest.getEndTime() != null &&
                     managerScheduleCreateRequest.getStartTime() != 0 &&
                     managerScheduleCreateRequest.getEndTime() != 0) {
@@ -76,8 +77,9 @@ public class ManagerScheduleSvc {
                 managerSchedule.setEndTime(managerScheduleCreateRequest.getEndTime());
                 managerSchedule.setTypeSchedule(TypeSchedule.BLOCKED);
                 managerSchedule.setReason(managerScheduleCreateRequest.getReason());
+                        managerScheduleRepo.save(managerSchedule);
 
-                return managerScheduleRepo.save(managerSchedule).toString();
+                return "Orario bloccato inserito con successo";
             }
         } else {
             if (managerScheduleCreateRequest.getEndDate().isBefore(managerScheduleCreateRequest.getStartDate()))
@@ -103,7 +105,9 @@ public class ManagerScheduleSvc {
                 managerSchedule.setReason(managerScheduleCreateRequest.getReason());
                 closedDays.add(managerSchedule);
             }
-            return managerScheduleRepo.saveAll(closedDays).toString();
+                    managerScheduleRepo.saveAll(closedDays);
+            return "Giorni di ferie inseriti con successo";
+
         }
 
 

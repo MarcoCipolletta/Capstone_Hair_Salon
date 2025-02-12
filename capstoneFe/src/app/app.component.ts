@@ -1,4 +1,3 @@
-import { catchError } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { AuthSvc } from './auth/auth.service';
 

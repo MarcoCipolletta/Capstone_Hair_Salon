@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-error-modal',
-  templateUrl: './error-modal.component.html',
-  styleUrl: './error-modal.component.scss',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
+  styleUrl: './modal.component.scss',
 })
-export class ErrorModalComponent {
+export class ModalComponent {
   constructor(private activeModal: NgbActiveModal) {}
 
   @Input() message!: string;

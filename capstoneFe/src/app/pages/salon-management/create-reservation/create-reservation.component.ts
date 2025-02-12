@@ -10,6 +10,8 @@ import { iReservationCreateRequest } from '../../../interfaces/reservation/i-res
 import { ReservationsService } from '../../../services/reservations.service';
 import { iCustomerCreateByAdminRequest } from '../../../interfaces/customer/i-customer-create-by-admin-request';
 import { iReservationAndCustomerCreateByAdminRequest } from '../../../interfaces/reservation/i-reservation-and-customer-create-by-admin-request';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-create-reservation',
@@ -20,7 +22,8 @@ export class CreateReservationComponent {
   constructor(
     private bookingSlotSvc: BookingSlotTimesService,
     private reservationSvc: ReservationsService,
-    protected timeConversionSvc: TimeConversionSvcService
+    protected timeConversionSvc: TimeConversionSvcService,
+    private modalSvc: NgbModal
   ) {}
 
   today = new Date().toISOString().split('T')[0];
@@ -130,6 +133,10 @@ export class CreateReservationComponent {
           this.dateInput.nativeElement.value = '';
           this.selectedServices = [];
           this.chooseTime = null;
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-success-modal',
+          });
+          modalRef.componentInstance.message = res.message;
         });
     } else {
       const reservationRequest: iReservationCreateRequest = {
@@ -148,6 +155,10 @@ export class CreateReservationComponent {
           createReservationAndCustomerRequest
         )
         .subscribe((res) => {
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-success-modal',
+          });
+          modalRef.componentInstance.message = res.message;
           this.selectedCustomer = null;
           this.chooseDate = null;
           this.dateInput.nativeElement.value = '';

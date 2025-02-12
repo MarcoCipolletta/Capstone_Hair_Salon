@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { iSalonServiceCreateRequest } from '../../../interfaces/salonServices/i-salon-service-create-request';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 import { SalonservicesService } from '../../../services/salonservices.service';
+import { ModalComponent } from '../../../shared/modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-service',
@@ -16,10 +18,12 @@ export class CreateServiceComponent {
     price: 0,
     duration: 0,
   };
-  private timeConverter = inject(TimeConversionSvcService);
-  private salonServicesSvc = inject(SalonservicesService);
 
-  constructor() {
+  constructor(
+    private timeConverter: TimeConversionSvcService,
+    private salonServicesSvc: SalonservicesService,
+    private modalSvc: NgbModal
+  ) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -64,8 +68,12 @@ export class CreateServiceComponent {
       this.form.controls['durationHours'].value,
       this.form.controls['durationMinutes'].value
     );
-    this.salonServicesSvc.createService(this.service).subscribe();
-    console.log(this.service);
+    this.salonServicesSvc.createService(this.service).subscribe((res) => {
+      const modalRef = this.modalSvc.open(ModalComponent, {
+        windowClass: 'custom-success-modal',
+      });
+      modalRef.componentInstance.message = res.message;
+    });
 
     this.form.reset();
   }

@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { catchError } from 'rxjs';
-import { ErrorModalComponent } from '../shared/error-modal/error-modal.component';
+import { ModalComponent } from '../shared/modal/modal.component';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   let modalSvc = inject(NgbModal);
@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       console.log(err);
 
       // alert(err.error.message);
-      const modalRef = modalSvc.open(ErrorModalComponent, {
+      const modalRef = modalSvc.open(ModalComponent, {
         windowClass: 'custom-error-modal',
       });
       modalRef.componentInstance.message = err.error.message;

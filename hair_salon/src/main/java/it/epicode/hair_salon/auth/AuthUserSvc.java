@@ -127,6 +127,8 @@ public class AuthUserSvc {
         authUser.setEmail(customerCreateRequestForAdmin.getEmail());
         authUser.setPassword(passwordEncoder.encode("string"));
         authUser.setRole(Role.USER);
+        authUser.setAvatar(Utils.getAvatar(customerCreateRequestForAdmin.getName(), customerCreateRequestForAdmin.getSurname()));
+
         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest();
         customerCreateRequest.setName(customerCreateRequestForAdmin.getName());
         customerCreateRequest.setSurname(customerCreateRequestForAdmin.getSurname());

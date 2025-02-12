@@ -4,6 +4,8 @@ import { iReservationCreateRequest } from '../../../interfaces/reservation/i-res
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthSvc } from '../../../auth/auth.service';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-confirm-reservation',
@@ -11,11 +13,14 @@ import { TimeConversionSvcService } from '../../../services/time-conversion-svc.
   styleUrl: './confirm-reservation.component.scss',
 })
 export class ConfirmReservationComponent {
-  private reservationSvc = inject(ReservationsService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private authSvc = inject(AuthSvc);
-  protected timeConversionSvc = inject(TimeConversionSvcService);
+  constructor(
+    private reservationSvc: ReservationsService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authSvc: AuthSvc,
+    protected timeConversionSvc: TimeConversionSvcService,
+    private modalSvc: NgbModal
+  ) {}
 
   reservation!: iReservationCreateRequest;
 
@@ -48,7 +53,20 @@ export class ConfirmReservationComponent {
         sessionStorage.removeItem('newReservation');
         sessionStorage.removeItem('selectedServices');
 
-        console.log(res);
+        if (res.message === 'Prenotazione confermata') {
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-success-modal',
+          });
+          modalRef.componentInstance.message = res.message;
+        } else {
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-warning-modal',
+          });
+          modalRef.componentInstance.message = res.message;
+        }
+        setTimeout(() => {
+          this.router.navigate(['/profile/myReservations']);
+        }, 1500);
       },
 
       error: (err) => {

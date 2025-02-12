@@ -7,6 +7,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +16,11 @@ import {
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  constructor(private authSvc: AuthSvc, private fb: FormBuilder) {}
+  constructor(
+    private authSvc: AuthSvc,
+    private fb: FormBuilder,
+    private modalSvc: NgbModal
+  ) {}
 
   user!: iAuthUserResponse;
   form!: FormGroup;
@@ -133,7 +139,10 @@ export class ProfileComponent {
     this.authSvc.update(this.form.value).subscribe((data) => {
       console.log(data);
       this.user = data.authUserResponse;
-
+      const modalRef = this.modalSvc.open(ModalComponent, {
+        windowClass: 'custom-success-modal',
+      });
+      modalRef.componentInstance.message = 'Dati modificati con successo';
       this.isEditing = false;
     });
   }
@@ -143,6 +152,10 @@ export class ProfileComponent {
       console.log(data);
       this.isEditingPassword = false;
       this.isEditing = false;
+      const modalRef = this.modalSvc.open(ModalComponent, {
+        windowClass: 'custom-success-modal',
+      });
+      modalRef.componentInstance.message = 'Password modificata con successo';
     });
   }
 

@@ -46,13 +46,15 @@ public class AuthUserSvc {
     private final CustomerMapper customerMapper;
 
     public boolean existByUsername(String username) {
-        return authUserRepo.existsByUsername(username.toLowerCase());
+        return authUserRepo.existsByUsername(username);
     }
 
     public AuthUser getByUsername(String username) {
         if (existByUsername(username)) {
+        System.out.println(username);
             return authUserRepo.findByUsername(username).get();
         } else {
+            System.out.println("PERCHÈ non lo trova?");
             throw new EntityNotFoundException("User non trovato");
         }
     }

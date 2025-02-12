@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './profile.component';
 import { MyReservationComponent } from './my-reservation/my-reservation.component';
+import { AdminGuard } from '../../auth/guards/admin.guard';
+import { UserGuard } from '../../auth/guards/user.guard';
 
 const routes: Routes = [
   {
@@ -11,6 +13,7 @@ const routes: Routes = [
   {
     path: 'myReservations',
     component: MyReservationComponent,
+    canActivate: [UserGuard],
   },
 ];
 

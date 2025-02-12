@@ -70,16 +70,6 @@ export class InfoCustomerComponent {
     }
   }
 
-  setServices(services: iSalonServiceResponse[]) {
-    let servicesString = '';
-    console.log(services);
-
-    services.forEach((s, i) => {
-      servicesString += s.name + (i < services.length - 1 ? ', ' : '');
-    });
-    return servicesString;
-  }
-
   goBack() {
     this.router.navigate(['/salonManagement/customers']);
   }

@@ -117,10 +117,6 @@ export class AuthSvc {
           this.isLogged$.next(true);
           const date = this.jwtHelper.getTokenExpirationDate(res.token);
           if (date) this.autoLogout(date);
-        }),
-        catchError((err) => {
-          this.logout();
-          return of();
         })
       );
   }

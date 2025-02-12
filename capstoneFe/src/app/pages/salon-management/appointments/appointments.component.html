@@ -6,8 +6,23 @@
     <app-appointments-list></app-appointments-list>
   </div>
 </div>
-<div class="mt-4 row">
+<div class="mt-4 row border-top border-bottom py-3" #createReservationObserver>
   <div class="col-12">
-    <app-create-reservation></app-create-reservation>
+    <ng-container *ngIf="showCreateReservation">
+      <app-create-reservation
+        [customers]="customers"
+        [services]="salonServices"
+      ></app-create-reservation>
+    </ng-container>
+  </div>
+</div>
+<div class="row mt-3" #historyObserver>
+  <div class="col-12">
+    <ng-container *ngIf="showReservationHistory">
+      <app-reservation-history
+        [customers]="customers"
+        [salonServices]="salonServices"
+      ></app-reservation-history>
+    </ng-container>
   </div>
 </div>

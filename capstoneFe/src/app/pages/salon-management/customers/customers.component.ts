@@ -9,7 +9,7 @@ import { iCustomerResponseForAdmin } from '../../../interfaces/customer/i-custom
   styleUrl: './customers.component.scss',
 })
 export class CustomersComponent {
-  private customerSvc = inject(CustomerService);
+  constructor(private customerSvc: CustomerService) {}
   page = 1;
   customers!: iCustomerResponseForAdmin[];
   collectionSize!: number;

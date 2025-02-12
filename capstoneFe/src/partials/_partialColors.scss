@@ -19,3 +19,23 @@ $custom-colors: (
   "success": $success,
   "info": $info,
 );
+
+.status-confirmed {
+  color: $info;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: $warning;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: $danger;
+  font-weight: bold;
+}
+
+.status-completed {
+  color: $success;
+  font-weight: bold;
+}

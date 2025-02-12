@@ -12,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -33,8 +35,27 @@ public class ReservationSvc {
 
     public List<ReservationResponse> findAll() {
         List<Reservation> reservations = reservationRepo.findAll();
-
         return reservationMapper.toReservationResponseList(reservations);
+    }
+
+    public Page<ReservationResponse> findAllPageable(Pageable pageable) {
+        Page<Reservation> reservations = reservationRepo.findAll(pageable);
+        return reservations.map(reservationMapper::toReservationResponse);
+    }
+
+    public Page<ReservationResponse> findByCustomerId(UUID customerId, Pageable pageable) {
+        Page<Reservation> reservations = reservationRepo.findByCustomerIdOrderByDateDesc(customerId, pageable);
+        return reservations.map(reservationMapper::toReservationResponse);
+    }
+
+    public Page<ReservationResponse> findByStatus(Status status, Pageable pageable) {
+        Page<Reservation> reservations = reservationRepo.findByStatusOrderByDateDesc(status, pageable);
+        return reservations.map(reservationMapper::toReservationResponse);
+    }
+
+    public Page<ReservationResponse> findBySalonServicesId(UUID salonServicesID, Pageable pageable) {
+        Page<Reservation> reservations = reservationRepo.findBySalonServicesIdOrderByDateDesc( salonServicesID, pageable);
+        return reservations.map(reservationMapper::toReservationResponse);
     }
 
     public List<ReservationResponse> findConfirmedAndPending() {
@@ -156,7 +177,7 @@ public class ReservationSvc {
     public List<ReservationResponseForCustomer> findAllByLoggedCustomer(User userDetails) {
         Customer customer = customerSvc.findByAuthUserUsername(userDetails.getUsername());
 
-        List<Reservation> reservations = reservationRepo.findByCustomerId(customer.getId());
+        List<Reservation> reservations = reservationRepo.findByCustomerIdOrderByDateDesc(customer.getId());
         return reservationMapper.toReservationResponseForCustomerList(reservations);
 
     }

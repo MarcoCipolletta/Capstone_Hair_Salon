@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { AuthSvc } from './auth/auth.service';
 
@@ -14,8 +15,14 @@ export class AppComponent {
     if (!localStorage.getItem('accessData')) {
       this.isLoading = false;
     }
-    this.authSvc.restoreUser()?.subscribe((res) => {
-      this.isLoading = false;
+    this.authSvc.restoreUser()?.subscribe({
+      next: () => {
+        this.isLoading = false;
+      },
+      error: () => {
+        this.authSvc.logout();
+        this.isLoading = false;
+      },
     });
   }
 }

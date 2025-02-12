@@ -7,6 +7,7 @@ import { iReservationResponse } from '../interfaces/reservation/i-reservation-re
 import { BehaviorSubject, tap } from 'rxjs';
 import { iReservationResponseForCustomer } from '../interfaces/reservation/i-reservation-response-for-customer';
 import { iReservationAndCustomerCreateByAdminRequest } from '../interfaces/reservation/i-reservation-and-customer-create-by-admin-request';
+import { iReservationPaged } from '../interfaces/reservation/i-reservation-paged';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,12 @@ export class ReservationsService {
       tap((res) => {
         this.$allReservations.next(res);
       })
+    );
+  }
+
+  getPagedReservation(url: string, page: number, size: number) {
+    return this.http.get<iReservationPaged>(
+      this.baseUrl + url + '?page=' + page + '&size=' + size + '&sort=date,desc'
     );
   }
 

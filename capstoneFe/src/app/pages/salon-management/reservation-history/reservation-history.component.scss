@@ -1,15 +1,7 @@
 @import "../../../../partials/partialColors";
-.icon-back {
-  color: $primary;
-  font-size: 2.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    color: $accent;
-  }
-}
 
-.customer-details {
+.reservations {
+  margin-top: 1rem;
   padding: 1.25rem;
   background: #f9f9f9;
   border-radius: 8px;
@@ -21,4 +13,8 @@
   ul {
     margin-bottom: 0;
   }
+}
+.reservation:last-of-type {
+  border: 0;
+  padding-bottom: 0;
 }

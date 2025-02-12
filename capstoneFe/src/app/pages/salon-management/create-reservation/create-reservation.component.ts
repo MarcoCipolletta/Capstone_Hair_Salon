@@ -1,9 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CustomerService } from '../../../services/customer.service';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { iCustomerResponseForAdmin } from '../../../interfaces/customer/i-customer-response-for-admin';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
-import { combineLatest } from 'rxjs';
-import { SalonservicesService } from '../../../services/salonservices.service';
 import { BookingSlotTimesService } from '../../../services/booking-slot-times.service';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 import { iDayWithAvaibleTime } from '../../../interfaces/bookingtimes/i-day-with-avaible-time';
@@ -21,8 +18,6 @@ import { iReservationAndCustomerCreateByAdminRequest } from '../../../interfaces
 })
 export class CreateReservationComponent {
   constructor(
-    private customerSvc: CustomerService,
-    private salonServicesSvc: SalonservicesService,
     private bookingSlotSvc: BookingSlotTimesService,
     private reservationSvc: ReservationsService,
     protected timeConversionSvc: TimeConversionSvcService
@@ -30,7 +25,7 @@ export class CreateReservationComponent {
 
   today = new Date().toISOString().split('T')[0];
 
-  customers: iCustomerResponseForAdmin[] = [];
+  @Input() customers!: iCustomerResponseForAdmin[];
   newCustomer = false;
   selectedCustomer!: string | null;
   chooseDate!: Date | null;
@@ -45,8 +40,8 @@ export class CreateReservationComponent {
 
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
-  services: iSalonServiceResponse[] = [];
-  selectedServices: iSalonServiceResponse[] = [];
+  @Input() services!: iSalonServiceResponse[];
+  selectedServices!: iSalonServiceResponse[];
 
   servicesDisabled: boolean = true;
 
@@ -75,17 +70,6 @@ export class CreateReservationComponent {
 
   slots!: iDayWithAvaibleTime;
   chooseTime!: iAvailableTime | null;
-
-  ngOnInit() {
-    combineLatest([
-      this.customerSvc.getAll(),
-      this.salonServicesSvc.getAllServices(),
-    ]).subscribe(([customersRes, servicesRes]) => {
-      this.customers = customersRes;
-      this.services = servicesRes;
-    });
-    console.log(this.selectedServices);
-  }
 
   onDateChange(event: Event) {
     this.chooseDate = new Date((event.target as HTMLInputElement).value);

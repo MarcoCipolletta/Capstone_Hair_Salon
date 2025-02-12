@@ -5,6 +5,9 @@ import it.epicode.hair_salon.entities.reservation.dto.ReservationCreateRequest;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponse;
 import it.epicode.hair_salon.entities.reservation.dto.ReservationResponseForCustomer;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +39,30 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ReservationResponse>> findAll() {
         return ResponseEntity.ok(reservationSvc.findAll());
+    }
+
+    @GetMapping("/page")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<ReservationResponse>> findAllPageable(@ParameterObject Pageable pageable) {
+        return ResponseEntity.ok(reservationSvc.findAllPageable(pageable));
+    }
+
+    @GetMapping("/pageCustomer/{customerId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<ReservationResponse>> findByCustomerId(@ParameterObject Pageable pageable,@PathVariable UUID customerId) {
+        return ResponseEntity.ok(reservationSvc.findByCustomerId(customerId,pageable));
+    }
+
+    @GetMapping("/pageStatus/{status}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<ReservationResponse>> findByStatus(@ParameterObject Pageable pageable,@PathVariable Status status ) {
+        return ResponseEntity.ok(reservationSvc.findByStatus(status,pageable));
+    }
+
+    @GetMapping("/pageSalonService/{salonServiceId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<ReservationResponse>> findBySalonServicesId(@ParameterObject Pageable pageable,@PathVariable UUID salonServiceId ) {
+        return ResponseEntity.ok(reservationSvc.findBySalonServicesId(salonServiceId,pageable));
     }
 
     @GetMapping("/byCustomer")

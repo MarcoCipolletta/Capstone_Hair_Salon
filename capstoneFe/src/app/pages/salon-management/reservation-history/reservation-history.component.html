@@ -1,0 +1,120 @@
+<h3>Storico prenotazioni</h3>
+<div class="d-flex justify-content-between align-items-end border-bottom pb-3">
+  <div class="d-flex align-items-center">
+    <ngb-pagination
+      class="d-flex align-items-center"
+      size="sm"
+      [ellipses]="false"
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [maxSize]="5"
+      [boundaryLinks]="true"
+      [pageSize]="pageSize"
+      (pageChange)="loadReservation()"
+    />
+  </div>
+  <div class="d-flex flex-column">
+    <label class="form-label">Filtra per cliente</label>
+    <ng-select
+      class="custom flex-grow-1"
+      [(ngModel)]="selectedCustomer"
+      [placeholder]="'Nome cliente'"
+      bindValue="id"
+      [searchable]="true"
+      [minTermLength]="2"
+      notFoundText="Nessun risultato"
+      [virtualScroll]="true"
+      (change)="onCustomerSelected()"
+    >
+      @for(customer of customers;track customer.id){
+      <ng-option [value]="customer.id"
+        >{{ customer.name }} {{ customer.surname }}</ng-option
+      >
+      }</ng-select
+    >
+  </div>
+  <div class="d-flex flex-column">
+    <label class="form-label">Filtra per servizio</label>
+    <ng-select
+      class="custom flex-grow-1"
+      [(ngModel)]="selectedService"
+      [placeholder]="'Seleziona servizio'"
+      bindValue="id"
+      [searchable]="true"
+      [minTermLength]="2"
+      notFoundText="Nessun risultato"
+      [virtualScroll]="true"
+      (change)="onServiceSelected()"
+    >
+      @for(service of salonServices;track service.id){
+      <ng-option [value]="service">{{ service.name }}</ng-option>
+      }</ng-select
+    >
+  </div>
+  <div class="d-flex flex-column">
+    <label class="form-label">Filtra per status</label>
+    <ng-select
+      class="custom flex-grow-1"
+      [(ngModel)]="selectedStatus"
+      [placeholder]="'Seleziona stato'"
+      bindValue="value"
+      [searchable]="true"
+      [minTermLength]="2"
+      notFoundText="Nessun risultato"
+      [virtualScroll]="true"
+      (change)="onStatusSelected()"
+    >
+      @for(service of statuses;track service.value){
+      <ng-option [value]="service">{{ service.name }}</ng-option>
+      }</ng-select
+    >
+  </div>
+  <div class="d-flex gap-3 align-items-center">
+    <div>
+      <label for="pageSize">Elementi</label>
+      <select
+        id="pageSize"
+        [(ngModel)]="pageSize"
+        class="form-select form-select-sm"
+        (change)="loadReservation()"
+      >
+        <option selected value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div *ngIf="reservations.length > 0; else noReservations" class="reservations">
+  <div *ngFor="let reservation of reservations" class="reservation">
+    <h4>
+      <b>Cliente:</b> {{ reservation.customer.name }}
+      {{ reservation.customer.surname }}
+    </h4>
+    <p><b>Data:</b> {{ reservation.date | date : "dd/MM/yyyy" }}</p>
+    <p>
+      <b>Orario:</b>
+      {{ timeConverter.secondsToTime(reservation.startTime) }}
+    </p>
+    <p>
+      <b>Stato: </b>
+      <span [ngClass]="getStatusClass(reservation.status)">
+        {{ setStatus(reservation.status) }}</span
+      >
+    </p>
+    <p>
+      <b>Durata totale:</b>
+      {{ getTotalDuration(reservation.salonServices) }}
+    </p>
+    <p><b>Servizi:</b></p>
+    <ul>
+      <li *ngFor="let service of reservation.salonServices">
+        <span class="text-capitalize">{{ service.name }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #noReservations>
+  <p>Nessuna prenotazione trovata.</p>
+</ng-template>

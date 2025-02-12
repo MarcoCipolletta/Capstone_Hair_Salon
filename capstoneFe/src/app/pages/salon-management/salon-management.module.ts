@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbCollapseModule,
   NgbPaginationModule,
+  NgbScrollSpyModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { AllClosingCardComponent } from './all-closing-card/all-closing-card.component';
 import { CardOpeningHourComponent } from './card-opening-hour/card-opening-hour.component';
@@ -25,6 +26,7 @@ import { CustomerCardComponent } from './customer-card/customer-card.component';
 import { InfoCustomerComponent } from './info-customer/info-customer.component';
 import { CreateReservationComponent } from './create-reservation/create-reservation.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     CustomerCardComponent,
     InfoCustomerComponent,
     CreateReservationComponent,
+    ReservationHistoryComponent,
   ],
   imports: [
     CommonModule,

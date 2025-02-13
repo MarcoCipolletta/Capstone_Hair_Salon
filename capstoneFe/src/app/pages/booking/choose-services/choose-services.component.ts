@@ -31,7 +31,7 @@ export class ChooseServicesComponent {
   }
 
   getAllServices() {
-    this.salonServicesSvc.getAllServices().subscribe({
+    this.salonServicesSvc.getAvailableServices().subscribe({
       next: (res) => {
         this.salonServices = res;
       },

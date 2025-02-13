@@ -65,6 +65,15 @@ public class SalonServiceSvc {
         }).toList();
     }
 
+    public List<SalonServiceResponse> findNotHidden(){
+        List<SalonService> salonServices = salonServiceRepo.findAllByHiddenIsFalse();
+        return salonServices.stream().map(s -> {
+            SalonServiceResponse salonServiceResponse = new SalonServiceResponse();
+            BeanUtils.copyProperties(s, salonServiceResponse);
+            return salonServiceResponse;
+        }).toList();
+    }
+
     public String updateHiddenValue(UUID id, boolean hidden) {
         SalonService salonService = findById(id);
         salonService.setHidden(hidden);

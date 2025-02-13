@@ -39,3 +39,21 @@
 .editing-icon {
   z-index: 1001;
 }
+
+.hidden {
+  border: 2px solid #b9b9b9;
+  color: #b9b9b9;
+  label {
+    color: $text;
+  }
+}
+
+.hidden-text {
+  p,
+  span {
+    color: $text;
+  }
+}
+.badge.hidden {
+  background-color: #b9b9b9;
+}

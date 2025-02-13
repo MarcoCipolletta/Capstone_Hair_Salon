@@ -27,6 +27,7 @@ import { InfoCustomerComponent } from './info-customer/info-customer.component';
 import { CreateReservationComponent } from './create-reservation/create-reservation.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ReservationHistoryComponent } from './reservation-history/reservation-h
     InfoCustomerComponent,
     CreateReservationComponent,
     ReservationHistoryComponent,
+    CapitalizePipe,
   ],
   imports: [
     CommonModule,

@@ -7,4 +7,5 @@ import java.util.UUID;
 
 
 public interface SalonServiceRepository extends JpaRepository<SalonService, UUID> {
+    List<SalonService> findAllByHiddenIsFalse();
 }

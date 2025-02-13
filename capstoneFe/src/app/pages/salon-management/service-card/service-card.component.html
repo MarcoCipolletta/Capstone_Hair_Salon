@@ -1,7 +1,10 @@
 <ng-container *ngIf="service">
   <div
     class="position-relative service-card d-flex flex-column"
-    [ngClass]="{ 'border-card': !isEditing }"
+    [ngClass]="{
+      'border-card': !isEditing,
+      hidden: service.hidden && !isEditing
+    }"
   >
     <ng-container *ngIf="!isEditing">
       <div class="d-flex justify-content-center">
@@ -9,12 +12,12 @@
           <h3 class="text-center text-uppercase">
             {{ service.name }}
           </h3>
-          <span
+          <!-- <span
             *ngIf="service.hidden"
-            class="position-absolute translate-middle badge rounded-pill bg-danger"
+            class="position-absolute translate-middle badge hidden rounded-pill bg-danger"
           >
             Nascosto
-          </span>
+          </span> -->
         </div>
       </div>
       <ng-container
@@ -57,7 +60,11 @@
     <ng-container *ngIf="isEditing">
       <div
         class="position-absolute top-0 start-0 w-100 editService shadow-lg"
-        [ngClass]="{ 'border-card': isEditing }"
+        [ngClass]="{
+          'border-card': isEditing,
+          hidden: service.hidden && isEditing,
+          'hidden-text': service.hidden && isEditing
+        }"
       >
         <div class="d-flex flex-column">
           <label for="name" class="me-3">Nome servizio: </label>

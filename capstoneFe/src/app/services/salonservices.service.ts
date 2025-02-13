@@ -25,6 +25,10 @@ export class SalonservicesService {
     );
   }
 
+  getAvailableServices() {
+    return this.http.get<iSalonServiceResponse[]>(this.baseUrl + '/available');
+  }
+
   getServiceById(id: string) {
     return this.http.get<iSalonServiceResponse>(this.baseUrl + '/' + id);
   }

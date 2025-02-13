@@ -21,20 +21,21 @@ public class SalonServiceController {
 
     @GetMapping
     // ALL
-    public List<SalonServiceResponse> getAll(){
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<SalonServiceResponse> getAll() {
         return salonServiceSvc.findAllResponse();
     }
 
     @GetMapping("/{id}")
-    // Per ora ALL
-    public SalonServiceResponse getById(@PathVariable UUID id){
+    @PreAuthorize("hasRole('ADMIN')")
+    public SalonServiceResponse getById(@PathVariable UUID id) {
         return salonServiceSvc.findByIdResponse(id);
     }
 
     @PostMapping
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, String>> create(@RequestBody SalonServiceCreateRequest salonServiceCreateRequest){
+    public ResponseEntity<Map<String, String>> create(@RequestBody SalonServiceCreateRequest salonServiceCreateRequest) {
         String message = salonServiceSvc.create(salonServiceCreateRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
@@ -44,7 +45,7 @@ public class SalonServiceController {
     @PutMapping("/{id}")
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public SalonServiceResponse update(@PathVariable UUID id,@RequestBody SalonServiceResponse salonServiceResponse){
+    public SalonServiceResponse update(@PathVariable UUID id, @RequestBody SalonServiceResponse salonServiceResponse) {
         if (!id.equals(salonServiceResponse.getId())) {
             throw new IllegalArgumentException("ID nell'URL e ID nel body non corrispondono.");
         }
@@ -54,7 +55,7 @@ public class SalonServiceController {
     @DeleteMapping("/{id}")
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable UUID id){
+    public ResponseEntity<Map<String, String>> delete(@PathVariable UUID id) {
         String message = salonServiceSvc.delete(id);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
@@ -64,12 +65,19 @@ public class SalonServiceController {
     @PatchMapping("/hide/{id}")
     // ADMIN
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, String>> hide(@PathVariable UUID id,@RequestBody boolean hidden) {
+    public ResponseEntity<Map<String, String>> hide(@PathVariable UUID id, @RequestBody boolean hidden) {
         String message = salonServiceSvc.updateHiddenValue(id, hidden);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
-        return new ResponseEntity<>(response, HttpStatus.OK);}
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
+
+    @GetMapping("/available")
+    @PreAuthorize("!hasRole('ADMIN')")
+    public List<SalonServiceResponse> getAvailable() {
+        return salonServiceSvc.findNotHidden();
+    }
 
 
 }

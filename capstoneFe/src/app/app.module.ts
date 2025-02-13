@@ -29,9 +29,10 @@ import {
   akarScissor,
 } from '@ng-icons/akar-icons';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, CapitalizePipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

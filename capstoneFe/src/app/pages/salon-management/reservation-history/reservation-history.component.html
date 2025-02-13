@@ -28,7 +28,8 @@
     >
       @for(customer of customers;track customer.id){
       <ng-option [value]="customer.id"
-        >{{ customer.name }} {{ customer.surname }}</ng-option
+        >{{ customer.name | capitalize }}
+        {{ customer.surname | capitalize }}</ng-option
       >
       }</ng-select
     >
@@ -47,7 +48,7 @@
       (change)="onServiceSelected()"
     >
       @for(service of salonServices;track service.id){
-      <ng-option [value]="service">{{ service.name }}</ng-option>
+      <ng-option [value]="service">{{ service.name | capitalize }}</ng-option>
       }</ng-select
     >
   </div>

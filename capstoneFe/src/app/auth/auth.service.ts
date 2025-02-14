@@ -78,8 +78,6 @@ export class AuthSvc {
             'accessData',
             JSON.stringify(data.authResponse.token)
           );
-          console.log(data);
-          console.log(appUser);
 
           const date = this.jwtHelper.getTokenExpirationDate(
             data.authResponse.token

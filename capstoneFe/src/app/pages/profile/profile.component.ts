@@ -125,8 +125,6 @@ export class ProfileComponent {
     return null;
   }
   getErrorPass(fieldName: string) {
-    console.log('QUI');
-
     const control = this.passForm.get(fieldName);
     if (control?.errors!['required']) {
       return 'Campo obbligatorio';
@@ -139,7 +137,6 @@ export class ProfileComponent {
 
   save() {
     this.authSvc.update(this.form.value).subscribe((data) => {
-      console.log(data);
       this.user = data.authUserResponse;
       const modalRef = this.modalSvc.open(ModalComponent, {
         windowClass: 'custom-success-modal',
@@ -151,7 +148,6 @@ export class ProfileComponent {
 
   savePassword() {
     this.authSvc.changePassword(this.passForm.value).subscribe((data) => {
-      console.log(data);
       this.isEditingPassword = false;
       this.isEditing = false;
       const modalRef = this.modalSvc.open(ModalComponent, {

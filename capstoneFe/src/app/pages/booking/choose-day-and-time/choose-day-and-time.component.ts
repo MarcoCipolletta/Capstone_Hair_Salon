@@ -87,8 +87,6 @@ export class ChooseDayAndTimeComponent {
 
       if (startDate < new Date()) {
         let dayOfDifference = new Date().getDate() - startDate.getDate();
-        console.log('defaultmiddleindex ' + dayOfDifference);
-        console.log('StartDate before' + startDate);
 
         switch (dayOfDifference) {
           case 3:

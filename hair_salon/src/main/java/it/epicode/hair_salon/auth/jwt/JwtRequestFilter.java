@@ -38,12 +38,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Impossibile ottenere il token JWT");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token non valido");
+                return;
             } catch (ExpiredJwtException e) {
-                System.out.println("Il token JWT è scaduto");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sessione scaduta, fai login di nuovo");
+                return;
             }
         } else {
-            // logger.warn("Il token JWT non inizia con Bearer");
                 chain.doFilter(request, response);
             return;
         }

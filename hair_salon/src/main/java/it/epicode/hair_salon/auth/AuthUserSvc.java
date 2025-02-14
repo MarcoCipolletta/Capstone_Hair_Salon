@@ -51,10 +51,8 @@ public class AuthUserSvc {
 
     public AuthUser getByUsername(String username) {
         if (existByUsername(username)) {
-        System.out.println(username);
             return authUserRepo.findByUsername(username).get();
         } else {
-            System.out.println("PERCHÈ non lo trova?");
             throw new EntityNotFoundException("User non trovato");
         }
     }

@@ -9,6 +9,7 @@ import { FooterComponent } from './main-component/footer/footer.component';
 import { NgIconsModule } from '@ng-icons/core';
 import {
   iconoirArrowLeftCircle,
+  iconoirArrowRightCircle,
   iconoirEmojiSad,
   iconoirEye,
   iconoirEyeClosed,
@@ -54,6 +55,7 @@ import { PipesModule } from './shared/pipes/pipes.module';
       akarArrowDownThick,
       akarArrowUpThick,
       iconoirArrowLeftCircle,
+      iconoirArrowRightCircle,
       akarBlock,
     }),
     NgbDropdownModule,

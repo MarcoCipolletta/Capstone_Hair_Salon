@@ -1,41 +1,65 @@
-<h1 class="mt-5">SCEGLIO DATA E ORARIO</h1>
-<div *ngIf="dayAvailableSlots">
-  <h6>{{ dayAvailableSlots.date | date : "dd/MM/yyyy" }}</h6>
-  <p>{{ dayAvailableSlots.dayName }}</p>
-  <div class="d-flex">
-    <button
-      (click)="previousDay()"
-      [disabled]="!isBackActive"
-      class="btn btn-accent"
-    >
-      indietro
-    </button>
-    <button (click)="nextDay()" class="btn btn-accent">avanti</button>
-  </div>
-  <div class="d-flex flex-wrap gap-3 mt-3">
-    <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
-      <input
-        type="radio"
-        id="time{{ time.startTime }}"
-        (click)="selectTime(time)"
-        name="time"
-        hidden
-      />
+<div class="row justify-content-center h-c-70">
+  <div class="col-6">
+    <div class="h-100" *ngIf="dayAvailableSlots">
+      <div class="custom-card">
+        <h1 class=" ">SCEGLIO DATA E ORARIO</h1>
+        <div class="d-flex justify-content-evenly">
+          <ng-icon
+            (click)="previousDay()"
+            class="arrow-icon"
+            [ngClass]="{ 'arrow-disabled': !isBackActive }"
+            name="iconoirArrowLeftCircle"
+            role="button"
+          ></ng-icon>
 
-      <label
-        for="time{{ time.startTime }}"
-        class="btn"
-        [ngClass]="{
-          'btn-outline-secondary': selectedTime !== 'time' + time.startTime,
-          'btn-secondary': selectedTime === 'time' + time.startTime
-        }"
-        >{{ timeConversionSvc.secondsToTime(time.startTime) }}</label
-      >
-    </ng-container>
-  </div>
-  <ng-container *ngIf="selectedTime">
-    <div class="mt-3">
-      <button class="btn btn-accent" (click)="nextPage()">Procedi</button>
+          <div class="text-center">
+            <p class="fs-5 fw-bold">
+              {{ dayAvailableSlots.date | date : "dd/MM/yyyy" }}
+            </p>
+            <p class="fs-6">
+              {{ dayAvailableSlots.dayName | uppercase }}
+            </p>
+          </div>
+          <ng-icon
+            (click)="nextDay()"
+            class="arrow-icon"
+            name="iconoirArrowRightCircle"
+            role="button"
+          ></ng-icon>
+        </div>
+        <div class="row g-3 w-75 mx-auto mt-3">
+          <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
+            <div class="col-3">
+              <input
+                type="radio"
+                id="time{{ time.startTime }}"
+                (click)="selectTime(time)"
+                name="time"
+                hidden
+              />
+
+              <label
+                for="time{{ time.startTime }}"
+                class="btn"
+                [ngClass]="{
+                  'btn-outline-secondary':
+                    selectedTime !== 'time' + time.startTime,
+                  'btn-secondary': selectedTime === 'time' + time.startTime
+                }"
+                >{{ timeConversionSvc.secondsToTime(time.startTime) }}</label
+              >
+            </div>
+          </ng-container>
+        </div>
+        <div class="flex-grow-1"></div>
+        <ng-container *ngIf="selectedTime">
+          <div class="mt-3">
+            <button class="btn btn-accent animation" (click)="nextPage()">
+              Procedi
+            </button>
+          </div>
+        </ng-container>
+      </div>
     </div>
-  </ng-container>
+  </div>
 </div>

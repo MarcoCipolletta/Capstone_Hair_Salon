@@ -1,1 +1,39 @@
+.custom-card {
+  border: 1px solid #d7d7d7;
+  box-shadow: 9px 9px 20px 10px #9997945c;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #f7f7f7;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
+  .arrow-icon {
+    color: #88425a;
+    font-size: 3rem;
+
+    &:hover {
+      color: #74384d;
+    }
+    &.arrow-disabled {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}
+
+.animation {
+  animation: nextPageCreateButton 0.3s ease-in-out 1;
+}
+
+@keyframes nextPageCreateButton {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}

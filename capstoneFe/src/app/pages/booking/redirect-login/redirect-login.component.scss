@@ -5,4 +5,11 @@
   align-items: center;
   height: 50%; // Usa tutta l'altezza della viewport
   text-align: center; // Per centrare il testo
+  .custom-card {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 2rem;
+    background-color: #f7f7f7;
+    box-shadow: 9px 9px 20px 10px #9997945c;
+  }
 }

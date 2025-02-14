@@ -47,7 +47,6 @@ export class ChooseDayAndTimeComponent {
         this.selectedTime = 'time' + this.newReservation.startTime;
         this.selectedServices = this.newReservation.salonServices;
         this.getPreviousWeek(this.newReservation.date);
-        this.isBackActive = true;
       } else {
         this.selectedServices = JSON.parse(
           sessionStorage.getItem('selectedServices')!
@@ -97,12 +96,15 @@ export class ChooseDayAndTimeComponent {
             break;
           case 2:
             defaultMiddleIndex = 1;
+            this.isBackActive = true;
             break;
           case 1:
             defaultMiddleIndex = 2;
+            this.isBackActive = true;
             break;
           case 0:
             defaultMiddleIndex = 3;
+            this.isBackActive = true;
             break;
         }
         startDate = new Date();

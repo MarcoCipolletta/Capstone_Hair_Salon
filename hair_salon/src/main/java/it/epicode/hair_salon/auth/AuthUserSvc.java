@@ -216,9 +216,12 @@ public class AuthUserSvc {
 
         BeanUtils.copyProperties(authUserResponse, authUser);
         if (authUser.getRole() == Role.ADMIN) {
+            System.out.println(authUser.getRole());
             authUserRepo.save(authUser);
         } else {
             authUser.setCustomer(customerSvc.update(authUserResponse.getCustomer(), authUser));
+            System.out.println(authUser.getRole());
+
             authUserRepo.save(authUser);
 
         }

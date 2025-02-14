@@ -38,6 +38,7 @@ export class ProfileComponent {
           username: [this.user.username, [Validators.required]],
           email: [this.user.email, [Validators.required]],
           avatar: [this.user.avatar, [Validators.required]],
+          role: [this.user.role, [Validators.required]],
         });
       } else {
         this.form = this.fb.group({
@@ -53,6 +54,7 @@ export class ProfileComponent {
               ),
             ],
           ],
+          role: [this.user.role, [Validators.required]],
           avatar: [this.user.avatar, [Validators.required]],
           customer: this.fb.group({
             id: [this.user.customer.id, [Validators.required]],

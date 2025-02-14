@@ -1,3 +1,10 @@
 .fixed-height {
   height: 64vh;
+  .calendar-container {
+    overflow-x: auto;
+    height: 100%;
+    .calendar-height {
+      height: 150vh;
+    }
+  }
 }

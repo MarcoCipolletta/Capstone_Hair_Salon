@@ -7,6 +7,7 @@ import { MyReservationComponent } from './my-reservation/my-reservation.componen
 import { ReservationCardComponent } from './reservation-card/reservation-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
+import { PipesModule } from '../../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,12 @@ import { NgIcon } from '@ng-icons/core';
     MyReservationComponent,
     ReservationCardComponent,
   ],
-  imports: [CommonModule, ProfileRoutingModule, ReactiveFormsModule, NgIcon],
+  imports: [
+    CommonModule,
+    ProfileRoutingModule,
+    ReactiveFormsModule,
+    NgIcon,
+    PipesModule,
+  ],
 })
 export class ProfileModule {}

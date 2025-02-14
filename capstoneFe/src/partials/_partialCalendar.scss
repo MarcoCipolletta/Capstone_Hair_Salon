@@ -1,31 +1,36 @@
 .appointment {
-  background-color: $primary;
   border: 2px solid $secondary;
   padding: 0.25rem;
   color: #000000;
-  font-weight: bold;
+  // font-weight: bold;
+  &.CONFIRMED {
+    background-color: $accent;
+  }
+  &.PENDING {
+    background-color: $primary;
+  }
 }
-.fc-event.appointment .fc-event-title {
-  color: $background !important;
+.fc-event.appointment .fc-event-title,
+.fc-event.appointment .fc-event-time {
+  color: $background;
 }
 
-.fc-event.appointment .fc-event-time {
-  color: $background !important;
-}
 .holiday {
-  background-color: $text !important;
-  border: 2px solid $secondary !important;
-  padding: 0.25rem;
-  color: #000000 !important;
-  font-weight: bold;
+  // font-weight: bold;
   pointer-events: none;
 }
-.fc-event.holiday .fc-event-title {
-  color: $background !important;
+.closingHours,
+.holiday {
+  background-color: #b2b2b2;
+  border: 2px solid #404040;
+  // padding: 0.25rem;
+  // font-weight: bold;
 }
-
-.fc-event.holiday .fc-event-time {
-  color: $background !important;
+.fc-event.holiday .fc-event-title,
+.fc-event.holiday .fc-event-time,
+.fc-event.closingHours .fc-event-title,
+.fc-event.closingHours .fc-event-time {
+  color: $text;
 }
 
 .tippy-box[data-theme~="light"] {
@@ -35,4 +40,26 @@
   padding: 5px;
   font-size: 14px;
   border-radius: 5px;
+}
+
+// da controllare per il responsive
+.fc-view-harness.fc-view-harness-active {
+  // overflow-x: auto;
+  // border: 1px solid black;
+  .fc-timeGridWeek-view.fc-view.fc-timegrid {
+    // height: 1200px;
+
+    // width: 1200px;
+    .fc-scrollgrid.fc-scrollgrid-liquid {
+      tbody {
+        // overflow-y: auto;
+        .fc-scrollgrid-section.fc-scrollgrid-section-body.fc-scrollgrid-section-liquid {
+          // width: 100%;
+        }
+        colgroup {
+          background-color: #fff;
+        }
+      }
+    }
+  }
 }

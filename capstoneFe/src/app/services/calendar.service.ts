@@ -85,7 +85,7 @@ export class CalendarService {
         }
         `,
       },
-      classNames: ['appointment'],
+      classNames: ['appointment', `${reservation.status}`],
     };
   }
   mapScheduleToEvent(schedule: iManagerSchedule): iCalendarEvent {
@@ -132,13 +132,13 @@ export class CalendarService {
 
     const event: iCalendarEvent = {
       id: schedule.id,
-      title: `${schedule.reason ? schedule.reason : 'Impegno'}`,
+      title: `${schedule.reason ? schedule.reason : 'Non disponibile'}`,
       start: eventDateStart.toISOString(),
       end: eventDateFinish.toISOString(),
       extendedProps: {
-        description: 'Chiuso per ferie',
+        description: `${schedule.reason ? schedule.reason : 'Non disponibile'}`,
       },
-      classNames: ['holiday'],
+      classNames: ['closingHours'],
     };
 
     return event;

@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { CalendarOptions, EventClickArg } from '@fullcalendar/core/index.js';
+import { CalendarOptions } from '@fullcalendar/core/index.js';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import { ReservationsService } from '../../../services/reservations.service';
+
 import { CalendarService } from '../../../services/calendar.service';
 import tippy from 'tippy.js';
 // import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale-extreme.css';
-import { iCalendarEvent } from '../../../interfaces/i-calendar-event';
 
 @Component({
   selector: 'app-calendar',
@@ -22,19 +21,21 @@ export class CalendarComponent {
     plugins: [timeGridPlugin, bootstrap5Plugin, interactionPlugin],
     themeSystem: 'bootstrap5',
     expandRows: true,
+
     headerToolbar: {
       left: '',
       center: 'title',
       right: 'prev,next today',
     },
     buttonText: {
-      today: 'Oggi', // testo pulsante "today"
+      today: 'Oggi',
       prev: '<',
       next: '>',
       dayGridMonth: 'Mese',
       timeGridWeek: 'Settimana',
     },
     initialView: 'timeGridWeek',
+    stickyHeaderDates: true,
     initialDate: new Date().toISOString().split('T')[0],
     timeZone: 'local',
     locale: 'it',

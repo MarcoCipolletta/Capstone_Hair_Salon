@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { NgIconsModule } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { PipesModule } from '../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
     NgIconsModule,
     ReactiveFormsModule,
     NgbProgressbarModule,
+    PipesModule,
   ],
 })
 export class AuthModule {}

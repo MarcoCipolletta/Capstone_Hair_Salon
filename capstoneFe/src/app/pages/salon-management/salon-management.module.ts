@@ -27,7 +27,7 @@ import { InfoCustomerComponent } from './info-customer/info-customer.component';
 import { CreateReservationComponent } from './create-reservation/create-reservation.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
-import { CapitalizePipe } from '../../pipes/capitalize.pipe';
+import { PipesModule } from '../../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,6 @@ import { CapitalizePipe } from '../../pipes/capitalize.pipe';
     InfoCustomerComponent,
     CreateReservationComponent,
     ReservationHistoryComponent,
-    CapitalizePipe,
   ],
   imports: [
     CommonModule,
@@ -59,6 +58,7 @@ import { CapitalizePipe } from '../../pipes/capitalize.pipe';
     ReactiveFormsModule,
     NgbPaginationModule,
     NgSelectModule,
+    PipesModule,
   ],
 })
 export class SalonManagementModule {}

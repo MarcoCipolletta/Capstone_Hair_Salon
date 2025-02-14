@@ -59,7 +59,7 @@ public class ReservationSvc {
     }
 
     public List<ReservationResponse> findConfirmedAndPending() {
-        List<Reservation> reservations = reservationRepo.findByStatusIn(List.of(Status.CONFIRMED, Status.PENDING));
+        List<Reservation> reservations = reservationRepo.findByStatusInOrderByDateAsc(List.of(Status.CONFIRMED, Status.PENDING));
         return reservationMapper.toReservationResponseList(reservations);
 
     }

@@ -87,8 +87,24 @@ export class ChooseDayAndTimeComponent {
       startDate.setDate(startDate.getDate() - 3);
 
       if (startDate < new Date()) {
-        defaultMiddleIndex = new Date().getDate() - startDate.getDate();
+        let dayOfDifference = new Date().getDate() - startDate.getDate();
+        console.log('defaultmiddleindex ' + dayOfDifference);
+        console.log('StartDate before' + startDate);
 
+        switch (dayOfDifference) {
+          case 3:
+            defaultMiddleIndex = 0;
+            break;
+          case 2:
+            defaultMiddleIndex = 1;
+            break;
+          case 1:
+            defaultMiddleIndex = 2;
+            break;
+          case 0:
+            defaultMiddleIndex = 3;
+            break;
+        }
         startDate = new Date();
       }
       const checkAvailableRequest: iCheckAvailableRequest = {
@@ -100,6 +116,7 @@ export class ChooseDayAndTimeComponent {
         .getWeekOfDayWithAvailableTime(checkAvailableRequest)
         .subscribe((res) => {
           this.weekOfDayAvailableSlots = [...res];
+
           this.dayIndex = defaultMiddleIndex;
           this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
         });

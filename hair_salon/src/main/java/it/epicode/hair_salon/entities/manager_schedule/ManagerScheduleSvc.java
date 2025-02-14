@@ -115,7 +115,7 @@ public class ManagerScheduleSvc {
     }
 
     public List<ManagerSchedule> findAll() {
-        return managerScheduleRepo.findAll();
+        return managerScheduleRepo.findAllByOrderByDateAsc();
     }
 
     public boolean existsHolidayByDate(LocalDate date) {

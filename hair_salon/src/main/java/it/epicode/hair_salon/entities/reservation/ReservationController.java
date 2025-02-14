@@ -81,7 +81,6 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ReservationResponse> updateStatus(@PathVariable UUID reservationId, @RequestBody String status) {
         Status statusEnum = Status.valueOf(status);
-        System.out.println(statusEnum);
         return ResponseEntity.ok(reservationSvc.updateStatus(reservationId, statusEnum));
     }
 
@@ -108,8 +107,6 @@ public class ReservationController {
     @PatchMapping("/cancelReservation/{reservationId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReservationResponseForCustomer> cancelReservation(@PathVariable String reservationId, @AuthenticationPrincipal User userDetails) {
-        System.out.println(reservationId);
-        System.out.println(userDetails);
         UUID id = UUID.fromString(reservationId);
         return ResponseEntity.ok(reservationSvc.cancelReservationByCustomer(id, userDetails));
     }

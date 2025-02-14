@@ -33,4 +33,6 @@ public interface ManagerScheduleRepository extends JpaRepository<ManagerSchedule
 
     // Trova la schedule per una data specifica
     List<ManagerSchedule> findByDate(LocalDate date);
+
+    List<ManagerSchedule> findAllByOrderByDateAsc();
 }

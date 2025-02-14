@@ -27,6 +27,7 @@ import {
   akarEdit,
   akarPeopleGroup,
   akarScissor,
+  akarBlock,
 } from '@ng-icons/akar-icons';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { PipesModule } from './shared/pipes/pipes.module';
@@ -53,6 +54,7 @@ import { PipesModule } from './shared/pipes/pipes.module';
       akarArrowDownThick,
       akarArrowUpThick,
       iconoirArrowLeftCircle,
+      akarBlock,
     }),
     NgbDropdownModule,
     PipesModule,

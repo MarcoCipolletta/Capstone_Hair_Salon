@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container h-100">
   <div class="mt-5">
     <div class="">
       <h4>Prenota il tuo appuntamento</h4>
@@ -8,23 +8,27 @@
       </p>
     </div>
   </div>
-  <ng-container *ngIf="page > 1">
-    <button class="btn btn-accent" (click)="previousPage()">Indietro</button>
-  </ng-container>
-  <ng-container *ngIf="page === 1">
-    <app-choose-services
-      (pageChanged)="onPageChange($event)"
-    ></app-choose-services>
-  </ng-container>
-  <ng-container *ngIf="page === 2">
-    <app-choose-day-and-time
-      (pageChanged)="onPageChange($event)"
-    ></app-choose-day-and-time>
-  </ng-container>
-  <ng-container *ngIf="page === 3">
-    <app-confirm-reservation></app-confirm-reservation>
-  </ng-container>
-  <ng-container *ngIf="page === 4">
-    <app-redirect-login></app-redirect-login>
-  </ng-container>
+  <div>
+    <ng-container *ngIf="page > 1">
+      <button class="btn btn-accent" (click)="previousPage()">Indietro</button>
+    </ng-container>
+  </div>
+  <div class="h-100">
+    <ng-container *ngIf="page === 1">
+      <app-choose-services
+        (pageChanged)="onPageChange($event)"
+      ></app-choose-services>
+    </ng-container>
+    <ng-container *ngIf="page === 2">
+      <app-choose-day-and-time
+        (pageChanged)="onPageChange($event)"
+      ></app-choose-day-and-time>
+    </ng-container>
+    <ng-container *ngIf="page === 3">
+      <app-confirm-reservation></app-confirm-reservation>
+    </ng-container>
+    <ng-container *ngIf="page === 4">
+      <app-redirect-login></app-redirect-login>
+    </ng-container>
+  </div>
 </div>

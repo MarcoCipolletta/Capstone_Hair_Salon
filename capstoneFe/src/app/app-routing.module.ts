@@ -37,6 +37,7 @@ const routes: Routes = [
       ),
     canActivate: [LoggedGuard, AdminGuard],
   },
+  { path: 'contacts', loadChildren: () => import('./pages/contacts/contacts.module').then(m => m.ContactsModule) },
 ];
 
 @NgModule({

@@ -20,8 +20,10 @@
       </div>
     </div>
 
-    <p class="fw-semibold mt-3">Durata totale:</p>
-    <p>{{ totalDuration }}</p>
+    <ng-container *ngIf="reservation.salonServices.length > 1">
+      <p class="fw-semibold mt-3">Durata totale:</p>
+      <p>{{ totalDuration }}</p>
+    </ng-container>
     <div class="d-flex justify-content-between mt-3">
       <div>
         <p class="fw-semibold">Data:</p>

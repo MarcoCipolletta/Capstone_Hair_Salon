@@ -17,6 +17,7 @@
     "@angular/forms": "^18.2.0",
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
+    "@angular/google-maps": "^18.2.12",
     "@angular/router": "^18.2.0",
     "@auth0/angular-jwt": "^5.2.0",
     "@fullcalendar/angular": "^6.1.16",

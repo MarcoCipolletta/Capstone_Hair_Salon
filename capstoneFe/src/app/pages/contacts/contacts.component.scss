@@ -1,0 +1,97 @@
+.section {
+  height: 450px;
+  @media screen and (max-width: 767px) {
+    height: inherit;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+    p:first-of-type {
+      margin-bottom: 2rem;
+    }
+    p {
+      color: #605f5f;
+    }
+    h6 {
+      font-size: 1.5rem;
+      font-family: "Quicksand", sans-serif;
+    }
+  }
+  .form {
+    margin-top: 7.5rem;
+    @media screen and (max-width: 767px) {
+      margin-top: 2rem;
+    }
+    .askRes {
+      font-size: 1.2rem;
+      max-width: 300px;
+      text-transform: uppercase;
+      @media screen and (max-width: 767px) {
+        margin-inline: auto;
+      }
+      a {
+        color: #605f5f;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: #605f5f;
+          transition: width 0.3s ease-in-out;
+        }
+        &:hover {
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+    input[type="text"],
+    input[type="email"] {
+      border: none;
+      border-bottom: 1px solid #605f5f;
+      padding: 0.5rem 0.25rem;
+      background-color: transparent;
+      color: #605f5f;
+      &::placeholder {
+        color: #605f5f;
+      }
+      outline: none;
+    }
+    textarea {
+      border: none;
+      border-bottom: 1px solid #605f5f;
+      padding: 0.5rem 0.25rem;
+      background-color: transparent;
+      color: #605f5f;
+      min-height: 50px;
+      max-height: 150px;
+      &::placeholder {
+        color: #605f5f;
+      }
+      outline: none;
+    }
+    .bookBtn.rippleBtn {
+      position: relative;
+      display: inline-block;
+      font-size: 1.25rem;
+      color: black;
+      border: 1px solid black;
+      padding: 0.5rem 1.5rem;
+      overflow: hidden;
+      background-color: transparent;
+      text-align: end;
+      align-self: flex-end;
+    }
+  }
+}
+.map {
+  margin-block: 12rem 5rem;
+}

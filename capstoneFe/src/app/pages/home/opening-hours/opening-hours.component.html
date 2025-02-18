@@ -1,0 +1,53 @@
+<div class="bg-dark py-3">
+  <div class="container">
+    <div class="row g-0 justify-content-center">
+      <div class="square" *ngFor="let opening of openingHours">
+        <div class="d-flex flex-column">
+          <p class="day">{{ getDay(opening.day) }}</p>
+          <ng-container *ngIf="opening.closed">
+            <p>Chiuso</p>
+            <p class="opacity-0">spazio</p>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              !opening.closed &&
+              opening.launchBreakStartTime === 0 &&
+              opening.launchBreakEndTime === 0
+            "
+          >
+            <p>
+              {{
+                timeConversionSvc.secondsToTime(opening.openingTime) +
+                  "-" +
+                  timeConversionSvc.secondsToTime(opening.closingTime)
+              }}
+            </p>
+            <p class="opacity-0">spazio</p>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              !opening.closed &&
+              opening.launchBreakStartTime !== 0 &&
+              opening.launchBreakEndTime !== 0
+            "
+          >
+            <p>
+              {{
+                timeConversionSvc.secondsToTime(opening.openingTime) +
+                  "-" +
+                  timeConversionSvc.secondsToTime(opening.launchBreakStartTime)
+              }}
+            </p>
+            <p>
+              {{
+                timeConversionSvc.secondsToTime(opening.launchBreakEndTime) +
+                  "-" +
+                  timeConversionSvc.secondsToTime(opening.closingTime)
+              }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

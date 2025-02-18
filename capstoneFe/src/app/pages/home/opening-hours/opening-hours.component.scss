@@ -1,0 +1,17 @@
+@import "../../../../partials/partialColors";
+
+.square {
+  flex: 0 0 auto;
+  width: 14.27%;
+  border: 1px solid $secondary;
+  background-color: #5e324180;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  color: $background;
+  text-align: center;
+  .day {
+    font-size: 2.5rem;
+  }
+}

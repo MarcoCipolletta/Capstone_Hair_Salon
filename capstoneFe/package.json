@@ -30,6 +30,7 @@
     "@ng-icons/akar-icons": "^30.2.0",
     "@ng-icons/core": "^30.2.0",
     "@ng-icons/iconoir": "^30.2.0",
+    "@ng-icons/remixicon": "^30.3.0",
     "@ng-select/ng-select": "^13.9.1",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.2",

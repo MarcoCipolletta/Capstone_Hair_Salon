@@ -29,7 +29,15 @@ import {
   akarPeopleGroup,
   akarScissor,
   akarBlock,
+  akarInstagramFill,
+  akarWhatsappFill,
+  akarFacebookFill,
 } from '@ng-icons/akar-icons';
+import {
+  remixFacebookFill,
+  remixInstagramLine,
+  remixWhatsappLine,
+} from '@ng-icons/remixicon';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { PipesModule } from './shared/pipes/pipes.module';
 
@@ -57,6 +65,12 @@ import { PipesModule } from './shared/pipes/pipes.module';
       iconoirArrowLeftCircle,
       iconoirArrowRightCircle,
       akarBlock,
+      remixFacebookFill,
+      akarWhatsappFill,
+      akarInstagramFill,
+      akarFacebookFill,
+      remixInstagramLine,
+      remixWhatsappLine,
     }),
     NgbDropdownModule,
     PipesModule,

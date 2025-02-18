@@ -94,12 +94,12 @@ export class RegisterComponent {
           modalRef.componentInstance.message = res.message;
           this.isLoadingRegister = false;
           setTimeout(() => {
+            this.modalSvc.dismissAll();
             this.router.navigate(['/auth/login']);
           }, 1500);
         },
         error: (err) => {
           this.isLoadingRegister = false;
-          alert(err.error.message);
         },
       });
     }

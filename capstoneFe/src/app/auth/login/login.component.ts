@@ -45,10 +45,6 @@ export class LoginComponent {
             this.router.navigateByUrl(this.returnUrl);
           }, 1000);
         },
-        error: (err) => {
-          this.isLoadingLogin = false;
-          alert(err.error.message);
-        },
       });
     } else {
       console.log('Form non valido');

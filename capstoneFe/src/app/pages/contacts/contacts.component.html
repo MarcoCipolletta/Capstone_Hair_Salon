@@ -2,47 +2,81 @@
   <div class="row">
     <div class="col-12 col-md-6">
       <h5 class="fs-2 text-center text-md-start mt-5">
-        Have a question? Please send us an enquiry using the form below.
+        Hai una domanda? Inviaci una richiesta utilizzando il modulo qui sotto.
       </h5>
     </div>
   </div>
   <div class="row section">
     <div class="col-12 col-md-6 h-100 info">
-      <h6>Phone</h6>
-      <p>+39 02 1234 5678</p>
-      <h6>Address</h6>
-      <p>Via della Moscova, 12</p>
-      <p>20121</p>
-      <p>Milan, Italy</p>
+      <h6>Telefono</h6>
+      <p>+39 0734 994780</p>
+      <h6>Indirizzo</h6>
+      <p>Via Umberto I, 401</p>
+      <p>63821</p>
+      <p>Porto Sant' Elpidio (FM)</p>
     </div>
     <div class="col-12 col-md-6 h-100 form">
       <p class="askRes">
-        If you wish to book a table please visit the
-        <a routerLink="/reservation">bookin page</a>
+        Se desideri prendere un appuntamento, visita la pagina di
+        <a routerLink="/reservation"> PRENOTAZIONE</a>
       </p>
-      <form (ngSubmit)="sendEmail()" class="d-flex flex-column gap-5 mt-5">
-        <input type="text" placeholder="Name" required name="name" ngModel />
-        <input
-          type="email"
-          placeholder="Your E-mail"
-          required
-          name="email"
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-          ngModel
-        />
-        <textarea
-          placeholder="Your Message"
-          rows="4"
-          required
-          name="message"
-          ngModel
-        ></textarea>
-        <button class="btn btn-accent" role="button" type="submit">Send</button>
+      <form
+        [formGroup]="form"
+        (ngSubmit)="sendEmail()"
+        class="d-flex flex-column w-100 gap-5 mt-5"
+      >
+        <div class="w-100 position-relative">
+          <input
+            type="text"
+            placeholder="Nome"
+            name="name"
+            formControlName="name"
+            class="w-100"
+          />
+
+          <span class="validator" role="alert" *ngIf="isInvalidTouched('name')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
+
+        <div class="w-100 position-relative">
+          <input
+            type="email"
+            placeholder="La tua email"
+            name="email"
+            formControlName="email"
+            class="w-100"
+          />
+          <span class="validator" role="alert" *ngIf="isInvalidTouched('email')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon>
+            {{ getError("email") }}</span
+          >
+        </div>
+        <div class="w-100 position-relative">
+          <textarea
+            placeholder="Scrivi il messagio qui"
+            rows="4"
+            name="message"
+            formControlName="message"
+            class="w-100"
+          ></textarea>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('message')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon>
+            {{ getError("message") }}</span
+          >
+        </div>
+        <button [disabled]="form.invalid" class="btn btn-accent" type="submit">
+          Invia
+        </button>
       </form>
     </div>
   </div>
   <div class="row">
-    <div class="col map">
+    <div class="map">
       <google-map height="400px" width="100%" [center]="center" [zoom]="zoom">
         <map-marker
           *ngIf="customIcon"

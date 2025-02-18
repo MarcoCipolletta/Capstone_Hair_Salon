@@ -2,6 +2,7 @@ package it.epicode.hair_salon.utils.email;
 
 
 import it.epicode.hair_salon.auth.AuthUser;
+import it.epicode.hair_salon.utils.email.dto.ContactEmailRequest;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,6 +32,25 @@ public class EmailMapper {
         values.put("email", user.getEmail());
         values.put("website", website);
         return processTemplate(template, values);
+    }
+
+    //Carica template per form di contatto
+    public String fromContactToEmailBody(ContactEmailRequest request) {
+        String template = loadTemplate("src/main/resources/templates/contactEmail.html");
+        Map<String ,String> values = new HashMap<>();
+        values.put("website", website);
+        values.put("name", request.getName());
+        values.put("email", request.getEmail());
+        values.put("message", request.getMessage());
+        return processTemplate(template, values);
+    }
+
+    public EmailRequest fromContactToEmailRequest(ContactEmailRequest request) {
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.setTo(request.getEmail());
+        emailRequest.setSubject("Parrucchieri Nicoletta & Sandro - Messaggio ricevuto");
+        emailRequest.setBody(fromContactToEmailBody(request));
+        return emailRequest;
     }
 
     // Carica template Reset Password
@@ -67,6 +87,8 @@ public class EmailMapper {
         request.setBody(forResetPasswordSuccess());
         return request;
     }
+
+
 
     private String loadTemplate(String filePath)  {
         try {

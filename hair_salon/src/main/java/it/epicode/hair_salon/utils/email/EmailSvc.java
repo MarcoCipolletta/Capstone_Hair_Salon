@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.utils.email;
 
+import it.epicode.hair_salon.utils.email.dto.ContactEmailRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
@@ -21,6 +22,8 @@ public class EmailSvc {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private EmailMapper emailMapper;
 
     public String sendEmail(@Valid EmailRequest request) {
 
@@ -50,8 +53,11 @@ public class EmailSvc {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-        return "Mail successfully sent to " + request.getTo();
+        return "Email inviata con successo a " + request.getTo();
     }
 
+    public String sendContactEmail(@Valid ContactEmailRequest request) {
+       return sendEmailHtml(emailMapper.fromContactToEmailRequest(request));
+    }
 
 }

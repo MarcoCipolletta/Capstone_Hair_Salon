@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthSvc } from './auth/auth.service';
+import { environment } from '../environments/environment.development';
 
 @Component({
   selector: 'app-root',
@@ -25,8 +26,10 @@ export class AppComponent {
     });
   }
 
+  apikey = environment.mapsApiKey;
+
   ngOnInit(): void {
-    this.loadGoogleMapsScript('AIzaSyBknHV9J5rGAnvfHtlqE_aLsYrbX3UQqjo');
+    this.loadGoogleMapsScript(this.apikey);
   }
 
   loadGoogleMapsScript(apiKey: string): void {

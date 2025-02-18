@@ -7,9 +7,6 @@ import lombok.Data;
 @Data
 public class EmailRequest {
 
-    @Email(message = "Invalid email address for REPLY TO field")
-    private String replyTo;
-
     @Email(message = "Invalid email address for TO field")
     private String to;
 

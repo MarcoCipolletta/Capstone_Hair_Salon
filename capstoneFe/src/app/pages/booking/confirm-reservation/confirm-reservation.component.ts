@@ -38,15 +38,6 @@ export class ConfirmReservationComponent {
     }
   }
 
-  removeService(index: number) {
-    this.reservation.salonServices.splice(index, 1);
-    sessionStorage.setItem('newReservation', JSON.stringify(this.reservation));
-    sessionStorage.setItem(
-      'selectedServices',
-      JSON.stringify(this.reservation.salonServices)
-    );
-  }
-
   sendReservation() {
     this.reservationSvc.makeReservation(this.reservation).subscribe({
       next: (res) => {
@@ -80,5 +71,12 @@ export class ConfirmReservationComponent {
       (acc, service) => acc + service.price,
       0
     );
+  }
+  get totalDuration() {
+    let totalTime = this.reservation.salonServices.reduce(
+      (acc, service) => acc + service.duration,
+      0
+    );
+    return this.timeConversionSvc.secondsToDuration(totalTime);
   }
 }

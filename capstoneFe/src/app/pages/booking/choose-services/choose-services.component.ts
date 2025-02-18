@@ -3,11 +3,20 @@ import { SalonservicesService } from '../../../services/salonservices.service';
 import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon-service-response';
 import { TimeConversionSvcService } from '../../../services/time-conversion-svc.service';
 import { iReservationCreateRequest } from '../../../interfaces/reservation/i-reservation-create-request';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-choose-services',
   templateUrl: './choose-services.component.html',
   styleUrl: './choose-services.component.scss',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('400ms ease-in-out', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class ChooseServicesComponent {
   private salonServicesSvc = inject(SalonservicesService);
@@ -47,11 +56,23 @@ export class ChooseServicesComponent {
   }
 
   selectService(service: iSalonServiceResponse) {
-    if (this.selectedServices.includes(service)) {
-      this.selectedServices.splice(this.selectedServices.indexOf(service), 1);
+    console.log(this.selectedServices);
+    console.log(service);
+
+    const alreadyIncluded = this.selectedServices.find(
+      (s) => s.id === service.id
+    );
+    if (alreadyIncluded) {
+      this.selectedServices = this.selectedServices.filter(
+        (s) => s.id !== service.id
+      );
       return;
     }
     this.selectedServices.push(service);
+  }
+
+  isServiceSelected(service: iSalonServiceResponse): boolean {
+    return this.selectedServices.some((s) => s.id === service.id);
   }
 
   totalDuration() {

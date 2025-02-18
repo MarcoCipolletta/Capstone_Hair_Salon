@@ -21,13 +21,13 @@
         <div
           class="d-flex flex-column justify-content-center align-items-center"
         >
-          <p class="description_text">da {{ service.price.toFixed(0) }} €</p>
+          <p class="description_text">{{ service.price.toFixed(0) }} €</p>
 
           <button class="add-remove-btn" (click)="selectService(service)">
             <span
               ><ng-icon
                 [name]="
-                  selectedServices.includes(service)
+                  isServiceSelected(service)
                     ? 'akarCircleMinus'
                     : 'akarCirclePlus'
                 "
@@ -60,7 +60,7 @@
         <div
           class="d-flex flex-column justify-content-center align-items-center"
         >
-          <p class="description_text">da {{ service.price.toFixed(0) }} €</p>
+          <p class="description_text">{{ service.price.toFixed(0) }} €</p>
           <button class="add-remove-btn" (click)="selectService(service)">
             <span
               ><ng-icon
@@ -77,14 +77,15 @@
     </ng-container>
     <ng-container *ngIf="selectedServices.length > 0">
       <div
+        @fadeIn
         class="border border-accent d-flex justify-content-between px-3 mt-3 align-items-center"
       >
         <div>
           <p class="fw-semibold">Tempo totale stimato:</p>
           <p>{{ totalDuration() }}</p>
         </div>
-        <div>
-          <p class="fw-semibold">Prezzo totale a partire da:</p>
+        <div class="text-end">
+          <p class="fw-semibold">Prezzo totale:</p>
           <p>{{ totalPriceSelectedServices() }} €</p>
         </div>
         <div>

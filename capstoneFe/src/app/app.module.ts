@@ -40,11 +40,13 @@ import {
 } from '@ng-icons/remixicon';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { PipesModule } from './shared/pipes/pipes.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     NgIconsModule.withIcons({

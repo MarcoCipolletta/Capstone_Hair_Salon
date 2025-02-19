@@ -21,7 +21,6 @@ export class HeaderComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    // Se il click non è avvenuto all'interno del componente, chiudi il dropdown
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isCollapsed = true;
     }

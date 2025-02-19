@@ -1,9 +1,10 @@
 <div class="bg-dark py-3">
-  <div class="container">
+  <div class="container custom-container">
     <div class="row g-0 justify-content-center">
       <div class="square" *ngFor="let opening of openingHours">
         <div class="d-flex flex-column">
           <p class="day">{{ getDay(opening.day) }}</p>
+
           <ng-container *ngIf="opening.closed">
             <p>Chiuso</p>
             <p class="opacity-0">spazio</p>

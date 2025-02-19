@@ -63,10 +63,12 @@ a:hover {
     flex-direction: column;
     transition: all 0.3s ease-in-out;
     overflow: hidden;
+    opacity: 0;
     &.show {
       padding-top: 50px;
       transform: scaleY(1);
       overflow: visible;
+      opacity: 1;
     }
     a {
       width: 100%;

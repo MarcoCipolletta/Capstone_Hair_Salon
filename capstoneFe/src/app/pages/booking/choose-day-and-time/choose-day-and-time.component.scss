@@ -1,3 +1,7 @@
+.row {
+  margin-block: 2rem;
+}
+
 .custom-card {
   border: 1px solid #d7d7d7;
   box-shadow: 9px 9px 20px 10px #9997945c;
@@ -12,12 +16,14 @@
   .arrow-icon {
     color: #88425a;
     font-size: 3rem;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
       color: #74384d;
     }
     &.arrow-disabled {
       pointer-events: none;
+      color: #88425a80;
       cursor: default;
     }
   }

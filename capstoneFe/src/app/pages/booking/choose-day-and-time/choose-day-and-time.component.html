@@ -1,5 +1,5 @@
-<div class="row justify-content-center h-c-70">
-  <div class="col-6">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-7">
     <div class="h-100" *ngIf="dayAvailableSlots">
       <div class="custom-card">
         <h1 class=" ">SCEGLIO DATA E ORARIO</h1>
@@ -29,7 +29,7 @@
         </div>
         <div class="row g-3 w-75 mx-auto mt-3">
           <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
-            <div class="col-3">
+            <div class="col-4 col-sm-3">
               <input
                 type="radio"
                 id="time{{ time.startTime }}"
@@ -51,6 +51,11 @@
             </div>
           </ng-container>
         </div>
+        <ng-container *ngIf="!!!dayAvailableSlots.available">
+          <h3 class="my-3">
+            {{ blankPage }}
+          </h3>
+        </ng-container>
         <div class="flex-grow-1"></div>
         <ng-container *ngIf="selectedTime">
           <div class="mt-3">

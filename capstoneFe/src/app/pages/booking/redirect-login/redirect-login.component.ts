@@ -8,9 +8,11 @@ import { AuthSvc } from '../../../auth/auth.service';
   styleUrl: './redirect-login.component.scss',
 })
 export class RedirectLoginComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private authSvc = inject(AuthSvc);
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authSvc: AuthSvc
+  ) {}
 
   isLogged: boolean = false;
 

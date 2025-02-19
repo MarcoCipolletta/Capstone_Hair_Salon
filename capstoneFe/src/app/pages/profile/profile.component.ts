@@ -100,9 +100,17 @@ export class ProfileComponent {
     }
   }
 
-  showPassword = false;
-  togglePassword() {
-    this.showPassword = !this.showPassword;
+  showPassword1 = false;
+  showPassword2 = false;
+  showPassword3 = false;
+  togglePassword1() {
+    this.showPassword1 = !this.showPassword1;
+  }
+  togglePassword2() {
+    this.showPassword2 = !this.showPassword2;
+  }
+  togglePassword3() {
+    this.showPassword3 = !this.showPassword3;
   }
 
   isInvalidTouched(formGroup: FormGroup | any, fieldName: string) {

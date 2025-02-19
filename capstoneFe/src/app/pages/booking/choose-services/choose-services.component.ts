@@ -19,8 +19,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 export class ChooseServicesComponent {
-  private salonServicesSvc = inject(SalonservicesService);
-  timeConversionSvc = inject(TimeConversionSvcService);
+  constructor(
+    private salonServicesSvc: SalonservicesService,
+    protected timeConversionSvc: TimeConversionSvcService
+  ) {}
   salonServices: iSalonServiceResponse[] = [];
   selectedServices: iSalonServiceResponse[] = [];
   isReserved!: iReservationCreateRequest;

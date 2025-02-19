@@ -6,7 +6,7 @@
   <ng-container *ngIf="myReservations.length > 0">
     <div class="row g-3">
       <ng-container *ngFor="let reservation of myReservations">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-6 col-12">
           <app-reservation-card
             [reservation]="reservation"
           ></app-reservation-card>

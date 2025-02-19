@@ -49,21 +49,21 @@
               <label for="password" class="mt-2">Password</label>
               <div class="position-relative w-100">
                 <input
-                  [type]="showPassword ? 'text' : 'password'"
+                  [type]="showPassword1 ? 'text' : 'password'"
                   name="password"
-                  [placeholder]="showPassword ? 'password' : '********'"
+                  [placeholder]="showPassword1 ? 'password' : '********'"
                   class="form-control"
                   formControlName="password"
                   id="password"
                 />
                 <label
                   class="iconEye"
-                  (click)="togglePassword()"
+                  (click)="togglePassword1()"
                   style="cursor: pointer"
                   for="password"
                 >
                   <ng-icon
-                    [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                    [name]="showPassword1 ? 'iconoirEye' : 'iconoirEyeClosed'"
                     size="1.25rem"
                     color="#0d1821"
                   ></ng-icon>
@@ -83,21 +83,21 @@
               >
               <div class="position-relative w-100">
                 <input
-                  [type]="showPassword ? 'text' : 'password'"
+                  [type]="showPassword2 ? 'text' : 'password'"
                   name="confirmPassword"
-                  [placeholder]="showPassword ? 'password' : '********'"
+                  [placeholder]="showPassword2 ? 'password' : '********'"
                   class="form-control"
                   formControlName="confirmPassword"
                   id="confirmPassword"
                 />
                 <label
                   class="iconEye"
-                  (click)="togglePassword()"
+                  (click)="togglePassword2()"
                   style="cursor: pointer"
                   for="confirmPassword"
                 >
                   <ng-icon
-                    [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                    [name]="showPassword2 ? 'iconoirEye' : 'iconoirEyeClosed'"
                     size="1.25rem"
                     color="#0d1821"
                   ></ng-icon>

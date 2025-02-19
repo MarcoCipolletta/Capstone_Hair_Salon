@@ -4,6 +4,8 @@
   border-radius: 12px;
   box-shadow: 0px 0px 20px #0000001a;
   border: 1px solid #d7d7d7;
+  width: 100%;
+  max-width: 850px;
 }
 .btn-closer {
   border: none;
@@ -24,4 +26,8 @@
     transform: scale(1.2);
     box-shadow: 0 0 10px #891c1c4d;
   }
+}
+
+.w-c {
+  max-width: 300px;
 }

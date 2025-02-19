@@ -188,21 +188,21 @@
             <label for="oldPassword" class="mt-3">Vecchia password</label>
             <div class="position-relative w-100">
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                [type]="showPassword1 ? 'text' : 'password'"
                 name="oldPassword"
-                [placeholder]="showPassword ? 'password' : '********'"
+                [placeholder]="showPassword1 ? 'password' : '********'"
                 class="form-control"
                 formControlName="oldPassword"
                 id="oldPassword"
               />
               <label
                 class="iconEye"
-                (click)="togglePassword()"
+                (click)="togglePassword1()"
                 style="cursor: pointer"
                 for="oldPassword"
               >
                 <ng-icon
-                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  [name]="showPassword1 ? 'iconoirEye' : 'iconoirEyeClosed'"
                   size="1.25rem"
                   color="#0d1821"
                 ></ng-icon>
@@ -221,21 +221,21 @@
             <label for="newPassword" class="mt-3">New password</label>
             <div class="position-relative w-100">
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                [type]="showPassword2 ? 'text' : 'password'"
                 name="newPassword"
-                [placeholder]="showPassword ? 'password' : '********'"
+                [placeholder]="showPassword2 ? 'password' : '********'"
                 class="form-control"
                 formControlName="newPassword"
                 id="newPassword"
               />
               <label
                 class="iconEye"
-                (click)="togglePassword()"
+                (click)="togglePassword2()"
                 style="cursor: pointer"
                 for="newPassword"
               >
                 <ng-icon
-                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  [name]="showPassword2 ? 'iconoirEye' : 'iconoirEyeClosed'"
                   size="1.25rem"
                   color="#0d1821"
                 ></ng-icon>
@@ -256,21 +256,21 @@
             >
             <div class="position-relative w-100">
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                [type]="showPassword3 ? 'text' : 'password'"
                 name="confirmNewPassword"
-                [placeholder]="showPassword ? 'password' : '********'"
+                [placeholder]="showPassword3 ? 'password' : '********'"
                 class="form-control"
                 formControlName="confirmNewPassword"
                 id="confirmNewPassword"
               />
               <label
                 class="iconEye"
-                (click)="togglePassword()"
+                (click)="togglePassword3()"
                 style="cursor: pointer"
                 for="confirmNewPassword"
               >
                 <ng-icon
-                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+                  [name]="showPassword3 ? 'iconoirEye' : 'iconoirEyeClosed'"
                   size="1.25rem"
                   color="#0d1821"
                 ></ng-icon>

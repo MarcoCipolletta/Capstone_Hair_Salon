@@ -85,6 +85,7 @@ export class RegisterComponent {
     if (this.form.valid) {
       this.isLoadingRegister = true;
       this.authUser = this.form.value;
+      this.authUser.email = this.authUser.email.toLowerCase();
       this.authSvc.register(this.authUser).subscribe({
         next: (res) => {
           console.log(res);
@@ -104,9 +105,13 @@ export class RegisterComponent {
       });
     }
   }
-  showPassword = false;
-  togglePassword() {
-    this.showPassword = !this.showPassword;
+  showPassword1 = false;
+  showPassword2 = false;
+  togglePassword1() {
+    this.showPassword1 = !this.showPassword1;
+  }
+  togglePassword2() {
+    this.showPassword2 = !this.showPassword2;
   }
 
   isInvalidTouched(fieldName: string) {

@@ -6,6 +6,6 @@ export interface iDayWithAvaibleTime {
   dayName: string;
   dayNumber: string;
   availableTimes: iAvailableTime[];
-  isAvailable: boolean;
+  available: boolean;
   managerSchedules: iManagerSchedule[];
 }

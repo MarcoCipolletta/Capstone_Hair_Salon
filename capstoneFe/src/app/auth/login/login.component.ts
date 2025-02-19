@@ -33,7 +33,10 @@ export class LoginComponent {
     if (this.form.valid) {
       this.isLoadingLogin = true;
 
-      const loginRequestData: iLoginRequest = this.form.value;
+      let loginRequestData: iLoginRequest = this.form.value;
+      if (loginRequestData.identifier.includes('@')) {
+        loginRequestData.identifier = loginRequestData.identifier.toLowerCase();
+      }
       this.authSvc.login(loginRequestData).subscribe({
         next: (res) => {
           console.log(res);

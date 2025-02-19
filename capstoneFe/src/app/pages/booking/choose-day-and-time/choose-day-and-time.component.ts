@@ -104,8 +104,13 @@ export class ChooseDayAndTimeComponent {
             defaultMiddleIndex = 3;
             this.isBackActive = true;
             break;
+          default:
+            this.isBackActive = true;
+            break;
         }
         startDate = new Date();
+      } else {
+        this.isBackActive = true;
       }
       const checkAvailableRequest: iCheckAvailableRequest = {
         date: startDate,
@@ -191,6 +196,7 @@ export class ChooseDayAndTimeComponent {
     this.dayIndex--;
 
     this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+
     if (
       this.dayAvailableSlots.date.toString() ===
       new Date().toISOString().split('T')[0]
@@ -218,5 +224,22 @@ export class ChooseDayAndTimeComponent {
       );
       this.pageChanged.emit(3);
     }
+  }
+
+  get blankPage() {
+    const managerSchedule = this.dayAvailableSlots.managerSchedules;
+
+    if (
+      this.dayAvailableSlots.availableTimes.length === 0 &&
+      managerSchedule &&
+      managerSchedule.length === 0
+    ) {
+      return 'Non sono presenti orari disponibili per la data selezionata! Prova a cambiare data o a selezionare un numero inferiore di servizi';
+    } else if (managerSchedule && managerSchedule.length > 0) {
+      if (managerSchedule.some((item) => item.typeSchedule === 'HOLIDAY')) {
+        return 'Chiuso per ferie';
+      }
+    }
+    return 'Non sono presenti orari disponibili per la data selezionata! Prova a cambiare data o a selezionare un numero inferiore di servizi';
   }
 }

@@ -3,6 +3,9 @@
   position: relative;
   display: flex;
   padding-inline: 5rem;
+  @media screen and (max-width: 1399px) {
+    height: calc(100vh - 83px);
+  }
   .img {
     position: absolute;
     bottom: 0;
@@ -10,7 +13,7 @@
     right: 0;
     width: 50%;
     height: 100%;
-    // object-fit: cover;
+    object-fit: contain;
   }
   h1 {
     font-size: 3.75rem;

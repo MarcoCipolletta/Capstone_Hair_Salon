@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container c1">
   <header
     class="d-flex flex-wrap align-items-center justify-content-between fs-7"
   >
-    <ul class="nav col-3 justify-content-start mb-0">
+    <ul class="nav col-3 justify-content-start mb-0 leftMenu">
       <li>
         <a
           routerLink="/"
@@ -25,7 +25,7 @@
       </li>
     </ul>
     <div class="col-3 mb-0">
-      <a href="/" class="d-flex justify-content-center">
+      <a href="/" class="d-flex justify-content-center logo">
         <img src="LogoParrucchieria.png" alt="Logo del salone" class="w-c-60" />
       </a>
     </div>
@@ -44,7 +44,7 @@
       </ul>
 
       <ng-container *ngIf="!isLogged">
-        <div>
+        <div class="auth">
           <button
             routerLink="/auth/login"
             routerLinkActive=""
@@ -94,4 +94,109 @@
       </ng-container>
     </div>
   </header>
+</div>
+
+<div class="container c2">
+  <div class="w-25">
+    <a href="/" class="logo">
+      <img src="LogoParrucchieria.png" alt="Logo del salone" class="w-100" />
+    </a>
+  </div>
+  <div>
+    <div class="d-flex flex-column justify-content-center h-100 menu">
+      <ng-icon
+        (click)="toggleCollapse()"
+        role="button"
+        class="fs-4"
+        name="iconoirMenu"
+      ></ng-icon>
+    </div>
+    <div class="dropdown-custom" [ngClass]="{ show: !isCollapsed }">
+      <a
+        routerLink="/"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+        (click)="isCollapsed = true"
+        >HOME</a
+      >
+      <a href="#" class="nav-link" (click)="isCollapsed = true">SERVIZI</a>
+      <a
+        routerLink="/contacts"
+        routerLinkActive="selected"
+        class="nav-link"
+        (click)="isCollapsed = true"
+        >CONTATTI</a
+      >
+      <ng-container *ngIf="role !== 'ADMIN'">
+        <a
+          routerLink="/booking"
+          routerLinkActive="selected"
+          class="nav-link"
+          (click)="isCollapsed = true"
+        >
+          PRENOTA
+        </a>
+      </ng-container>
+      <ng-container *ngIf="!isLogged">
+        <div class="auth">
+          <button
+            routerLink="/auth/login"
+            routerLinkActive=""
+            type="button"
+            class="btn btn-outline-accent me-2 fs-7"
+            (click)="isCollapsed = true"
+          >
+            Accedi
+          </button>
+          <button
+            routerLink="/auth/register"
+            type="button"
+            class="btn btn-accent fs-7"
+            (click)="isCollapsed = true"
+          >
+            Registrati
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isLogged">
+        <div ngbDropdown class="profile">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="profileDropdown"
+            ngbDropdownToggle
+          >
+            Profilo
+          </button>
+          <div ngbDropdownMenu aria-labelledby="profileDropdown">
+            <button
+              routerLink="/profile"
+              ngbDropdownItem
+              (click)="isCollapsed = true"
+            >
+              Profilo
+            </button>
+            <button
+              routerLink="/profile/myReservations"
+              *ngIf="role !== 'ADMIN'"
+              ngbDropdownItem
+              (click)="isCollapsed = true"
+            >
+              Prenotazioni
+            </button>
+            <button
+              routerLink="/salonManagement"
+              *ngIf="role === 'ADMIN'"
+              ngbDropdownItem
+              (click)="isCollapsed = true"
+            >
+              Gestione salone
+            </button>
+            <button ngbDropdownItem (click)="logout()" class="">Logout</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>

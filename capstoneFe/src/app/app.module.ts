@@ -14,6 +14,7 @@ import {
   iconoirEye,
   iconoirEyeClosed,
   iconoirXboxX,
+  iconoirMenu,
 } from '@ng-icons/iconoir';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './auth/token.interceptor';
@@ -29,9 +30,6 @@ import {
   akarPeopleGroup,
   akarScissor,
   akarBlock,
-  akarInstagramFill,
-  akarWhatsappFill,
-  akarFacebookFill,
 } from '@ng-icons/akar-icons';
 import {
   remixFacebookFill,
@@ -68,11 +66,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       iconoirArrowRightCircle,
       akarBlock,
       remixFacebookFill,
-      akarWhatsappFill,
-      akarInstagramFill,
-      akarFacebookFill,
       remixInstagramLine,
       remixWhatsappLine,
+      iconoirMenu,
     }),
     NgbDropdownModule,
     PipesModule,

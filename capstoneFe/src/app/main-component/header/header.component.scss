@@ -1,3 +1,107 @@
 a:hover {
   text-shadow: none;
 }
+
+.container.c1 {
+  .auth {
+    @media screen and (max-width: 1199px) {
+      display: flex;
+    }
+  }
+
+  .logo {
+    transition: none;
+    @media screen and (max-width: 1199px) {
+      scale: 1.4;
+    }
+  }
+
+  .leftMenu {
+    @media screen and (max-width: 991px) {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    max-width: 90%;
+  }
+  @media screen and (max-width: 699px) {
+    display: none;
+  }
+}
+.container.c2 {
+  display: flex;
+  justify-content: space-between;
+  // position: relative;
+  @media screen and (min-width: 700px) {
+    display: none;
+  }
+  .logo {
+    position: relative;
+    z-index: 10;
+    img {
+      height: 50px;
+      object-fit: cover;
+      scale: 1.2;
+    }
+  }
+  .menu {
+    position: relative;
+    z-index: 10;
+  }
+  .dropdown-custom {
+    padding-top: 0px;
+    position: absolute;
+    transform-origin: top;
+    transform: scaleY(0);
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: white;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    &.show {
+      padding-top: 50px;
+      transform: scaleY(1);
+      overflow: visible;
+    }
+    a {
+      width: 100%;
+      text-align: center;
+      padding-block: 0.25rem;
+      border-bottom: 1px solid #2a2a2a74;
+      transition: all 0.3s ease-in-out;
+      &:first-of-type {
+        border-top: 1px solid #2a2a2a74;
+      }
+      &:hover {
+        background-color: #f0efec;
+        &::after {
+          display: none;
+        }
+      }
+
+      &.selected {
+        background-color: #f0efec;
+        &::after {
+          display: none;
+        }
+      }
+    }
+    .auth {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-block: 0.5rem;
+    }
+    .profile {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-block: 0.5rem;
+    }
+  }
+}

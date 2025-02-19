@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject, ElementRef } from '@angular/core';
 import { AuthSvc } from '../../auth/auth.service';
 import { combineLatest } from 'rxjs';
 
@@ -8,11 +8,24 @@ import { combineLatest } from 'rxjs';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  private authSvc = inject(AuthSvc);
+  constructor(private elementRef: ElementRef, private authSvc: AuthSvc) {}
 
   isLogged: boolean = false;
   role: string = '';
 
+  isCollapsed: boolean = true;
+
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Se il click non è avvenuto all'interno del componente, chiudi il dropdown
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isCollapsed = true;
+    }
+  }
   ngOnInit() {
     combineLatest([this.authSvc.isLogged$, this.authSvc.userRole$]).subscribe(
       ([isLogged, role]) => {
@@ -28,5 +41,6 @@ export class HeaderComponent {
   }
   logout() {
     this.authSvc.logout();
+    this.isCollapsed = true;
   }
 }

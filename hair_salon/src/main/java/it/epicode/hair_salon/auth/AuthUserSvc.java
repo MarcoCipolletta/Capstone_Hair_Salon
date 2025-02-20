@@ -1,6 +1,8 @@
 package it.epicode.hair_salon.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import it.epicode.hair_salon.auth.dto.*;
 import it.epicode.hair_salon.auth.jwt.JwtTokenUtil;
 import it.epicode.hair_salon.entities.customer.CustomerSvc;
@@ -13,6 +15,7 @@ import it.epicode.hair_salon.utils.Utils;
 import it.epicode.hair_salon.utils.email.EmailMapper;
 import it.epicode.hair_salon.utils.email.EmailSvc;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -29,6 +32,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -148,7 +157,7 @@ public class AuthUserSvc {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 AuthUser authUser = getByUsername(userDetails.getUsername());
 
-                return new AuthResponse(jwtTokenUtil.generateToken(userDetails),authMapper.toAuthUserResponse(authUser));
+                return new AuthResponse(jwtTokenUtil.generateToken(userDetails), authMapper.toAuthUserResponse(authUser));
             } catch (AuthenticationException e) {
                 throw new SecurityException("Credenziali non valide", e);
             }
@@ -161,28 +170,59 @@ public class AuthUserSvc {
         AuthUser authUser = authUserRepo.findByEmail(request.getEmail()).orElseThrow(() -> new EntityNotFoundException("Email non trovata"));
         String token = jwtTokenUtil.generateTokenResetPassword(authUser);
 
-        String resetUrl = "http://localhost:8080/api/auth/reset-password?token=" + token;
+        String resetUrl = "http://192.168.1.122:8080/auth/reset-password?token=" + token;
 
         emailSvc.sendEmailHtml(emailMapper.fromResetPasswordBodyToEmailRequest(resetUrl, authUser));
 
         return "Email inviata con successo";
     }
 
-    public String verifyTokenPasswordReset(String token, HttpServletResponse response) {
+    private String generateTemplateErrorResetPassword(String errorMessage) {
+        try (InputStream is = getClass().getResourceAsStream("/templates/errorPage.html")) {
+            if (is == null) {
+                throw new RuntimeException("Impossibile trovare errorPage.html nel classpath!");
+            }
+            String template = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+
+            Map<String, String> values = new HashMap<>();
+            values.put("errorMessage", errorMessage);
+            values.put("website", "http://localhost:4200/auth/forgot-password");
+
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
+            }
+            return template;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    public void verifyTokenPasswordReset(String token, HttpServletResponse response) throws ServletException, IOException {
         try {
             jwtTokenUtil.isValidToken(token);
-            if (jwtTokenUtil.isTokenExpired(token)) {
-                response.sendRedirect("http://localhost:4200/error?message=Token non valido o scaduto");
-                return "Token non valido o scaduto";
-            } else {
+            jwtTokenUtil.isTokenExpired(token);
                 response.sendRedirect("http://localhost:4200/auth/reset-password/" + token);
-                return "Redirect avvenuto con successo";
-            }
-        } catch (IOException e) {
-            throw new EmailSendErrorException("Redirect fallito: " + e.getMessage());
-        } catch (ExpiredJwtException e) {
-            return "Token non valido o scaduto";
+
         }
+        catch (IOException e) {
+            throw new EmailSendErrorException("Redirect fallito: " + e.getMessage());
+        }
+        catch (ExpiredJwtException e) {
+            String processedHtml = generateTemplateErrorResetPassword("Token scaduto, rifai la richiesta di reset!");
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(processedHtml);
+            response.getWriter().flush();
+            return;
+        } catch (SignatureException | MalformedJwtException e) {
+            String processedHtml = generateTemplateErrorResetPassword("Token non valido, rifai la richiesta di reset!");
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(processedHtml);
+            response.getWriter().flush();
+            return;
+        }
+
     }
 
     public String resetPassword(@Valid PasswordResetRequest resetPasswordRequest) {
@@ -228,7 +268,7 @@ public class AuthUserSvc {
         UserDetails newUserDetails = new User(authUser.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
 
         AuthUpdateResponse authUpdateResponse = new AuthUpdateResponse();
-        authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails),authMapper.toAuthUserResponse(authUser)));
+        authUpdateResponse.setAuthResponse(new AuthResponse(jwtTokenUtil.generateToken(newUserDetails), authMapper.toAuthUserResponse(authUser)));
         authUpdateResponse.setAuthUserResponse(authUserResponse);
         return authUpdateResponse;
 
@@ -256,12 +296,14 @@ public class AuthUserSvc {
         return "Password cambiata con successo";
     }
 
-    public AuthResponse restoreUser(String token){
-        jwtTokenUtil.isValidToken(token);
-        if(jwtTokenUtil.isTokenExpired(token)) throw new SecurityException("Token scaduto");
+    public AuthResponse restoreUser(String token) {
+        if (jwtTokenUtil.isValidToken(token)) {
+            throw new SecurityException("Token non valido, rifai il login!");
+        }
+        if (jwtTokenUtil.isTokenExpired(token)) throw new SecurityException("Token scaduto");
         String username = jwtTokenUtil.getUsernameFromToken(token);
         AuthUser authUser = getByUsername(username);
-        return new AuthResponse(token,authMapper.toAuthUserResponse(authUser));
+        return new AuthResponse(token, authMapper.toAuthUserResponse(authUser));
     }
 
 }

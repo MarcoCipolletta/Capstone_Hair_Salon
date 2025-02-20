@@ -1,6 +1,7 @@
 package it.epicode.hair_salon.auth;
 
 import it.epicode.hair_salon.auth.dto.*;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,9 +47,13 @@ public class AuthController {
     }
 
     @GetMapping("/reset-password")
-    public ResponseEntity<String> resetPasswordRedirect(@RequestParam String token, HttpServletResponse response) {
+    public void resetPasswordRedirect(@RequestParam String token, HttpServletResponse response)  {
+        try {
+            authUserSvc.verifyTokenPasswordReset(token, response);
+        } catch (ServletException | IOException e) {
 
-        return new ResponseEntity<>(authUserSvc.verifyTokenPasswordReset(token, response), HttpStatus.OK);
+            throw new SecurityException(e.getMessage());
+        }
     }
 
     @PatchMapping("/reset-password")

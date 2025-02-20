@@ -21,11 +21,31 @@ export class ForgotPasswordComponent {
   }
   isLoadingLogin: boolean = false;
 
-  resetPassword() {}
+  resetPassword() {
+    if (this.form.valid) {
+      console.log(this.form.value);
+      this.authSvc.sendRequestPasswordReset(this.form.value).subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+      });
+    }
+  }
 
   isInvalidTouched(fieldName: string) {
     return (
       this.form.get(fieldName)?.invalid && this.form.get(fieldName)?.touched
     );
+  }
+
+  getError(fieldName: string) {
+    const control = this.form.get(fieldName);
+    if (control?.errors!['required']) {
+      return 'Campo obbligatorio';
+    } else if (control?.errors!['email']) {
+      return 'Email non valida';
+    }
+
+    return null;
   }
 }

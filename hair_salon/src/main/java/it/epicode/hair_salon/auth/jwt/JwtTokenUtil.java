@@ -47,6 +47,7 @@ public class JwtTokenUtil {
                 .getBody();
     }
 
+
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
@@ -57,6 +58,7 @@ public class JwtTokenUtil {
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
+
 
     public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
@@ -109,7 +111,7 @@ public class JwtTokenUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            throw new SecurityException("Token non valido, rifai il login" );
+            return false;
         }
     }
 

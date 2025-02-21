@@ -8,7 +8,7 @@ import { iSalonServiceResponse } from '../../../interfaces/salonServices/i-salon
   styleUrl: './services.component.scss',
 })
 export class ServicesComponent {
-  private salonServicesSvc = inject(SalonservicesService);
+  constructor(private salonServicesSvc: SalonservicesService) {}
   services: iSalonServiceResponse[] = [];
   isCollapsed1 = false;
   isCollapsed2 = true;

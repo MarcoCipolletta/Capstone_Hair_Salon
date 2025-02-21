@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagina di contatto</title>
+    <style>
+        body {
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #E5E5E5;
+          margin: 0;
+          padding: 20px;
+        }
+        .container {
+          max-width: 600px;
+          margin: 0 auto;
+          background: #F0EFEC;
+          padding: 20px;
+          border: 1px solid #5e32417a;
+          border-radius: 10px;
+        }
+        .header {
+          background: #88425A;
+          color: #F0EFEC;
+          padding: 10px 20px;
+          text-align: center;
+          border-radius: 10px 10px 0 0;
+        }
+        .content {
+          padding: 20px;
+          color: #0D1821;
+          text-align: left;
+
+        }
+        .content a {
+        color: #88425A;
+        }
+        .footer {
+          text-align: center;
+          font-size: 12px;
+          color: #777;
+          margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Parrucchieria Nicoletta & Sandro</h1>
+    </div>
+    <div class="content">
+        <p>Ciao {{name}},</p>
+        <p>Abbiamo ricevuto la tua richiesta. Risponderemo il prima possibile.</p>
+        <hr>
+        <p>Ecco il recap del messaggio:</p>
+        <p><strong>Nome:</strong> {{name}}</p>
+        <p><strong>Email:</strong> {{email}}</p>
+        <p><strong>Messaggio:</strong> {{message}}</p>
+        <hr>
+        <p>Visita il nostro sito <a href="{{website}}" target="_blank">qui</a>.</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 Parrucchieri Nicoletta & Sandro. All rights reserved. </p>
+    </div>
+</div>
+</body>
+</html>

@@ -9,8 +9,10 @@ import { ReservationsService } from '../../../services/reservations.service';
   styleUrl: './reservation-card.component.scss',
 })
 export class ReservationCardComponent {
-  protected timeConversionsSvc = inject(TimeConversionSvcService);
-  private reservationSvc = inject(ReservationsService);
+  constructor(
+    protected timeConversionsSvc: TimeConversionSvcService,
+    private reservationSvc: ReservationsService
+  ) {}
 
   @Input() reservation!: iReservationResponseForCustomer;
 

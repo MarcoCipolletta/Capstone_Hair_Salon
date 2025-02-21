@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './customer-card.component.scss',
 })
 export class CustomerCardComponent {
-  private router = inject(Router);
+  constructor(private router: Router) {}
   @Input() customer!: iCustomerResponseForAdmin;
 
   viewReservation() {

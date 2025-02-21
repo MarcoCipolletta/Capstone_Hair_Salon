@@ -8,7 +8,7 @@ import { iReservationResponseForCustomer } from '../../../interfaces/reservation
   styleUrl: './my-reservation.component.scss',
 })
 export class MyReservationComponent {
-  private reservationSvc = inject(ReservationsService);
+  constructor(private reservationSvc: ReservationsService) {}
 
   myReservations: iReservationResponseForCustomer[] = [];
 

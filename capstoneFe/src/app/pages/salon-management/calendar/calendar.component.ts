@@ -15,7 +15,7 @@ import 'tippy.js/animations/scale-extreme.css';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent {
-  private calendarSvc = inject(CalendarService);
+  constructor(private calendarSvc: CalendarService) {}
 
   calendarOptions: CalendarOptions = {
     plugins: [timeGridPlugin, bootstrap5Plugin, interactionPlugin],

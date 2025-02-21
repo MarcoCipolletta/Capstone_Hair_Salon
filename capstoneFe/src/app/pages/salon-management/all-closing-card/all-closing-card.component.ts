@@ -9,8 +9,11 @@ import { ManagerScheduleService } from '../../../services/manager-schedule.servi
   styleUrl: './all-closing-card.component.scss',
 })
 export class AllClosingCardComponent {
-  protected timeConversionSvc = inject(TimeConversionSvcService);
-  private managerScheduleSvc = inject(ManagerScheduleService);
+  constructor(
+    protected timeConversionSvc: TimeConversionSvcService,
+    private managerScheduleSvc: ManagerScheduleService
+  ) {}
+
   @Input() schedule!: iManagerSchedule;
 
   cancelSchedule(id: string) {

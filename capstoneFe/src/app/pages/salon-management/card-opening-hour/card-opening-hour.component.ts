@@ -9,8 +9,10 @@ import { TimeConversionSvcService } from '../../../services/time-conversion-svc.
   styleUrl: './card-opening-hour.component.scss',
 })
 export class CardOpeningHourComponent {
-  protected timeConversionSvc = inject(TimeConversionSvcService);
-  protected openingHoursSvc = inject(OpeningHoursService);
+  constructor(
+    protected timeConversionSvc: TimeConversionSvcService,
+    protected openingHoursSvc: OpeningHoursService
+  ) {}
 
   isEditing: boolean = false;
   openAllDay: boolean = false;

@@ -10,8 +10,10 @@ import { cloneElement } from '@fullcalendar/core/preact.js';
   styleUrl: './service-card.component.scss',
 })
 export class ServiceCardComponent {
-  protected timeConverter = inject(TimeConversionSvcService);
-  protected salonServicesSvc = inject(SalonservicesService);
+  constructor(
+    protected timeConverter: TimeConversionSvcService,
+    protected salonServicesSvc: SalonservicesService
+  ) {}
 
   isEditing: boolean = false;
   @Input() service!: iSalonServiceResponse;

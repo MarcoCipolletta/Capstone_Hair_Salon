@@ -9,7 +9,7 @@ import { OpeningHoursService } from '../../../services/opening-hours.service';
   styleUrl: './opening-hours.component.scss',
 })
 export class OpeningHoursComponent {
-  private openingHoursSvc = inject(OpeningHoursService);
+  constructor(private openingHoursSvc: OpeningHoursService) {}
 
   days: iOpeningHour[] = [];
 

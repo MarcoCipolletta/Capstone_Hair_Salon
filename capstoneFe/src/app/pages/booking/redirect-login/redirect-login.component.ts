@@ -33,7 +33,7 @@ export class RedirectLoginComponent {
   }
 
   goToLogin(): void {
-    this.router.navigate(['/auth/login'], {
+    this.router.navigate(['/auth'], {
       queryParams: { returnUrl: '/booking?page=3' },
     });
   }

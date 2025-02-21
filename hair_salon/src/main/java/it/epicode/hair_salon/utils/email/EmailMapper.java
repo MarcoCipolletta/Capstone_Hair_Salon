@@ -66,7 +66,7 @@ public class EmailMapper {
     public EmailRequest fromResetPasswordBodyToEmailRequest(String link, AuthUser user) {
         EmailRequest request = new EmailRequest();
         request.setTo(user.getEmail());
-        request.setSubject("Energyservices - Reset password");
+        request.setSubject("Parrucchieri Nicoletta e Sandro - Reset password");
         request.setBody(forResetPasswordRequestBody(link));
         return request;
     }

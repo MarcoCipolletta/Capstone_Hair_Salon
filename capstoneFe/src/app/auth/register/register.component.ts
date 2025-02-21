@@ -34,16 +34,16 @@ export class RegisterComponent {
   currentPage: number = 1;
   progress: number = 0;
   constructor(
-    private config: NgbProgressbarConfig,
+    private progressbarConfig: NgbProgressbarConfig,
     private authSvc: AuthSvc,
     private router: Router,
     private modalSvc: NgbModal
   ) {
-    config.max = 100;
-    config.striped = true;
-    config.animated = true;
-    config.type = 'success';
-    config.height = '1rem';
+    progressbarConfig.max = 100;
+    progressbarConfig.striped = true;
+    progressbarConfig.animated = true;
+    progressbarConfig.type = 'success';
+    progressbarConfig.height = '1rem';
     this.form = new FormGroup(
       {
         username: new FormControl('', [Validators.required]),

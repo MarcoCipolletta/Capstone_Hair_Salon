@@ -1,242 +1,233 @@
-<div class="container h-100 text-dark">
-  <div class="row h-100">
-    <div class="col-6 p-4 d-flex flex-column justify-content-center leftArea">
-      <img src="authCover.png" alt="" class="w-100 cover" />
-    </div>
-    <div class="col-6 d-flex flex-column justify-content-center">
-      <div class="p-3">
-        <ngb-progressbar class="my-3" [value]="progress" />
-        <h1 class="mb-4">REGISTRATI</h1>
-        <form [formGroup]="form" (ngSubmit)="register()">
-          <ng-container *ngIf="currentPage === 1">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
-                name="username"
-                placeholder="mario.rossi"
-                class="form-control"
-                formControlName="username"
-                id="username"
-              />
-              <div>
-                <span
-                  class="validator"
-                  role="alert"
-                  *ngIf="isInvalidTouched('username')"
-                  ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                  obbligatorio!</span
-                >
-              </div>
-              <label for="email">E-Mail</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="mario@email.com"
-                class="form-control"
-                formControlName="email"
-                id="email"
-              />
-              <div>
-                <span
-                  class="validator"
-                  role="alert"
-                  *ngIf="isInvalidTouched('email')"
-                  ><ng-icon name="iconoirEmojiSad"></ng-icon>
-                  {{ getError("email") }}</span
-                >
-              </div>
-              <label for="password" class="mt-2">Password</label>
-              <div class="position-relative w-100">
-                <input
-                  [type]="showPassword1 ? 'text' : 'password'"
-                  name="password"
-                  [placeholder]="showPassword1 ? 'password' : '********'"
-                  class="form-control"
-                  formControlName="password"
-                  id="password"
-                />
-                <label
-                  class="iconEye"
-                  (click)="togglePassword1()"
-                  style="cursor: pointer"
-                  for="password"
-                >
-                  <ng-icon
-                    [name]="showPassword1 ? 'iconoirEye' : 'iconoirEyeClosed'"
-                    size="1.25rem"
-                    color="#0d1821"
-                  ></ng-icon>
-                </label>
-              </div>
-              <div>
-                <span
-                  class="validator"
-                  role="alert"
-                  *ngIf="isInvalidTouched('password')"
-                  ><ng-icon name="iconoirEmojiSad"></ng-icon>
-                  {{ getError("password") }}</span
-                >
-              </div>
-              <label for="confirmPassword" class="mt-2"
-                >Conferma password</label
-              >
-              <div class="position-relative w-100">
-                <input
-                  [type]="showPassword2 ? 'text' : 'password'"
-                  name="confirmPassword"
-                  [placeholder]="showPassword2 ? 'password' : '********'"
-                  class="form-control"
-                  formControlName="confirmPassword"
-                  id="confirmPassword"
-                />
-                <label
-                  class="iconEye"
-                  (click)="togglePassword2()"
-                  style="cursor: pointer"
-                  for="confirmPassword"
-                >
-                  <ng-icon
-                    [name]="showPassword2 ? 'iconoirEye' : 'iconoirEyeClosed'"
-                    size="1.25rem"
-                    color="#0d1821"
-                  ></ng-icon>
-                </label>
-              </div>
-              <div>
-                <span
-                  class="validator"
-                  role="alert"
-                  *ngIf="
+<div class="h-100 d-flex flex-column justify-content-center">
+  <div class="p-3">
+    <ngb-progressbar class="my-3" [value]="progress" />
+    <h1 class="mb-4">REGISTRATI</h1>
+    <form [formGroup]="form" (ngSubmit)="register()">
+      <ng-container *ngIf="currentPage === 1">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="mario.rossi"
+            class="form-control"
+            formControlName="username"
+            id="username"
+          />
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="isInvalidTouched('username')"
+              ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+              obbligatorio!</span
+            >
+          </div>
+          <label for="email">E-Mail</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="mario@email.com"
+            class="form-control"
+            formControlName="email"
+            id="email"
+          />
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="isInvalidTouched('email')"
+              ><ng-icon name="iconoirEmojiSad"></ng-icon>
+              {{ getError("email") }}</span
+            >
+          </div>
+          <label for="password" class="mt-2">Password</label>
+          <div class="position-relative w-100">
+            <input
+              [type]="showPassword1 ? 'text' : 'password'"
+              name="password"
+              [placeholder]="showPassword1 ? 'password' : '********'"
+              class="form-control"
+              formControlName="password"
+              id="password"
+            />
+            <label
+              class="iconEye"
+              (click)="togglePassword1()"
+              style="cursor: pointer"
+              for="password"
+            >
+              <ng-icon
+                [name]="showPassword1 ? 'iconoirEye' : 'iconoirEyeClosed'"
+                size="1.25rem"
+                color="#0d1821"
+              ></ng-icon>
+            </label>
+          </div>
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="isInvalidTouched('password')"
+              ><ng-icon name="iconoirEmojiSad"></ng-icon>
+              {{ getError("password") }}</span
+            >
+          </div>
+          <label for="confirmPassword" class="mt-2">Conferma password</label>
+          <div class="position-relative w-100">
+            <input
+              [type]="showPassword2 ? 'text' : 'password'"
+              name="confirmPassword"
+              [placeholder]="showPassword2 ? 'password' : '********'"
+              class="form-control"
+              formControlName="confirmPassword"
+              id="confirmPassword"
+            />
+            <label
+              class="iconEye"
+              (click)="togglePassword2()"
+              style="cursor: pointer"
+              for="confirmPassword"
+            >
+              <ng-icon
+                [name]="showPassword2 ? 'iconoirEye' : 'iconoirEyeClosed'"
+                size="1.25rem"
+                color="#0d1821"
+              ></ng-icon>
+            </label>
+          </div>
+          <div>
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="
                     isInvalidTouched('confirmPassword') &&
                     !( form.errors?.['passwordMismatch'] &&
                     form.get('confirmPassword')?.touched)
 
                   "
-                  ><ng-icon name="iconoirEmojiSad"></ng-icon>
-                  {{ getError("confirmPassword") }}</span
-                >
-                <span
-                  class="validator"
-                  role="alert"
-                  *ngIf="
+              ><ng-icon name="iconoirEmojiSad"></ng-icon>
+              {{ getError("confirmPassword") }}</span
+            >
+            <span
+              class="validator"
+              role="alert"
+              *ngIf="
                     form.errors?.['passwordMismatch'] &&
                     form.get('confirmPassword')?.touched
                   "
-                  ><ng-icon name="iconoirEmojiSad"></ng-icon> Le password non
-                  corrispondono</span
-                >
-              </div>
-            </div>
-            <button
-              class="btn btn-accent mt-3"
-              [disabled]="
+              ><ng-icon name="iconoirEmojiSad"></ng-icon> Le password non
+              corrispondono</span
+            >
+          </div>
+        </div>
+        <button
+          class="btn btn-accent mt-3"
+          [disabled]="
                 form.get('email')?.invalid ||
                 form.get('username')?.invalid ||
                 form.get('password')?.invalid ||
                 form.get('confirmPassword')?.invalid ||
                 form.errors?.['passwordMismatch']
               "
-              (click)="currentPage = 2"
-            >
-              Avanti
-            </button>
-          </ng-container>
-          <ng-container formGroupName="customer" *ngIf="currentPage === 2">
-            <label for="name">Nome</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="mario"
-              class="form-control"
-              formControlName="name"
-              id="name"
-            />
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('customer.name')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-            <label for="surname">Cognome</label>
-            <input
-              type="text"
-              name="surname"
-              placeholder="rossi"
-              class="form-control"
-              formControlName="surname"
-              id="surname"
-            />
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('customer.surname')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-            <label for="dateOfBirth">Data di nascita</label>
-            <input
-              type="date"
-              name="dateOfBirth"
-              class="form-control"
-              formControlName="dateOfBirth"
-              id="dateOfBirth"
-            />
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('customer.dateOfBirth')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-            <label for="phoneNumber">Numero di telefono</label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              placeholder="+39 3333333333"
-              class="form-control"
-              formControlName="phoneNumber"
-              id="phoneNumber"
-            />
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('customer.phoneNumber')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-            <button (click)="currentPage = 1" class="btn btn-accent mt-3 me-2">
-              Indietro
-            </button>
-            <button
-              type="submit"
-              class="btn btn-accent mt-3"
-              [disabled]="form.invalid"
-            >
-              <ng-container *ngIf="!isLoadingRegister">Registrati</ng-container>
-              <span
-                *ngIf="isLoadingRegister"
-                class="spinner-border spinner-border-sm"
-                aria-hidden="true"
-              ></span>
-            </button>
-          </ng-container>
+          (click)="currentPage = 2"
+        >
+          Avanti
+        </button>
+      </ng-container>
+      <ng-container formGroupName="customer" *ngIf="currentPage === 2">
+        <label for="name">Nome</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="mario"
+          class="form-control"
+          formControlName="name"
+          id="name"
+        />
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('customer.name')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
+        <label for="surname">Cognome</label>
+        <input
+          type="text"
+          name="surname"
+          placeholder="rossi"
+          class="form-control"
+          formControlName="surname"
+          id="surname"
+        />
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('customer.surname')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
+        <label for="dateOfBirth">Data di nascita</label>
+        <input
+          type="date"
+          name="dateOfBirth"
+          class="form-control"
+          formControlName="dateOfBirth"
+          id="dateOfBirth"
+        />
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('customer.dateOfBirth')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
+        <label for="phoneNumber">Numero di telefono</label>
+        <input
+          type="tel"
+          name="phoneNumber"
+          placeholder="+39 3333333333"
+          class="form-control"
+          formControlName="phoneNumber"
+          id="phoneNumber"
+        />
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('customer.phoneNumber')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
+        <button (click)="currentPage = 1" class="btn btn-accent mt-3 me-2">
+          Indietro
+        </button>
+        <button
+          type="submit"
+          class="btn btn-accent mt-3"
+          [disabled]="form.invalid"
+        >
+          <ng-container *ngIf="!isLoadingRegister">Registrati</ng-container>
+          <span
+            *ngIf="isLoadingRegister"
+            class="spinner-border spinner-border-sm"
+            aria-hidden="true"
+          ></span>
+        </button>
+      </ng-container>
 
-          <p class="mt-3">
-            Hai già un account?
-            <a routerLink="/auth/login">Accedi!</a>
-          </p>
-        </form>
-      </div>
-    </div>
+      <p class="mt-3">
+        Hai già un account?
+        <a routerLink="/auth">Accedi!</a>
+      </p>
+    </form>
   </div>
 </div>

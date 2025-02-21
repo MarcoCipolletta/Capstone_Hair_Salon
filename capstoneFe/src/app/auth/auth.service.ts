@@ -123,7 +123,7 @@ export class AuthSvc {
 
   resetPassword(passwordResetRequest: iPasswordResetRequest) {
     return this.http.patch<iResponseStringMessage>(
-      this.baseUrl + 'reset-password',
+      this.baseUrl + '/reset-password',
       passwordResetRequest
     );
   }

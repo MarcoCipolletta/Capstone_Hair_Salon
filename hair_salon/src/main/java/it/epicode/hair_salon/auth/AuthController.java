@@ -1,5 +1,6 @@
 package it.epicode.hair_salon.auth;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import it.epicode.hair_salon.auth.dto.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,10 +59,15 @@ public class AuthController {
 
     @PatchMapping("/reset-password")
     public ResponseEntity<Map<String, String>> resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+       try{
         String message = authUserSvc.resetPassword(passwordResetRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
         return new ResponseEntity<>(response, HttpStatus.OK);
+
+       } catch (ExpiredJwtException e){
+           throw new SecurityException("Token scaduto, rifai la richiesta di reset!");
+       }
     }
 
     @PutMapping("/update")

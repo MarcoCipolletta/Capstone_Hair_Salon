@@ -10,28 +10,30 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'login',
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
+    component: AuthComponent,
     canActivate: [GuestGuard],
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    canActivate: [GuestGuard],
-  },
-  {
-    path: 'forgot-password',
-    component: ForgotPasswordComponent,
-    canActivate: [GuestGuard],
-  },
-  {
-    path: 'reset-password/:token',
-    component: ResetPasswordComponent,
-    canActivate: [GuestGuard],
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+        canActivate: [GuestGuard],
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        canActivate: [GuestGuard],
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+        canActivate: [GuestGuard],
+      },
+      {
+        path: 'reset-password/:token',
+        component: ResetPasswordComponent,
+        canActivate: [GuestGuard],
+      },
+    ],
   },
 ];
 

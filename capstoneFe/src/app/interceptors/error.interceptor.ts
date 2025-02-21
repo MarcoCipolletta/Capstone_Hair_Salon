@@ -24,6 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           const modalRef = modalSvc.open(ModalComponent, {
             windowClass: 'custom-error-modal',
           });
+
           modalRef.componentInstance.message =
             err.error.message || 'Si è verificato un errore.';
         }

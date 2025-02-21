@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class EmailMapper {
 
-    private final String website = "http://192.168.1.122/:4200/";
+    private final String website = "http://192.168.1.122:4200";
 
     public EmailRequest fromAuthUserToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();
@@ -75,7 +75,7 @@ public class EmailMapper {
     public String forResetPasswordSuccess(){
         String template = loadTemplate("src/main/resources/templates/resetPasswordSuccess.html");
         Map<String, String> values = new HashMap<>();
-
+        values.put("website", website);
         return processTemplate(template, values);
     }
 
@@ -83,7 +83,7 @@ public class EmailMapper {
     public EmailRequest fromResetPasswordSuccessBodyToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();
         request.setTo(user.getEmail());
-        request.setSubject("Parrucchieri Nicoletta e Sandro - Reset password");
+        request.setSubject("Parrucchieri Nicoletta e Sandro - Password aggiornata con successo");
         request.setBody(forResetPasswordSuccess());
         return request;
     }

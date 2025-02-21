@@ -1,84 +1,77 @@
-<div class="container h-100 text-dark">
-  <div class="row h-100">
-    <div class="col-6 p-4 d-flex flex-column justify-content-center leftArea">
-      <img src="authCover.png" alt="" class="w-100 cover" />
-    </div>
-    <div class="col-6 d-flex flex-column justify-content-center">
-      <div class="p-3">
-        <h1 class="mb-4">ACCEDI</h1>
-        <form [formGroup]="form" (ngSubmit)="login()">
-          <div class="form-group">
-            <label for="mail">Username o E-Mail</label>
-            <input
-              type="text"
-              name="identifier"
-              placeholder="mario.rossi o mario@email.com"
-              class="form-control"
-              formControlName="identifier"
-            />
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('identifier')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-            <label for="password" class="mt-2">Password</label>
-            <div class="position-relative w-100">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                name="password"
-                [placeholder]="showPassword ? 'password' : '********'"
-                class="form-control"
-                formControlName="password"
-              />
-              <span
-                class="iconEye"
-                (click)="togglePassword()"
-                style="cursor: pointer"
-              >
-                <ng-icon
-                  [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
-                  size="1.25rem"
-                  color="#0d1821"
-                ></ng-icon>
-              </span>
-            </div>
-            <div>
-              <span
-                class="validator"
-                role="alert"
-                *ngIf="isInvalidTouched('password')"
-                ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
-                obbligatorio!</span
-              >
-            </div>
-          </div>
-          <p class="mt-1 mb-3">
-            <a routerLink="/auth/forgot-password">Password dimenticata?</a>
-          </p>
-
-          <button
-            type="submit"
-            class="btn btn-accent mt-1"
-            [disabled]="form.invalid"
+<div class="h-100 d-flex flex-column justify-content-center">
+  <div class="p-3">
+    <h1 class="mb-4">ACCEDI</h1>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="mail">Username o E-Mail</label>
+        <input
+          type="text"
+          name="identifier"
+          placeholder="mario.rossi o mario@email.com"
+          class="form-control"
+          formControlName="identifier"
+        />
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('identifier')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
           >
-            <ng-container *ngIf="!isLoadingLogin">Accedi</ng-container>
-            <span
-              *ngIf="isLoadingLogin"
-              class="spinner-border spinner-border-sm"
-              aria-hidden="true"
-            ></span>
-          </button>
-
-          <p class="mt-3">
-            Non hai ancora un account?
-            <a routerLink="/auth/register">Registrati ora!</a>
-          </p>
-        </form>
+        </div>
+        <label for="password" class="mt-2">Password</label>
+        <div class="position-relative w-100">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [placeholder]="showPassword ? 'password' : '********'"
+            class="form-control"
+            formControlName="password"
+          />
+          <span
+            class="iconEye"
+            (click)="togglePassword()"
+            style="cursor: pointer"
+          >
+            <ng-icon
+              [name]="showPassword ? 'iconoirEye' : 'iconoirEyeClosed'"
+              size="1.25rem"
+              color="#0d1821"
+            ></ng-icon>
+          </span>
+        </div>
+        <div>
+          <span
+            class="validator"
+            role="alert"
+            *ngIf="isInvalidTouched('password')"
+            ><ng-icon name="iconoirEmojiSad"></ng-icon> Campo
+            obbligatorio!</span
+          >
+        </div>
       </div>
-    </div>
+      <p class="mt-1 mb-3">
+        <a routerLink="/auth/forgot-password">Password dimenticata?</a>
+      </p>
+
+      <button
+        type="submit"
+        class="btn btn-accent mt-1"
+        [disabled]="form.invalid"
+      >
+        <ng-container *ngIf="!isLoadingLogin">Accedi</ng-container>
+        <span
+          *ngIf="isLoadingLogin"
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+      </button>
+
+      <p class="mt-3">
+        Non hai ancora un account?
+        <a routerLink="/auth/register">Registrati ora!</a>
+      </p>
+    </form>
   </div>
 </div>

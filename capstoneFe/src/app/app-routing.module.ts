@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoggedGuard } from './auth/guards/logged.guard';
 import { GuestGuard } from './auth/guards/guest.guard';
 import { AdminGuard } from './auth/guards/admin.guard';
-import { UserGuard } from './auth/guards/user.guard';
 import { NotAdminGuard } from './auth/guards/not-admin.guard';
 
 const routes: Routes = [
@@ -35,9 +34,14 @@ const routes: Routes = [
       import('./pages/salon-management/salon-management.module').then(
         (m) => m.SalonManagementModule
       ),
-    canActivate: [LoggedGuard, AdminGuard],
+    canActivate: [AdminGuard],
   },
-  { path: 'contacts', loadChildren: () => import('./pages/contacts/contacts.module').then(m => m.ContactsModule) },
+  {
+    path: 'contacts',
+    loadChildren: () =>
+      import('./pages/contacts/contacts.module').then((m) => m.ContactsModule),
+  },
+  { path: 'services', loadChildren: () => import('./pages/services/services.module').then(m => m.ServicesModule) },
 ];
 
 @NgModule({

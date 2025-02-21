@@ -11,6 +11,10 @@ a:hover {
 
   .logo {
     transition: none;
+    img {
+      height: 65px;
+      object-fit: cover;
+    }
     @media screen and (max-width: 1199px) {
       scale: 1.4;
     }
@@ -25,7 +29,7 @@ a:hover {
   @media screen and (max-width: 767px) {
     max-width: 90%;
   }
-  @media screen and (max-width: 699px) {
+  @media screen and (max-width: 767px) {
     display: none;
   }
 }
@@ -33,7 +37,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   // position: relative;
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
   .logo {

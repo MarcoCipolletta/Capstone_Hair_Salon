@@ -10,8 +10,7 @@ import { BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class SalonservicesService {
-  constructor() {}
-  private http = inject(HttpClient);
+  constructor(private http: HttpClient) {}
   private baseUrl = environment.baseUrl + '/salon-service';
 
   $selctedService = new BehaviorSubject<iSalonServiceResponse[]>([]);

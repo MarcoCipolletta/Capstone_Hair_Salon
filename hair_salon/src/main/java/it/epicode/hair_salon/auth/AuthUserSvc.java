@@ -297,7 +297,7 @@ public class AuthUserSvc {
     }
 
     public AuthResponse restoreUser(String token) {
-        if (jwtTokenUtil.isValidToken(token)) {
+        if (!jwtTokenUtil.isValidToken(token)) {
             throw new SecurityException("Token non valido, rifai il login!");
         }
         if (jwtTokenUtil.isTokenExpired(token)) throw new SecurityException("Token scaduto");

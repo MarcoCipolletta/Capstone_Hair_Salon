@@ -21,9 +21,7 @@ export class AdminGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
     if (this.authSvc.userRole$.getValue() !== 'ADMIN') {
-      console.log('NON sei admi');
-
-      this.router.navigate(['/']);
+      this.router.navigate(['']);
       return false;
     }
     return true;

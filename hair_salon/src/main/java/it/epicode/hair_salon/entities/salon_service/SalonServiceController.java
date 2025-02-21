@@ -74,7 +74,6 @@ public class SalonServiceController {
 
 
     @GetMapping("/available")
-    @PreAuthorize("!hasRole('ADMIN')")
     public List<SalonServiceResponse> getAvailable() {
         return salonServiceSvc.findNotHidden();
     }

@@ -12,7 +12,7 @@
                   {{ timeConversionSvc.secondsToDuration(service.duration) }}
                 </p>
               </div>
-              <div class="col-7 col-lg-8">
+              <div class="d-none d-lg-block col-lg-7 col-lg-8">
                 <p class="fw-semibold text-truncate">
                   {{ service.description }}
                 </p>
@@ -51,7 +51,7 @@
                   {{ timeConversionSvc.secondsToDuration(service.duration) }}
                 </p>
               </div>
-              <div class="col-7 col-lg-8">
+              <div class="d-none d-lg-block col-lg-7 col-lg-8">
                 <p class="fw-semibold text-truncate">
                   {{ service.description }}
                 </p>
@@ -79,7 +79,7 @@
       <ng-container *ngIf="selectedServices.length > 0">
         <div
           @fadeIn
-          class="border border-accent d-flex flex-column flex-sm-row justify-content-between px-3 mt-3 align-items-sm-center"
+          class="border border-accent d-flex flex-column flex-sm-row justify-content-between column-gap-3 px-3 py-2 mt-3 align-items-sm-center"
         >
           <div>
             <p class="fw-semibold">Tempo totale stimato:</p>

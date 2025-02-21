@@ -13,7 +13,12 @@
         >
       </li>
       <li>
-        <a routerLink="/services" class="nav-link px-2">SERVIZI</a>
+        <a
+          routerLink="/services"
+          routerLinkActive="linkSelected"
+          class="nav-link px-2"
+          >SERVIZI</a
+        >
       </li>
       <li>
         <a
@@ -120,7 +125,11 @@
         (click)="isCollapsed = true"
         >HOME</a
       >
-      <a routerLink="/services" class="nav-link" (click)="isCollapsed = true"
+      <a
+        routerLink="/services"
+        routerLinkActive="selected"
+        class="nav-link"
+        (click)="isCollapsed = true"
         >SERVIZI</a
       >
       <a

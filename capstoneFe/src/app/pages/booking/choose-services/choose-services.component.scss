@@ -18,6 +18,11 @@
   margin-top: 2rem;
   padding-bottom: 1.5rem;
 }
+.fw-semibold {
+  @media (min-width: 768px) and (max-width: 991px) {
+    font-size: smaller;
+  }
+}
 .customBtn {
   @media screen and (max-width: 575px) {
     margin-top: -62px;

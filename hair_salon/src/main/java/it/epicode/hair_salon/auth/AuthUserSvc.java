@@ -186,7 +186,7 @@ public class AuthUserSvc {
 
             Map<String, String> values = new HashMap<>();
             values.put("errorMessage", errorMessage);
-            values.put("website", "http://localhost:4200/auth/forgot-password");
+            values.put("website", "http://192.168.1.122/:4200/auth/forgot-password");
 
             for (Map.Entry<String, String> entry : values.entrySet()) {
                 template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
@@ -203,7 +203,7 @@ public class AuthUserSvc {
         try {
             jwtTokenUtil.isValidToken(token);
             jwtTokenUtil.isTokenExpired(token);
-                response.sendRedirect("http://localhost:4200/auth/reset-password/" + token);
+                response.sendRedirect("http://192.168.1.122/:4200/auth/reset-password/" + token);
 
         }
         catch (IOException e) {

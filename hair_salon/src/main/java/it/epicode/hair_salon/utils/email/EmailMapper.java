@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class EmailMapper {
 
-    private final String website = "http://localhost:4200/";
+    private final String website = "http://192.168.1.122/:4200/";
 
     public EmailRequest fromAuthUserToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();

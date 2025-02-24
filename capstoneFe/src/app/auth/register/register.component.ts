@@ -96,7 +96,7 @@ export class RegisterComponent {
           this.isLoadingRegister = false;
           setTimeout(() => {
             this.modalSvc.dismissAll();
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['/auth']);
           }, 1500);
         },
         error: (err) => {

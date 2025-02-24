@@ -20,7 +20,7 @@ public class AuthRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        if(authUserSvc.existByUsername("admin") || authUserSvc.existByUsername("user")) return;
+        if(authUserSvc.existByUsername("admin"))return;
 
         RegisterRequest admin = new RegisterRequest();
 

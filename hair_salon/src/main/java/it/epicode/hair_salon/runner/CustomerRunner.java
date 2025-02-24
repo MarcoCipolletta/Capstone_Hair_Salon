@@ -26,14 +26,14 @@ public class CustomerRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-//        for (int i = 0; i < 100; i++) {
+//        for (int i = 0; i < 20; i++) {
 //            RegisterRequest basicData = new RegisterRequest();
-//            basicData.setUsername(faker.name().username() + i);
-//            basicData.setEmail(faker.internet().emailAddress());
 //            basicData.setPassword("string");
 //            CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest();
 //            customerCreateRequest.setName(faker.name().firstName());
 //            customerCreateRequest.setSurname(faker.name().lastName());
+//            basicData.setUsername(customerCreateRequest.getName() + "." + customerCreateRequest.getSurname() + i);
+//            basicData.setEmail(customerCreateRequest.getName() + "." + customerCreateRequest.getSurname() + i + "@mail.com");
 //            customerCreateRequest.setDateOfBirth(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 //            customerCreateRequest.setPhoneNumber(faker.phoneNumber().cellPhone());
 //            basicData.setCustomer(customerCreateRequest);

@@ -21,6 +21,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,6 +54,9 @@ public class AuthUserSvc {
     private final EmailMapper emailMapper;
     private final AuthMapper authMapper;
     private final CustomerMapper customerMapper;
+
+    @Value("${server.address}")
+    private String address;
 
     public boolean existByUsername(String username) {
         return authUserRepo.existsByUsername(username);
@@ -170,7 +174,7 @@ public class AuthUserSvc {
         AuthUser authUser = authUserRepo.findByEmail(request.getEmail()).orElseThrow(() -> new EntityNotFoundException("Email non trovata"));
         String token = jwtTokenUtil.generateTokenResetPassword(authUser);
 
-        String resetUrl = "http://192.168.1.122:8080/auth/reset-password?token=" + token;
+        String resetUrl = "http://"+address+":8080/auth/reset-password?token=" + token;
 
         emailSvc.sendEmailHtml(emailMapper.fromResetPasswordBodyToEmailRequest(resetUrl, authUser));
 
@@ -186,7 +190,7 @@ public class AuthUserSvc {
 
             Map<String, String> values = new HashMap<>();
             values.put("errorMessage", errorMessage);
-            values.put("website", "http://192.168.1.122:4200/auth/forgot-password");
+            values.put("website", "http://"+address+":4200/auth/forgot-password");
 
             for (Map.Entry<String, String> entry : values.entrySet()) {
                 template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
@@ -203,7 +207,7 @@ public class AuthUserSvc {
         try {
             jwtTokenUtil.isValidToken(token);
             jwtTokenUtil.isTokenExpired(token);
-                response.sendRedirect("http://192.168.1.122:4200/auth/reset-password/" + token);
+                response.sendRedirect("http://"+address+":4200/auth/reset-password/" + token);
 
         }
         catch (IOException e) {

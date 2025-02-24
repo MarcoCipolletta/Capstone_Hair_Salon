@@ -3,6 +3,7 @@ package it.epicode.hair_salon.utils.email;
 
 import it.epicode.hair_salon.auth.AuthUser;
 import it.epicode.hair_salon.utils.email.dto.ContactEmailRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +14,10 @@ import java.util.Map;
 @Component
 public class EmailMapper {
 
-    private final String website = "http://192.168.1.122:4200";
+    @Value("${server.address}")
+    private String address;
+
+    private final String website = "http://"+address+":4200";
 
     public EmailRequest fromAuthUserToEmailRequest(AuthUser user) {
         EmailRequest request = new EmailRequest();

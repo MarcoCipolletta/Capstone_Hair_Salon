@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthSvc } from '../auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,7 +15,7 @@ export class ForgotPasswordComponent {
   constructor(
     private authSvc: AuthSvc,
     private router: Router,
-    private route: ActivatedRoute
+    private modalSvc: NgbModal
   ) {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -23,10 +25,21 @@ export class ForgotPasswordComponent {
 
   resetPassword() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      this.isLoadingLogin = true;
       this.authSvc.sendRequestPasswordReset(this.form.value).subscribe({
         next: (res) => {
-          console.log(res);
+          const modalRef = this.modalSvc.open(ModalComponent, {
+            windowClass: 'custom-success-modal',
+          });
+          modalRef.componentInstance.message = res.message;
+          this.isLoadingLogin = false;
+          setTimeout(() => {
+            this.modalSvc.dismissAll();
+            this.router.navigate(['/auth']);
+          }, 1500);
+        },
+        error: (err) => {
+          this.isLoadingLogin = false;
         },
       });
     }

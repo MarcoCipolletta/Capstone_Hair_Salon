@@ -21,7 +21,7 @@ export class CalendarComponent {
     plugins: [timeGridPlugin, bootstrap5Plugin, interactionPlugin],
     themeSystem: 'bootstrap5',
     expandRows: true,
-    firstDay: 2,
+    firstDay: 7,
     headerToolbar: {
       left: '',
       center: 'title',

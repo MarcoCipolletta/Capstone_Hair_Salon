@@ -125,7 +125,7 @@ export class RegisterComponent {
     if (control?.errors!['required']) {
       return 'Campo obbligatorio';
     } else if (control?.hasError('pattern') && fieldName === 'email') {
-      return 'Formato email non valido, deve includere un dominio corretto (es. nome@email.com)';
+      return 'Formato email non valido (es. nome@email.com)';
     } else if (control?.errors!['email']) {
       return 'Email non valida';
     } else if (control?.hasError('minlength')) {

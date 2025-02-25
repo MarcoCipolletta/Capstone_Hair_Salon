@@ -29,6 +29,15 @@
   }
 }
 
+.spinner {
+  height: 4rem;
+  width: 4rem;
+  @media screen and (max-width: 767px) {
+    height: 2.75rem;
+    width: 2.75rem;
+  }
+}
+
 .animation {
   animation: nextPageCreateButton 0.3s ease-in-out 1;
 }

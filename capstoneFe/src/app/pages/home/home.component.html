@@ -6,7 +6,7 @@
       <h1 class="text-secondary text-center text-md-start">
         L'esperienza delle nostre mani al servizio dei tuoi capelli
       </h1>
-      <div class="text-center">
+      <div class="text-center" *ngIf="role !== 'ADMIN'">
         <button class="btn btn-accent fs-5" routerLink="/booking">
           PRENOTA
         </button>

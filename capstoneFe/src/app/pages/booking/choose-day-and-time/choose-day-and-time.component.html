@@ -1,70 +1,77 @@
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-7">
-    <div class="h-100" *ngIf="dayAvailableSlots">
-      <div class="custom-card">
-        <h1 class=" ">SCEGLIO DATA E ORARIO</h1>
-        <div class="d-flex justify-content-evenly">
-          <ng-icon
-            (click)="previousDay()"
-            class="arrow-icon"
-            [ngClass]="{ 'arrow-disabled': !isBackActive }"
-            name="iconoirArrowLeftCircle"
-            role="button"
-          ></ng-icon>
+<ng-container *ngIf="isLoading">
+  <div class="h-c-60 d-flex justify-content-center align-items-center">
+    <span class="spinner-grow text-secondary spinner" aria-hidden="true"></span>
+  </div>
+</ng-container>
+<ng-container *ngIf="!isLoading">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-7">
+      <div class="h-100" *ngIf="dayAvailableSlots">
+        <div class="custom-card">
+          <h1 class=" ">SCEGLIO DATA E ORARIO</h1>
+          <div class="d-flex justify-content-evenly">
+            <ng-icon
+              (click)="previousDay()"
+              class="arrow-icon"
+              [ngClass]="{ 'arrow-disabled': !isBackActive }"
+              name="iconoirArrowLeftCircle"
+              role="button"
+            ></ng-icon>
 
-          <div class="text-center">
-            <p class="fs-5 fw-bold">
-              {{ dayAvailableSlots.date | date : "dd/MM/yyyy" }}
-            </p>
-            <p class="fs-6">
-              {{ dayAvailableSlots.dayName | uppercase }}
-            </p>
+            <div class="text-center">
+              <p class="fs-5 fw-bold">
+                {{ dayAvailableSlots.date | date : "dd/MM/yyyy" }}
+              </p>
+              <p class="fs-6">
+                {{ dayAvailableSlots.dayName | uppercase }}
+              </p>
+            </div>
+            <ng-icon
+              (click)="nextDay()"
+              class="arrow-icon"
+              name="iconoirArrowRightCircle"
+              role="button"
+            ></ng-icon>
           </div>
-          <ng-icon
-            (click)="nextDay()"
-            class="arrow-icon"
-            name="iconoirArrowRightCircle"
-            role="button"
-          ></ng-icon>
-        </div>
-        <div class="row g-3 w-75 mx-auto mt-3">
-          <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
-            <div class="col-4 col-sm-3">
-              <input
-                type="radio"
-                id="time{{ time.startTime }}"
-                (click)="selectTime(time)"
-                name="time"
-                hidden
-              />
+          <div class="row g-3 w-75 mx-auto mt-3">
+            <ng-container *ngFor="let time of dayAvailableSlots.availableTimes">
+              <div class="col-4 col-sm-3">
+                <input
+                  type="radio"
+                  id="time{{ time.startTime }}"
+                  (click)="selectTime(time)"
+                  name="time"
+                  hidden
+                />
 
-              <label
-                for="time{{ time.startTime }}"
-                class="btn"
-                [ngClass]="{
-                  'btn-outline-secondary':
-                    selectedTime !== 'time' + time.startTime,
-                  'btn-secondary': selectedTime === 'time' + time.startTime
-                }"
-                >{{ timeConversionSvc.secondsToTime(time.startTime) }}</label
-              >
+                <label
+                  for="time{{ time.startTime }}"
+                  class="btn"
+                  [ngClass]="{
+                    'btn-outline-secondary':
+                      selectedTime !== 'time' + time.startTime,
+                    'btn-secondary': selectedTime === 'time' + time.startTime
+                  }"
+                  >{{ timeConversionSvc.secondsToTime(time.startTime) }}</label
+                >
+              </div>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="!!!dayAvailableSlots.available">
+            <h3 class="my-3">
+              {{ blankPage }}
+            </h3>
+          </ng-container>
+          <div class="flex-grow-1"></div>
+          <ng-container *ngIf="selectedTime">
+            <div class="mt-3">
+              <button class="btn btn-accent animation" (click)="nextPage()">
+                Procedi
+              </button>
             </div>
           </ng-container>
         </div>
-        <ng-container *ngIf="!!!dayAvailableSlots.available">
-          <h3 class="my-3">
-            {{ blankPage }}
-          </h3>
-        </ng-container>
-        <div class="flex-grow-1"></div>
-        <ng-container *ngIf="selectedTime">
-          <div class="mt-3">
-            <button class="btn btn-accent animation" (click)="nextPage()">
-              Procedi
-            </button>
-          </div>
-        </ng-container>
       </div>
     </div>
   </div>
-</div>
+</ng-container>

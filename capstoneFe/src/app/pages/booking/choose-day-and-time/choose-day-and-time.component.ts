@@ -20,7 +20,7 @@ export class ChooseDayAndTimeComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {}
-
+  isLoading: boolean = true;
   weekOfDayAvailableSlots: iDayWithAvaibleTime[] = [];
   dayAvailableSlots!: iDayWithAvaibleTime;
   selectedServices: iSalonServiceResponse[] = [];
@@ -77,6 +77,7 @@ export class ChooseDayAndTimeComponent {
         if (!this.dayAvailableSlots) {
           this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
         }
+        this.isLoading = false;
       });
   }
 
@@ -124,6 +125,7 @@ export class ChooseDayAndTimeComponent {
 
           this.dayIndex = defaultMiddleIndex;
           this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+          this.isLoading = false;
         });
     } else {
       const currentFirstDay = new Date(this.weekOfDayAvailableSlots[0].date);
@@ -171,6 +173,7 @@ export class ChooseDayAndTimeComponent {
 
           this.dayIndex += newDays.length;
           this.dayAvailableSlots = this.weekOfDayAvailableSlots[this.dayIndex];
+          this.isLoading = false;
         });
     }
   }

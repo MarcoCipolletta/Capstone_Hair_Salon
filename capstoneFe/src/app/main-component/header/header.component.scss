@@ -3,6 +3,9 @@ a:hover {
 }
 
 .container.c1 {
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    max-width: 800px;
+  }
   .auth {
     @media screen and (max-width: 1199px) {
       display: flex;
@@ -21,10 +24,8 @@ a:hover {
   }
 
   .leftMenu {
-    @media screen and (max-width: 991px) {
-      display: flex;
-      flex-wrap: nowrap;
-    }
+    display: flex;
+    flex-wrap: nowrap;
   }
   @media screen and (max-width: 767px) {
     max-width: 90%;

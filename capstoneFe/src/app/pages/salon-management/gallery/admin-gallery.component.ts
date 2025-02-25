@@ -6,10 +6,10 @@ import { iGalleryItem } from '../../../interfaces/i-gallery-item';
 
 @Component({
   selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrl: './gallery.component.scss',
+  templateUrl: './admin-gallery.component.html',
+  styleUrl: './admin-gallery.component.scss',
 })
-export class GalleryComponent {
+export class AdminGalleryComponent {
   selectedFile!: File;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fullScreenModal', { static: true })
@@ -20,6 +20,7 @@ export class GalleryComponent {
   allImage: iGalleryItem[] = [];
   selectedImage: string = '';
   imageIdToDelete: string | null = null;
+  isLoadingImage: boolean = false;
 
   constructor(private gallerySvc: GalleryService, private modalSvc: NgbModal) {
     this.gallerySvc.allImage$.subscribe((res) => {
@@ -36,6 +37,7 @@ export class GalleryComponent {
   }
 
   onUpload(): void {
+    this.isLoadingImage = true;
     if (this.selectedFile) {
       this.gallerySvc.uploadImage(this.selectedFile).subscribe({
         next: (res) => {
@@ -45,9 +47,12 @@ export class GalleryComponent {
           modalRef.componentInstance.message = res.message;
           this.fileInput.nativeElement.value = '';
           this.selectedFile = null as any;
+          this.isLoadingImage = false;
           this.gallerySvc.getAll().subscribe();
         },
       });
+    } else {
+      this.isLoadingImage = false;
     }
   }
 

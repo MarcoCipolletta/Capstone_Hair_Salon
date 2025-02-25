@@ -7,7 +7,18 @@
       accept="image/*"
       (change)="onFileSelected($event)"
     />
-    <button type="submit" class="btn btn-accent ms-3">Inserisci</button>
+    <button
+      type="submit"
+      class="btn btn-accent ms-3"
+      [disabled]="isLoadingImage"
+    >
+      <ng-container *ngIf="!isLoadingImage">INSERISCI</ng-container>
+      <span
+        *ngIf="isLoadingImage"
+        class="spinner-border spinner-border-sm"
+        aria-hidden="true"
+      ></span>
+    </button>
   </form>
 </div>
 

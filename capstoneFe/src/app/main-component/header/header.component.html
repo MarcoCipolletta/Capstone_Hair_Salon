@@ -141,6 +141,13 @@
         >SERVIZI</a
       >
       <a
+        routerLink="/gallery"
+        routerLinkActive="selected"
+        class="nav-link"
+        (click)="isCollapsed = true"
+        >GALLERIA</a
+      >
+      <a
         routerLink="/contacts"
         routerLinkActive="selected"
         class="nav-link"
@@ -179,41 +186,34 @@
         </div>
       </ng-container>
       <ng-container *ngIf="isLogged">
-        <div ngbDropdown class="profile">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            id="profileDropdown"
-            ngbDropdownToggle
-          >
-            Profilo
-          </button>
-          <div ngbDropdownMenu aria-labelledby="profileDropdown">
-            <button
-              routerLink="/profile"
-              ngbDropdownItem
-              (click)="isCollapsed = true"
-            >
-              Profilo
-            </button>
-            <button
-              routerLink="/profile/myReservations"
-              *ngIf="role !== 'ADMIN'"
-              ngbDropdownItem
-              (click)="isCollapsed = true"
-            >
-              Prenotazioni
-            </button>
-            <button
-              routerLink="/salonManagement"
-              *ngIf="role === 'ADMIN'"
-              ngbDropdownItem
-              (click)="isCollapsed = true"
-            >
-              Gestione salone
-            </button>
-            <button ngbDropdownItem (click)="logout()" class="">Logout</button>
-          </div>
+        <a
+          routerLinkActive="selected"
+          routerLink="/profile"
+          (click)="isCollapsed = true"
+          class="nav-link"
+        >
+          PROFILO
+        </a>
+        <a
+          routerLinkActive="selected"
+          routerLink="/profile/myReservations"
+          *ngIf="role !== 'ADMIN'"
+          (click)="isCollapsed = true"
+          class="nav-link"
+        >
+          PRENOTAZIONI
+        </a>
+        <a
+          routerLinkActive="selected"
+          routerLink="/salonManagement"
+          *ngIf="role === 'ADMIN'"
+          (click)="isCollapsed = true"
+          class="nav-link"
+        >
+          GESTIONE SALONE
+        </a>
+        <div class="auth">
+          <button (click)="logout()" class="btn btn-accent fs-7">Logout</button>
         </div>
       </ng-container>
     </div>

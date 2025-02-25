@@ -1,1 +1,21 @@
-<p>gallery works!</p>
+<div class="img-container">
+  <div class="cover d-flex justify-content-center align-items-center">
+    <h1 class="text-light">Galleria</h1>
+  </div>
+</div>
+<div class="gallery-grid my-5">
+  <div class="gallery-item" *ngFor="let image of images">
+    <img
+      [src]="image.link"
+      [alt]="image.name"
+      loading="lazy"
+      (click)="openFullScreenModal(image.link)"
+    />
+  </div>
+</div>
+
+<ng-template #fullScreenModal let-modal>
+  <div class="modal-body text-center full-height">
+    <img [src]="selectedImage" class="img-fluid" alt="Preview" />
+  </div>
+</ng-template>

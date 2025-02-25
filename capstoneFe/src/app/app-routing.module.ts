@@ -42,6 +42,7 @@ const routes: Routes = [
       import('./pages/contacts/contacts.module').then((m) => m.ContactsModule),
   },
   { path: 'services', loadChildren: () => import('./pages/services/services.module').then(m => m.ServicesModule) },
+  { path: 'gallery', loadChildren: () => import('./pages/gallery/gallery.module').then(m => m.GalleryModule) },
 ];
 
 @NgModule({

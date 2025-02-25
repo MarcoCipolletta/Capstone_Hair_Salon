@@ -1,9 +1,9 @@
 .container1 {
-  height: calc(100vh - 95px);
+  height: calc(100vh - 65px);
   position: relative;
   padding-inline: 5rem;
   @media screen and (max-width: 1399px) {
-    height: calc(100vh - 83px);
+    height: calc(100vh - 65px);
   }
   @media screen and (max-width: 1199px) {
     height: calc(100vh - 69px);

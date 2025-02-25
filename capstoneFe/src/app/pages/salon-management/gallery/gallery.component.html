@@ -1,0 +1,61 @@
+<div class="mt-4">
+  <h6>Inserisci immagine</h6>
+  <form (ngSubmit)="onUpload()">
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+    />
+    <button type="submit" class="btn btn-accent ms-3">Inserisci</button>
+  </form>
+</div>
+
+<div class="row mt-5 g-3">
+  <ng-container *ngFor="let image of allImage">
+    <div class="col-3 position-relative">
+      <img
+        [src]="image.link"
+        alt="{{ image.name }}"
+        loading="lazy"
+        class="img"
+        (click)="openFullScreenModal(image.link)"
+      />
+      <ng-icon
+        role="button"
+        name="akarCircleMinus"
+        class="icon-delete"
+        (click)="deleteImage(image.id)"
+      ></ng-icon>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #fullScreenModal let-modal>
+  <div class="modal-body text-center full-height">
+    <img [src]="selectedImage" class="img-fluid" alt="Preview" />
+  </div>
+</ng-template>
+
+<ng-template #confirmDeleteModal let-modal>
+  <div class="modal-body">
+    <p>Sei sicuro di voler eliminare questa immagine?</p>
+
+    <div class="d-flex justify-content-end gap-3 mt-2">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="modal.dismiss('cancel click')"
+      >
+        Annulla
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="confirmDeletion(modal)"
+      >
+        Elimina
+      </button>
+    </div>
+  </div>
+</ng-template>

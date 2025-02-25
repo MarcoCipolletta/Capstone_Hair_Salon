@@ -99,6 +99,12 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = DeleteItemException.class)
+    protected ResponseEntity<ErrorMessage> deleteItemException(DeleteItemException ex) {
+        ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(value = IllegalArgumentException.class)
     protected ResponseEntity<ErrorMessage> illegalArgumentException(IllegalArgumentException ex) {
         ErrorMessage e = new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST);

@@ -8,6 +8,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { InfoCustomerComponent } from './info-customer/info-customer.component';
 import { AddHolidaysComponent } from './add-holidays/add-holidays.component';
 import { AdminGuard } from '../../auth/guards/admin.guard';
+import { GalleryComponent } from './gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
       {
         path: 'customers/:id',
         component: InfoCustomerComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'gallery',
+        component: GalleryComponent,
         canActivate: [AdminGuard],
       },
     ],

@@ -28,6 +28,7 @@ import { CreateReservationComponent } from './create-reservation/create-reservat
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 import { PipesModule } from '../../shared/pipes/pipes.module';
+import { GalleryComponent } from './gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { PipesModule } from '../../shared/pipes/pipes.module';
     InfoCustomerComponent,
     CreateReservationComponent,
     ReservationHistoryComponent,
+    GalleryComponent,
   ],
   imports: [
     CommonModule,

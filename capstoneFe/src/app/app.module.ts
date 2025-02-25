@@ -35,6 +35,7 @@ import {
   remixFacebookFill,
   remixInstagramLine,
   remixWhatsappLine,
+  remixGalleryFill,
 } from '@ng-icons/remixicon';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { PipesModule } from './shared/pipes/pipes.module';
@@ -69,6 +70,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       remixInstagramLine,
       remixWhatsappLine,
       iconoirMenu,
+      remixGalleryFill,
     }),
     NgbDropdownModule,
     PipesModule,

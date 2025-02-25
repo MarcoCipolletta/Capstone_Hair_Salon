@@ -113,7 +113,6 @@ export class CreateReservationComponent {
         alert('Devi selezionare un cliente');
         return;
       }
-      console.log(!(this.selectedServices.length <= 0));
 
       const reservationRequest: iReservationCreateRequest = {
         date: this.chooseDate,
@@ -121,10 +120,7 @@ export class CreateReservationComponent {
         endTime: this.chooseTime.endTime,
         salonServices: this.selectedServices,
       };
-      console.log(this.chooseDate);
-      console.log(this.chooseTime);
-      console.log(this.selectedServices);
-      console.log(this.selectedCustomer);
+
       this.reservationSvc
         .createReservationByAdmin(reservationRequest, this.selectedCustomer)
         .subscribe((res) => {
